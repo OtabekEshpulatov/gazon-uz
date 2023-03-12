@@ -1,6 +1,6 @@
 package com.noobs.gazonuz.domains;
 
-import com.noobs.gazonuz.domains.auth.AuthUser;
+import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,7 +40,7 @@ public class Order {
     private Boolean isDeleted;
     @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     @ToString.Exclude
-    private AuthUser authUser;
+    private User user;
 
     @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     @ToString.Exclude

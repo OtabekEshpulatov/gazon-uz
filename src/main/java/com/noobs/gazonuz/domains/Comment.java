@@ -1,6 +1,6 @@
 package com.noobs.gazonuz.domains;
 
-import com.noobs.gazonuz.domains.auth.AuthUser;
+import com.noobs.gazonuz.domains.auth.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,9 +25,11 @@ public class Comment {
 
     @Column( nullable = false )
     private String body;
+
+
     @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     @ToString.Exclude
-    private AuthUser authUser;
+    private User user;
     @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     @ToString.Exclude
     private Pitch pitch;

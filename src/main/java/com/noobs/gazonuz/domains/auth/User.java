@@ -22,7 +22,7 @@ import java.util.Collection;
 //@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthUser {
+public class User {
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )
@@ -40,7 +40,7 @@ public class AuthUser {
     @Column( columnDefinition = "varchar default INACTIVE" )
     @Builder.Default
     private AuthUserStatus status = AuthUserStatus.INACTIVE;
-    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "authUser" )
+    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
 //    @ToString.Exclude
     private Document document;
     @CreationTimestamp
@@ -54,17 +54,17 @@ public class AuthUser {
     @Column( nullable = false )
     @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     @JoinTable( name = "user_roles", joinColumns = @JoinColumn( name = "user_id", referencedColumnName = "id" ), inverseJoinColumns = @JoinColumn( name = "role_id", referencedColumnName = "id" ) )
-    private Collection<AuthRole> authRoles;
+    private Collection<Role> roles;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "authUser" )
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
 //    @ToString.Exclude
     private Collection<Order> checks;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "authUser" )
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
 //    @ToString.Exclude
     private Collection<Comment> comments;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "authUser" )
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
 //    @ToString.Exclude
     private Collection<Pitch> pitches;
 
