@@ -19,10 +19,7 @@ public class District {
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )
     private String id;
-
     private String name;
-
-
     @ManyToOne
     private Region region;
 
