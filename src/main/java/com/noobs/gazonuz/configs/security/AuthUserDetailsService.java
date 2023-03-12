@@ -2,7 +2,7 @@ package com.noobs.gazonuz.configs.security;
 
 
 import com.noobs.gazonuz.domains.auth.User;
-import com.noobs.gazonuz.repository.auth.AuthUserRepository;
+import com.noobs.gazonuz.repositories.auth.AuthUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

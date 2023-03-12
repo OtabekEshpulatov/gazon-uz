@@ -1,4 +1,4 @@
-package com.noobs.gazonuz.repository.auth;
+package com.noobs.gazonuz.repositories.auth;
 
 
 import com.noobs.gazonuz.domains.auth.User;

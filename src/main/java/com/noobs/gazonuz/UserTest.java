@@ -1,7 +1,7 @@
 package com.noobs.gazonuz;
 
 import com.noobs.gazonuz.domains.auth.Permission;
-import com.noobs.gazonuz.repository.BaseDAO;
+import com.noobs.gazonuz.repositories.BaseDAO;
 
 public class UserTest {
 

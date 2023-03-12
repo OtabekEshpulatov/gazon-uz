@@ -1,4 +1,4 @@
-package com.noobs.gazonuz.repository;
+package com.noobs.gazonuz.repositories;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
