@@ -26,10 +26,13 @@ public class Order {
     @Column( columnDefinition = "timestamp default now()", name = "created_at" )
     private LocalDateTime createdAt;
 
-    @CreationTimestamp
+
     @Column( columnDefinition = "timestamp default now()", name = "accepted_at" )
     private LocalDateTime acceptedAt;
 
+    @Column( columnDefinition = "timestamp default now()", name = "start_time" )
+    private LocalDateTime startTime;
+    private int minutes;
 
     @Column( name = "order_status" )
     @Builder.Default
