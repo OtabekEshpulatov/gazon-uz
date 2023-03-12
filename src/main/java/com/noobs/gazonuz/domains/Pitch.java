@@ -1,11 +1,11 @@
 package com.noobs.gazonuz.domains;
 
+import com.noobs.gazonuz.domains.auth.AuthUser;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
 @Setter
@@ -19,7 +19,7 @@ public class Pitch {
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )
     private String id;
-    @Column( unique = true, nullable = false )
+    @Column( nullable = false )
     private String name;
     //    @Column( nullable = false )
     private String latitude;
@@ -34,17 +34,20 @@ public class Pitch {
     @Column( columnDefinition = "smallint default 0" )
     private Byte rating;
     @OneToMany( cascade = CascadeType.ALL )
-    private Set<Document> documents;
+    private Collection<Document> documents;
     @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch" )
-    @ToString.Exclude
-    private Collection<Check> checks;
+//    @ToString.Exclude
+    private Collection<Order> orders;
 
     @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch" )
-    @ToString.Exclude
+//    @ToString.Exclude
     private Collection<Comment> comments;
 
 
+    private double price;
+
+
     @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-    private User user;
+    private AuthUser authUser;
 
 }

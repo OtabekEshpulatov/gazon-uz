@@ -1,5 +1,6 @@
 package com.noobs.gazonuz.domains;
 
+import com.noobs.gazonuz.domains.auth.AuthUser;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,15 +18,26 @@ public class Document {
     @GeneratedValue( generator = "uuid2" )
     private String id;
 
+    @Column( name = "original_file_name" )
     private String originalFileName;
-    private String generatedFileName;
+    @Column( name = "file_path" )
     private String filePath;
+
+
+    @Column( name = "generated_file_name" )
+    private String generatedFileName;
+
+
+    @Column( name = "mime_type" )
     private String mimeType;
+
+
+    @Column( name = "file_size" )
     private Long fileSize;
     private String extension;
     @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-    @ToString.Exclude
-    private User user;
+//    @ToString.Exclude
+    private AuthUser authUser;
 
 
 //    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -1,4 +1,4 @@
-package com.noobs.gazonuz.domains;
+package com.noobs.gazonuz.domains.auth;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +13,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @ToString
 @Builder
-public class Role {
+public class AuthRole {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(generator = "uuid2")
@@ -29,6 +29,6 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id")
     )
-    private Collection<Permission> permissions;
+    private Collection<AuthPermission> authPermissions;
 
 }
