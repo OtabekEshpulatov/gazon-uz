@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Order {
+public class Order implements BaseEntity{
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )

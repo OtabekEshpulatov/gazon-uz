@@ -10,11 +10,11 @@ import java.util.Collection;
 @Entity
 @Setter
 @Getter
-//@ToString
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pitch {
+public class Pitch implements BaseEntity{
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )

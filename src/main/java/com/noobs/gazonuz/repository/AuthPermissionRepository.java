@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface AuthPermissionRepository extends JpaRepository<Permission, String> {
+
 }

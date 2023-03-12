@@ -1,6 +1,7 @@
 package com.noobs.gazonuz.domains.location;
 
 
+import com.noobs.gazonuz.domains.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -15,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Region {
+public class Region implements BaseEntity {
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )

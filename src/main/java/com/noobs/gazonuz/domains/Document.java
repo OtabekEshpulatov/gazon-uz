@@ -12,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Document {
+public class Document implements BaseEntity {
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )

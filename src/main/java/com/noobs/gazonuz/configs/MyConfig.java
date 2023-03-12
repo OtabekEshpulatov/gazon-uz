@@ -11,11 +11,4 @@ import org.springframework.context.annotation.Configuration;
 public class MyConfig {
 
 
-//    @Bean
-//    public UserTest userTest(AuthPermissionRepository authPermissionRepository) {
-//        final UserTest userTest = new UserTest(authPermissionRepository);
-//        return userTest;
-//    }
-
-
 }

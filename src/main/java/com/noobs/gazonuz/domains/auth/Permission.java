@@ -1,5 +1,6 @@
 package com.noobs.gazonuz.domains.auth;
 
+import com.noobs.gazonuz.domains.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 @ToString
 @Builder
 
-public class Permission {
+public class Permission implements BaseEntity {
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )
