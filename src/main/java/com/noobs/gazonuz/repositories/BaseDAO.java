@@ -9,7 +9,7 @@ import java.lang.reflect.ParameterizedType;
 
 public class BaseDAO<T, ID extends Serializable> {
     protected final EntityManagerFactory emf;
-    protected final EntityManager em;
+    public final EntityManager em;
     private final Class<T> persistenceClass;
 
     @SuppressWarnings( "unchecked" )

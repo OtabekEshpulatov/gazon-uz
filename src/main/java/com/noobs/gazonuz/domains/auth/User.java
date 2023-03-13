@@ -22,6 +22,7 @@ import java.util.Collection;
 //@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Table( name = "users" )
 public class User {
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
@@ -37,7 +38,7 @@ public class User {
     private Long orderNumbers;
     @Column( nullable = false )
     private String password;
-    @Column( columnDefinition = "varchar default INACTIVE" )
+    @Column( columnDefinition = "varchar default 'INACTIVE'" )
     @Builder.Default
     private AuthUserStatus status = AuthUserStatus.INACTIVE;
     @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )

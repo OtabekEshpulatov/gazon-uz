@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Table(name = "orders")
 public class Order {
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
@@ -23,7 +24,7 @@ public class Order {
     private String id;
 
     @CreationTimestamp
-    @Column( columnDefinition = "timestamp default now()", name = "created_at" )
+    @Column( columnDefinition = "timestamp default current_timestamp", name = "created_at" )
     private LocalDateTime createdAt;
 
 

@@ -1,13 +1,23 @@
 package com.noobs.gazonuz.dtos;
 
-import jakarta.validation.constraints.Pattern;
+import com.noobs.validators.Unique;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public record UserCreatedDto(
-        String username ,
-        @Pattern( regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$" ,message = "Invalid email") String email ,
-        @Size( min = 8, max = 15, message = "Min password size should be {min} and max {max}" )
-        String password ,
-        @Size( min = 8, max = 15, message = "Min password size should be {min} and max {max}" )
-        String confirmPassword ) {
+
+@Setter
+@ToString
+@Getter
+public class UserCreatedDto {
+    @Unique( tableName = "Users", columnName = "email", message = "username.is.already.taken" ) String username;
+    @Email( message = "Invalid email" ) String email;
+    @Size( min = 8, max = 15, message = "Min password size should be {min} and max {max}" )
+    String password;
+    @Size( min = 8, max = 15, message = "Min password size should be {min} and max {max}" )
+    String confirmPassword;
+
+
 }

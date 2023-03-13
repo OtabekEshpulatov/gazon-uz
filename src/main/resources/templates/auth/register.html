@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html>
-<head>
+<head xmlns:th="http://www.thymeleaf.org">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
             background-color: #c3fad2;
-            font-size:80%
+            font-size: 80%
         }
 
         * {
@@ -66,11 +67,16 @@
             background-color: #f1f1f1;
             text-align: center;
         }
+
+        .invalid-input {
+            color: red;
+            font-weight: lighter;
+        }
     </style>
 </head>
 <body>
 
-<form action="/action_page.php">
+<form method="post" th:object="${dto}">
     <div class="container">
         <h1>Register</h1>
         <p>Please fill in this form to create an account.</p>
@@ -78,15 +84,23 @@
 
         <label for="email"><b>User Name</b></label>
         <input type="text" placeholder="Enter User Name" name="username" id="username" required>
+        <span class="invalid-input" th:if="${#fields.hasErrors('username')}"
+              th:text="${#fields.errors('username')}"></span>
 
         <label for="email"><b>Email</b></label>
         <input type="text" placeholder="Enter Email" name="email" id="email" required>
+        <span class="invalid-input" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email')}"></span>
 
         <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+        <input type="password" placeholder="Enter Password" name="password" id="psw" required>
+        <span class="invalid-input" th:if="${#fields.hasErrors('password')}"
+              th:text="${#fields.errors('password')}"></span>
 
         <label for="psw-repeat"><b>Repeat Password</b></label>
-        <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+        <input type="password" placeholder="Repeat Password" name="confirmPassword" id="psw-repeat" required>
+        <span class="invalid-input" th:if="${#fields.hasErrors('confirmPassword')}"
+              th:text="${#fields.errors('confirmPassword')}"></span>
+
         <hr>
         <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
 
