@@ -2,6 +2,7 @@ package com.noobs.gazonuz.domains;
 
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -48,6 +49,7 @@ public class Pitch {
     private Collection<Comment> comments;
 
     private double price;
+    private String phoneNumber;
 
     @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     private User user;
