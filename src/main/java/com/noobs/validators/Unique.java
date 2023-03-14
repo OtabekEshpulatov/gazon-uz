@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint( validatedBy = {UniqueFieldValidator.class} )
 public @interface Unique {
 
-    String tableName();
+    Class<? extends BaseEntity> clazz();
 
     String columnName();
 

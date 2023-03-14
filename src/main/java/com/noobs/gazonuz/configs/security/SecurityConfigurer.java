@@ -11,19 +11,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(
-        prePostEnabled = true,
-        securedEnabled = true,
-        jsr250Enabled = true
+@EnableMethodSecurity( prePostEnabled = true, securedEnabled = true
+        /*jsr250Enabled = true*/
 )
 public class SecurityConfigurer {
 
-    public static final String[] WHITE_LIST = {
-            "/css/**" ,
-            "/js/**" ,
-            "/auth/login" ,
-            "/auth/register"
-    };
+    public static final String[] WHITE_LIST = {"/css/**" , "/js/**" , "/auth/login" , "/auth/register" , "/home" ,};
     private final AuthUserDetailsService authUserUserDetailsService;
 
     public SecurityConfigurer(AuthUserDetailsService authUserUserDetailsService) {
@@ -33,8 +26,9 @@ public class SecurityConfigurer {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.sessionManagement().requireExplicitAuthenticationStrategy(true);
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf().disable()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
                                 .requestMatchers(WHITE_LIST)
@@ -43,12 +37,13 @@ public class SecurityConfigurer {
                                 .authenticated()
                 )
                 .formLogin(httpSecurityFormLoginConfigurer ->
-                        httpSecurityFormLoginConfigurer
-                                .loginPage("/auth/login")
-                                .loginProcessingUrl("/auth/login")
-                                .usernameParameter("uname")
-                                .passwordParameter("pswd")
-                                .defaultSuccessUrl("/home2" , false) // when /login is called without being redirected
+                                httpSecurityFormLoginConfigurer
+                                        .loginPage("/auth/login")
+                                        .loginProcessingUrl("/auth/login")
+                                        .usernameParameter("uname")
+                                        .passwordParameter("pswd")
+                                        .defaultSuccessUrl("/home" , false)
+//                                .failureHandler(authenticationFailureHandler)
                 )
                 .logout(httpSecurityLogoutConfigurer ->
                         httpSecurityLogoutConfigurer
@@ -57,13 +52,13 @@ public class SecurityConfigurer {
                                 .deleteCookies("JSESSIONID" , "rememberME")
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout" , "POST"))
                 )
+                .userDetailsService(authUserUserDetailsService)
                 .rememberMe(httpSecurityRememberMeConfigurer ->
                         httpSecurityRememberMeConfigurer
                                 .rememberMeParameter("rememberMe")
                                 .key("EWT$@WEFYG%H$ETGE@R!T#$HJYYT$QGRWHNJU%$TJRUYRHFRYFJRYUYRHD")
                                 .tokenValiditySeconds(10 * 24 * 60 * 60)// default is 30 minutes
                                 .rememberMeCookieName("rememberME")
-                                .userDetailsService(authUserUserDetailsService)
                 );
 
         return http.build();

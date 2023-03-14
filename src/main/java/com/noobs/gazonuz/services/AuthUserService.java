@@ -1,17 +1,17 @@
 package com.noobs.gazonuz.services;
 
 
+import com.noobs.gazonuz.configs.security.Encoders;
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.dtos.UserCreatedDto;
+import com.noobs.gazonuz.enums.AuthUserStatus;
 import com.noobs.gazonuz.mappers.AuthUserMapper;
 import com.noobs.gazonuz.repositories.auth.AuthUserRepository;
 import com.noobs.gazonuz.validators.AuthValidator;
 import com.noobs.payload.Response;
 import jakarta.validation.ConstraintViolation;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.ObjectError;
 
 import java.util.Set;
 
@@ -23,6 +23,8 @@ public class AuthUserService {
     private final AuthValidator authValidator;
     private final AuthUserMapper mapper;
     private final AuthUserRepository authUserRepository;
+
+    private final Encoders encoders;
 
 
     public Response<Set<ConstraintViolation<UserCreatedDto>>> validate(UserCreatedDto dto) {
@@ -45,7 +47,11 @@ public class AuthUserService {
 
     public boolean saveUser(UserCreatedDto dto) {
         final User user = mapper.fromCreateDto(dto);
+        user.setPassword(encoders.passwordEncoder().encode(dto.getPassword()));
+        user.setStatus(AuthUserStatus.ACTIVE);
         authUserRepository.save(user);
         return true;
     }
+
+
 }
