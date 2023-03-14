@@ -1,9 +1,6 @@
 package com.noobs.gazonuz.domains.auth;
 
-import com.noobs.gazonuz.domains.Comment;
-import com.noobs.gazonuz.domains.Document;
-import com.noobs.gazonuz.domains.Order;
-import com.noobs.gazonuz.domains.Pitch;
+import com.noobs.gazonuz.domains.*;
 import com.noobs.gazonuz.enums.AuthUserStatus;
 import com.noobs.gazonuz.enums.Languages;
 import jakarta.persistence.*;
@@ -23,14 +20,14 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table( name = "users" )
-public class User {
+public class User implements BaseEntity {
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )
     private String id;
     @Column( unique = true, nullable = false )
     private String username;
-    @Column( unique = true, nullable = true )
+    @Column( unique = true,nullable = true)
     private String phoneNumber;
     @Column( unique = true )
     private String email;

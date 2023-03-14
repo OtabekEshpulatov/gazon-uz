@@ -1,24 +1,22 @@
 package com.noobs.gazonuz.controllers;
 
 
+import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
 import com.noobs.gazonuz.dtos.PitchCreateDTO;
 import com.noobs.gazonuz.services.PitchService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 
 @Controller
-@RequestMapping("/pitch")
+@RequestMapping("/app")
 public class PitchController {
     private final PitchService pitchService;
 
@@ -57,6 +55,17 @@ public class PitchController {
                 .build();
         pitchService.savePitch(build);
         return "pitch/create";
+    }
+
+
+
+    @GetMapping( "/pitches" )
+    public List<Pitch> getPitches(@RequestParam( name = "longitude" ) String longitude ,
+                                  @RequestParam( name = "latitude" ) String latitude) {
+
+
+        throw new RuntimeException("my ex");
+//        return pitchService.getPitches(latitude , longitude);
     }
 
 

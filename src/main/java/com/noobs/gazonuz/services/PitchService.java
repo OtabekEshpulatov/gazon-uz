@@ -8,6 +8,8 @@ import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PitchService {
@@ -22,5 +24,7 @@ public class PitchService {
         return true;
     }
 
-
+    public List<Pitch> getPitches(String latitude , String longitude) {
+        return pitchRepository.findAll();
+    }
 }
