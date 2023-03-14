@@ -1,5 +1,6 @@
 package com.noobs.gazonuz.configs.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableMethodSecurity( prePostEnabled = true, securedEnabled = true
         /*jsr250Enabled = true*/
 )
@@ -18,10 +20,9 @@ public class SecurityConfigurer {
 
     public static final String[] WHITE_LIST = {"/css/**" , "/js/**" , "/auth/login" , "/auth/register" , "/home" ,};
     private final AuthUserDetailsService authUserUserDetailsService;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
 
-    public SecurityConfigurer(AuthUserDetailsService authUserUserDetailsService) {
-        this.authUserUserDetailsService = authUserUserDetailsService;
-    }
+
 
 
     @Bean
@@ -37,13 +38,13 @@ public class SecurityConfigurer {
                                 .authenticated()
                 )
                 .formLogin(httpSecurityFormLoginConfigurer ->
-                                httpSecurityFormLoginConfigurer
-                                        .loginPage("/auth/login")
-                                        .loginProcessingUrl("/auth/login")
-                                        .usernameParameter("uname")
-                                        .passwordParameter("pswd")
-                                        .defaultSuccessUrl("/home" , false)
-//                                .failureHandler(authenticationFailureHandler)
+                        httpSecurityFormLoginConfigurer
+                                .loginPage("/auth/login")
+                                .loginProcessingUrl("/auth/login")
+                                .usernameParameter("uname")
+                                .passwordParameter("pswd")
+                                .defaultSuccessUrl("/home" , false)
+                                .failureHandler(authenticationFailureHandler)
                 )
                 .logout(httpSecurityLogoutConfigurer ->
                         httpSecurityLogoutConfigurer
