@@ -28,7 +28,6 @@ public class Pitch {
     private String longitude;
     private String info;
 
-
     @Column( name = "full_address" )
     private String fullAddress;
     @Column( columnDefinition = "int default 0" )
@@ -48,9 +47,7 @@ public class Pitch {
 //    @ToString.Exclude
     private Collection<Comment> comments;
 
-
     private double price;
-
 
     @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     private User user;
