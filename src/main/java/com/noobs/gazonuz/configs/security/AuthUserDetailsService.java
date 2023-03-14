@@ -20,6 +20,6 @@ public class AuthUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User authUser = authUserRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Bad Credentials"));
-        return new AuthUserDetails(authUser);
+            return new AuthUserDetails(authUser);
     }
 }
