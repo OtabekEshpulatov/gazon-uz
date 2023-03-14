@@ -257,6 +257,13 @@
                 position: static;
             }
         }
+
+        .invalid-input {
+            color: red;
+            font-weight: lighter;
+            font-size: smaller;
+        }
+
     </style>
 
 </head>
@@ -265,8 +272,13 @@
 <div class="wrapper">
     <div class="inner-warpper text-center">
         <h2 class="title">Login to your account</h2>
-        <form  method="post">
+        <form method="post">
             <div class="input-group">
+
+                <div th:if="${error}">
+                    <span th:text="${error}" class="invalid-input"></span>
+                </div>
+
                 <label class="palceholder" for="userName"></label>
                 <input class="form-control" name="uname" id="userName" type="text" placeholder="Username"/>
                 <span class="lighting"></span>
@@ -295,7 +307,6 @@
 
 <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js'></script>
-<script src="./script.js"></script>
 
 </body>
 </html>

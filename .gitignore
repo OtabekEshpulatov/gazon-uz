@@ -2,3 +2,5 @@
 mvnw.cmd
 mvnw
 .idea
+out
+target
