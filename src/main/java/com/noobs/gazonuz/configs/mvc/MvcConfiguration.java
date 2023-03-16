@@ -86,8 +86,13 @@ public class MvcConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/css/carousel/*")
                 .addResourceLocations("classpath:static/css/carousel/");
         registry.addResourceHandler("/js/*")
+        registry.addResourceHandler("/js/**")
                 .addResourceLocations("classpath:static/js/");
         registry.addResourceHandler("/js/carousel/*")
                 .addResourceLocations("classpath:static/js/carousel/");
+        registry.addResourceHandler("/js/pitch/**")
+                .addResourceLocations("classpath:static/js/pitch/");
+        registry.addResourceHandler("/css/pitch/**")
+                .addResourceLocations("classpath:static/css/pitch/");
     }
 }

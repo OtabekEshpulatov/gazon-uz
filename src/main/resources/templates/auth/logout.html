@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div th:replace="~{header :: header}">
+<div th:replace="~{fragments :: header}">
 </div>
 
 <div class="container">
@@ -15,7 +15,7 @@
             <h1 class="mt-2 text-center">Logout Page</h1>
             <form method="post">
                 <div class="alert alert-danger">
-                    Are you sure sign out ?
+                    Are you sure to sign out ?
                 </div>
                 <button type="submit" class="btn btn-danger">Yes</button>
                 <a th:href="@{/home}" class="btn btn-success">Back</a>

@@ -8,9 +8,11 @@
 <body>
 
 
-<div th:insert="header ::header">
-
+<div th:insert="fragments ::header">
 </div>
+
+
+<section th:replace="fragments::js_links"></section>
 
 </body>
 </html>
