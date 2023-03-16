@@ -37,4 +37,30 @@ public class PitchService {
     public List<Pitch> getPitches(String latitude, String longitude) {
         return pitchRepository.findAll();
     }
+
+    public static String daySuffix(String day) {
+        int dayInt = Integer.parseInt(day);
+        switch (dayInt % 10) {
+            case 1:
+                if (dayInt == 11) {
+                    return "th";
+                } else {
+                    return "st";
+                }
+            case 2:
+                if (dayInt == 12) {
+                    return "th";
+                } else {
+                    return "nd";
+                }
+            case 3:
+                if (dayInt == 13) {
+                    return "th";
+                } else {
+                    return "rd";
+                }
+            default:
+                return "th";
+        }
+    }
 }
