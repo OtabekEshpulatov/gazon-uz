@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface PitchRepo extends JpaRepository<Pitch, String> {
     Optional<Pitch> findByLatitudeAndLongitude(String latitude , String longitude);
+
 }

@@ -3,6 +3,7 @@ package com.noobs.gazonuz.domains.location;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.context.annotation.Lazy;
 
 @Entity
 @Setter
@@ -11,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-//@Table( uniqueConstraints = {@UniqueConstraint( columnNames = {"region_id,id"} )} )
+@Table(name = "district")@Lazy
 public class District {
 
 
@@ -20,8 +21,9 @@ public class District {
     @GeneratedValue( generator = "uuid2" )
     private String id;
     private String name;
+
     @ManyToOne
-//    @JoinColumn( name = "region_id" )
+    @JoinColumn(name = "region_id")
     private Region region;
 
 }

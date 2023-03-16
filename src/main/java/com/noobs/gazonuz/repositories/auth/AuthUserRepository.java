@@ -31,5 +31,7 @@ public interface AuthUserRepository extends JpaRepository<User, String> {
 
 //    boolean setStatus(String id , AuthUserStatus status);
 
+    @Override
+    Optional<User> findById(String s);
 }
 
