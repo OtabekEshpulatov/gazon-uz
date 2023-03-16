@@ -1,6 +1,7 @@
 package com.noobs.gazonuz.controllers;
 
 import com.noobs.gazonuz.domains.Pitch;
+import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.handler.CustomRuntimeException;
 import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,5 @@ public class PitchPostController {
         } else {
             throw new CustomRuntimeException("Page not found");
         }
-
     }
 }

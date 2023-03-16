@@ -2,11 +2,14 @@ package com.noobs.gazonuz.domains;
 
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
+import com.noobs.gazonuz.enums.PitchStatus;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
@@ -53,9 +56,12 @@ public class Pitch {
 
     @ManyToOne( cascade = CascadeType.MERGE )
     private User user;
-
-
+    private PitchStatus status = PitchStatus.ACTIVE;
     @ManyToOne
     private District district;
+
+    @CreationTimestamp
+    @Column( name = "created_at" )
+    private LocalDateTime createdAt;
 
 }
