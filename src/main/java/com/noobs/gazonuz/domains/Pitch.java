@@ -3,7 +3,6 @@ package com.noobs.gazonuz.domains;
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
 import com.noobs.gazonuz.enums.PitchStatus;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

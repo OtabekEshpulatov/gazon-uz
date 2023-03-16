@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <form class="d-flex" role="search" action="/manage/users">
             <input class="form-control me-2" type="search" placeholder="username" aria-label="Search" name="search"
-                   th:value="${search}">
+                   onclick="setItem('cookie',this.value)" th:value="${search}">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>
@@ -112,6 +112,18 @@
 
 <section th:insert="fragments::js_links">
 </section>
+
+<script>
+    function setItem(key, value) {
+        sessionStorage.setItem(key, value)
+        console.log(getItem(key) + 'some value' )
+    }
+
+    function getItem(key) {
+        return sessionStorage.getItem(key);
+    }
+
+</script>
 
 <!--<section>-->
 <!--    <script src="/js/popper.min.js"></script>-->
