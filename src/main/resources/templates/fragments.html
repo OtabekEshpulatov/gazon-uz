@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <th:block th:replace="${title}"></th:block>
     <th:block th:replace="${links}"></th:block>
-    <meta http-equiv="cache-control" content="no-cache">
 
 </head>
 
@@ -35,7 +34,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false"  th:text="${#authentication}">
+                       aria-expanded="false" th:text="${#authentication}">
                     </a>
                     <ul class="dropdown-menu">
                         <li class="nav-item">
@@ -49,6 +48,24 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">Manage
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/manage/users}">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/manage/pitches}">Pitches</a>
+                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" th:href="@{/auth/logout}" sec:authorize="isAuthenticated()">Logout</a>-->
+<!--                        </li>-->
+                    </ul>
+                </li>
+
 
                 <!--                <ul class="navbar-nav mb-2 mb-lg-0">-->
                 <!--                    <li class="nav-item">-->

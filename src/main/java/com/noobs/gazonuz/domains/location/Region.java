@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ public class Region {
     private String id;
     private String name;
 
+    @OneToMany( mappedBy = "region" )
+    private Collection<District> districts;
 
 
 }

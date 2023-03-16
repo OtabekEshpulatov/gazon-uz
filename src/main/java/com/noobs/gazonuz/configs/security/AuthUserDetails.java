@@ -23,7 +23,7 @@ public class AuthUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<Role> authRoles = Objects.requireNonNullElse(authUser.getRoles() , Collections.<Role>emptySet());
+        Collection<Role> authRoles = Objects.requireNonNullElse(authUser.getRoles() , Collections.emptySet());
         var authorities = new ArrayList<SimpleGrantedAuthority>();
 
         authRoles.forEach(authRole -> {
