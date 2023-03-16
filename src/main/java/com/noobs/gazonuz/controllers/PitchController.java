@@ -1,45 +1,80 @@
 package com.noobs.gazonuz.controllers;
-import com.noobs.gazonuz.domains.Location;
+
+
+import com.noobs.gazonuz.configs.security.UserSession;
 import com.noobs.gazonuz.domains.Pitch;
-import com.noobs.gazonuz.repositories.PitchPaginationRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import com.noobs.gazonuz.dtos.PitchCreateDTO;
+import com.noobs.gazonuz.services.AddressService;
+import com.noobs.gazonuz.services.PitchService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Collections;
 import java.util.List;
 
 @Controller
 @RequestMapping("/pitch")
-@RequiredArgsConstructor
 public class PitchController {
-    private final PitchPaginationRepository pitchPaginationRepository;
+    private final PitchService pitchService;
+    private final UserSession userSession;
+    private final AddressService addressService;
 
-    //"/find={elem_number}","/find=?page={page_num}&{elem_number}&search={search}"
-@GetMapping( "/searched" )
-public ModelAndView searchUsers(@RequestParam( name = "page", defaultValue = "0" ) int page ,
-                                @RequestParam( name = "perPage", defaultValue = "10" ) int perPage ,
-                                @RequestParam( name = "search", defaultValue = "" ) String search,
-                                @ModelAttribute Location location) {
-    System.out.println(location);
-    var mav = new ModelAndView();
-    List<Pitch> pitches;
-    final Pageable pageable = PageRequest.of(page , perPage);
-    final String searchBy = "%" + search + "%";
-    pitches = pitchPaginationRepository.pitches(location.getLatitude()-0.0015, location.getLatitude()+0.0015,location.getLongitude()-0.0015, location.getLongitude()+0.0015, pageable);
-    final Long pitchesSize = pitchPaginationRepository.countPitchesThatMatch(searchBy);
-    preparePageableMAV(page , mav , pitches , pitchesSize , search);
-    System.out.println(pitches);
-    return mav;
-}
-    private void preparePageableMAV(Integer page , ModelAndView mav , List<Pitch> pitches , Long pitchesSize , String baseUrl) {
-        mav.addObject("pitches" , pitches);
-        mav.addObject("currentPage" , page);
-        mav.addObject("totalPage" , pitchesSize/ PitchPaginationRepository.PER_PAGE);
-        mav.addObject("perPage" , PitchPaginationRepository.PER_PAGE);
-        mav.addObject("search" , baseUrl);
-        mav.setViewName("pitch/list");
+    public PitchController(PitchService pitchService, UserSession userSession, AddressService addressService) {
+        this.pitchService = pitchService;
+        this.userSession = userSession;
+        this.addressService = addressService;
+    }
+
+
+
+    @GetMapping("/create")
+    public String createPitch(Model model) {
+        model.addAttribute("pitch", new PitchCreateDTO());
+        model.addAttribute("regions", addressService.getRegion());
+        model.addAttribute("dto", new PitchCreateDTO());
+
+        return "/pitch/create";
+    }
+
+
+    @PostMapping("/create")
+    public String savePitch(@Valid @ModelAttribute("pitch") PitchCreateDTO dto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            System.err.println(bindingResult.getAllErrors());
+            return "/pitch/create";
+        }
+
+        PitchCreateDTO build = PitchCreateDTO.builder()
+                .name(dto.getName())
+                .latitude("41.3111")
+                .longitude("69.2400")
+                .info(dto.getInfo())
+                .fullAddress(dto.getFullAddress())
+                .documents(Collections.emptySet())
+                .price(dto.getPrice())
+                .phoneNumber(dto.getPhoneNumber())
+                .district(dto.getDistrict()) // todo
+                .user(userSession.getUser())
+                .build();
+
+        System.out.println("build = " + build);
+
+//        pitchService.savePitch(build);
+        return "/pitch/create";
+    }
+
+
+    @GetMapping("/pitches")
+    public List<Pitch> getPitches(@RequestParam(name = "longitude") String longitude,
+                                  @RequestParam(name = "latitude") String latitude) {
+
+
+        throw new RuntimeException("my ex");
+//        return pitchService.getPitches(latitude , longitude);
     }
 
 

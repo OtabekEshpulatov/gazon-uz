@@ -2,10 +2,13 @@ package com.noobs.gazonuz.domains;
 
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
+import com.noobs.gazonuz.enums.PitchStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
@@ -28,7 +31,6 @@ public class Pitch {
     private Double longitude;
     private String info;
 
-
     @Column( name = "full_address" )
     private String fullAddress;
     @Column( columnDefinition = "int default 0" )
@@ -48,15 +50,17 @@ public class Pitch {
 //    @ToString.Exclude
     private Collection<Comment> comments;
 
-
     private double price;
+    private String phoneNumber;
 
-
-    @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @ManyToOne( cascade = CascadeType.MERGE )
     private User user;
-
-
+    private PitchStatus status = PitchStatus.ACTIVE;
     @ManyToOne
     private District district;
+
+    @CreationTimestamp
+    @Column( name = "created_at" )
+    private LocalDateTime createdAt;
 
 }

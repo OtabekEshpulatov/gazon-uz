@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -18,8 +17,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 )
 public class SecurityConfigurer {
 
-    public static final String[] WHITE_LIST = {"/css/**" , "/js/**" , "/auth/login" , "/auth/register" , "/home" ,"/pitch","/pitch/searched"};
-    private final AuthUserDetailsService authUserUserDetailsService;
+    public static final String[] WHITE_LIST = {"/css/**" , "/js/**" , "/auth/login" , "/auth/register" , "/home" ,};
+    private final AuthUserDetailsService authUserDetailsService;
     private final AuthenticationFailureHandler authenticationFailureHandler;
 
 
@@ -53,7 +52,7 @@ public class SecurityConfigurer {
                                 .deleteCookies("JSESSIONID" , "rememberME")
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout" , "POST"))
                 )
-                .userDetailsService(authUserUserDetailsService)
+                .userDetailsService(authUserDetailsService)
                 .rememberMe(httpSecurityRememberMeConfigurer ->
                         httpSecurityRememberMeConfigurer
                                 .rememberMeParameter("rememberMe")

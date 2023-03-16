@@ -13,6 +13,7 @@ import jakarta.validation.ConstraintViolation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -54,4 +55,7 @@ public class AuthUserService {
     }
 
 
+    public List<User> getAllOrderByCreatedAt() {
+        return authUserRepository.getAllOrderByCreatedAtDesc();
+    }
 }

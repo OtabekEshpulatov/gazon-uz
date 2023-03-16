@@ -7,12 +7,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
@@ -46,6 +44,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.addDialect(new SpringSecurityDialect());
         return templateEngine;
     }
 
@@ -86,7 +85,17 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/*")
                 .addResourceLocations("classpath:static/css/");
-        registry.addResourceHandler("/js/*")
+        registry.addResourceHandler("/js/**")
                 .addResourceLocations("classpath:static/js/");
+//   =================     Nodirniki tegmeylar please
+        registry.addResourceHandler("/js/carousel/*")
+                .addResourceLocations("classpath:static/js/carousel/");
+        registry.addResourceHandler("/css/carousel/*")
+                .addResourceLocations("classpath:static/css/carousel/");
+//        ============
+        registry.addResourceHandler("/js/pitch/**")
+                .addResourceLocations("classpath:static/js/pitch/");
+        registry.addResourceHandler("/css/pitch/**")
+                .addResourceLocations("classpath:static/css/pitch/");
     }
 }

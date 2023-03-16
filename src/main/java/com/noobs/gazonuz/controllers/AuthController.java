@@ -1,8 +1,6 @@
 package com.noobs.gazonuz.controllers;
 
 import com.noobs.gazonuz.dtos.UserCreatedDto;
-import com.noobs.gazonuz.dtos.UserLoginDto;
-import com.noobs.gazonuz.mappers.AuthUserMapper;
 import com.noobs.gazonuz.services.AuthUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
