@@ -12,22 +12,15 @@ public class UserSession {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         var authUserDetails = authentication.getPrincipal();
-<<<<<<< HEAD
+
         if ( authUserDetails instanceof AuthUserDetails a )
-=======
-        if (authUserDetails instanceof AuthUserDetails a)
->>>>>>> origin/main
             return a.getAuthUser();
         return null;
     }
 
     public String getId() {
         User user = getUser();
-<<<<<<< HEAD
         if ( user != null )
-=======
-        if (user != null)
->>>>>>> origin/main
             return user.getId();
         return null;
     }
