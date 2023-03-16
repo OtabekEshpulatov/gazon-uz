@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <form class="d-flex" role="search" action="/manage/users">
             <input class="form-control me-2" type="search" placeholder="username" aria-label="Search" name="search"
-                   onclick="setItem('cookie',this.value)" th:value="${search}">
+                   th:value="${search}">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>
@@ -28,36 +28,44 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">id</th>
-            <th scope="col">username</th>
-            <th scope="col">email</th>
-            <th scope="col">language</th>
-            <th scope="col">phone number</th>
+            <th scope="col">info</th>
+            <th scope="col">address</th>
+            <th scope="col">name</th>
+            <th scope="col">likes</th>
+            <th scope="col">dislikes</th>
+            <th scope="col">price</th>
+            <th scope="col">rating</th>
+            <th scope="col">owner</th>
+            <th scope="col">more</th>
             <th scope="col">status</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user, index : ${objects}">
+        <tr th:each="pitch, index : ${objects}">
             <td th:text="${index.count + 1}"></td>
-            <td th:text="${user.getId()}"></td>
-            <td th:text="${user.getUsername()}"></td>
-            <td th:text="${user.getEmail()}"></td>
-            <td th:text="${user.getLanguage()}"></td>
-            <!--            <td th:text="#{phonenumbernumber.number.not.provided}"></td>--></a>
-            <td th:text="${user.getLanguage()==null}?#{phone.number.not.provided}:${user.getPhoneNumber()}"></td>
+            <td th:text="${pitch.getId()}"></td>
+            <td th:text="${pitch.getInfo()}"></td>
+            <td th:text="${pitch.getFullAddress()}"></td>
+            <td th:text="${pitch.getName()}"></td>
+            <td th:text="${pitch.getLikes()}"></td>
+            <td th:text="${pitch.getDislikes()}"></td>
+            <td th:text="${pitch.getPrice()}"></td>
+            <td th:text="${pitch.getRating()}"></td>
+            <td th:text="${pitch.getUser().getUsername()}"></td>
+            <td><a class="link-info" th:href="@{/pitchInfo/{id}(id=${pitch.getId()})}">info</a></td>
             <td>
-
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle"
                             type="button" data-bs-toggle="dropdown"
                             aria-expanded="false"
-                            th:text="${user.getStatus()}">
+                            th:text="${pitch.getStatus()}">
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item"
                                th:each="status:${statuses}"
-                               th:if=" ${not status.equals(user.getStatus())}"
-                               th:href="@{/manage/edituser/status
-                               (id=${user.id},status=${status},page=${currentPage},perPage=${perPage},search=${search})}"
+                               th:if=" ${not status.equals(pitch.getStatus())}"
+                               th:href="@{/manage/editpitch/status
+                               (id=${pitch.id},status=${status},page=${currentPage},perPage=${perPage},search=${search})}"
                                th:text=" ${status}">
                         </a></li>
                     </ul>
@@ -86,17 +94,17 @@
             <ul class="pagination">
                 <li class="page-item" th:if="${currentPage>0}">
                     <a class="page-link"
-                       th:href="@{/manage/users(page=${currentPage - 1},perPage=${perPage},search=${search})}">Previous
+                       th:href="@{/manage/pitches(page=${currentPage - 1},perPage=${perPage},search=${search})}">Previous
                     </a>
                 </li>
                 <li class="page-item" th:each="index: ${#numbers.sequence(0,totalPage,1)}">
                     <a class="page-link" th:classappend="${currentPage==index  ?'active':''}"
-                       th:href="@{/manage/users(page=${index },perPage=${perPage},search=${search})}">[[${index+1}]]
+                       th:href="@{/manage/pitches(page=${index },perPage=${perPage},search=${search})}">[[${index+1}]]
                     </a>
                 </li>
                 <li class="page-item" th:if="${currentPage<totalPage}">
                     <a class="page-link"
-                       th:href="@{/manage/users(page=${currentPage + 1},perPage=${perPage},search=${search}) }">Next
+                       th:href="@{/manage/pitches(page=${currentPage + 1},perPage=${perPage},search=${search}) }">Next
                     </a>
                 </li>
 
@@ -112,18 +120,6 @@
 
 <section th:insert="fragments::js_links">
 </section>
-
-<script>
-    function setItem(key, value) {
-        sessionStorage.setItem(key, value)
-        console.log(getItem(key) + 'some value' )
-    }
-
-    function getItem(key) {
-        return sessionStorage.getItem(key);
-    }
-
-</script>
 
 <!--<section>-->
 <!--    <script src="/js/popper.min.js"></script>-->
