@@ -6,11 +6,10 @@ import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.dtos.PitchCreateDTO;
 import com.noobs.gazonuz.services.AddressService;
 import com.noobs.gazonuz.services.PitchService;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,19 +28,19 @@ public class PitchController {
     }
 
 
-
     @GetMapping("/create")
-    public String createPitch(Model model) {
-        model.addAttribute("pitch", new PitchCreateDTO());
-        model.addAttribute("regions", addressService.getRegion());
-        model.addAttribute("dto", new PitchCreateDTO());
+    public ModelAndView createPitch(ModelAndView modelAndView) {
 
-        return "/pitch/create";
+        modelAndView.addObject("pitch", new PitchCreateDTO());
+        modelAndView.addObject("regions", addressService.getRegion());
+        modelAndView.setViewName("/pitch/create");
+        return modelAndView;
     }
 
 
     @PostMapping("/create")
-    public String savePitch(@Valid @ModelAttribute("pitch") PitchCreateDTO dto, BindingResult bindingResult) {
+    public String savePitch(@ModelAttribute("pitch") PitchCreateDTO dto, BindingResult bindingResult) {
+
 
         if (bindingResult.hasErrors()) {
             System.err.println(bindingResult.getAllErrors());
@@ -60,7 +59,7 @@ public class PitchController {
                 .district(dto.getDistrict()) // todo
                 .user(userSession.getUser())
                 .build();
-
+        System.out.println("dto = " + dto);
         System.out.println("build = " + build);
 
 //        pitchService.savePitch(build);
