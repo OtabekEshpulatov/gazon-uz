@@ -83,13 +83,14 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/*")
                 .addResourceLocations("classpath:static/css/");
-        registry.addResourceHandler("/css/carousel/*")
-                .addResourceLocations("classpath:static/css/carousel/");
-        registry.addResourceHandler("/js/*")
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("classpath:static/js/");
+//   =================     Nodirniki tegmeylar please
         registry.addResourceHandler("/js/carousel/*")
                 .addResourceLocations("classpath:static/js/carousel/");
+        registry.addResourceHandler("/css/carousel/*")
+                .addResourceLocations("classpath:static/css/carousel/");
+//        ============
         registry.addResourceHandler("/js/pitch/**")
                 .addResourceLocations("classpath:static/js/pitch/");
         registry.addResourceHandler("/css/pitch/**")
