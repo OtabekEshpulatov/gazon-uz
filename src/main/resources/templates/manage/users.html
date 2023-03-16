@@ -36,7 +36,7 @@
         </thead>
         <tbody>
         <tr th:each="user, index : ${users}">
-            <td th:text="${index.count}"></td>
+            <td th:text="${index.count + 1}"></td>
             <td th:text="${user.getUsername()}"></td>
             <td th:text="${user.getEmail()}"></td>
             <td th:text="${user.getLanguage()}"></td>
@@ -82,14 +82,14 @@
 
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item" th:if="${currentPage>1}">
+                <li class="page-item" th:if="${currentPage>}">
                     <a class="page-link"
                        th:href="@{/manage/users(page=${currentPage - 1},perPage=${perPage},search=${search})}">Previous
                     </a>
                 </li>
-                <li class="page-item" th:each="index: ${#numbers.sequence(1,totalPage,1)}">
+                <li class="page-item" th:each="index: ${#numbers.sequence(0,totalPage,1)}">
                     <a class="page-link" th:classappend="${currentPage==index  ?'active':''}"
-                       th:href="@{/manage/users(page=${index },perPage=${perPage},search=${search})}">[[${index}]]
+                       th:href="@{/manage/users(page=${index },perPage=${perPage},search=${search})}">[[${index+1}]]
                     </a>
                 </li>
                 <li class="page-item" th:if="${currentPage<totalPage}">

@@ -91,7 +91,7 @@ public class AdminController {
 
     @GetMapping( "/users" )
     @PreAuthorize( "hasRole('ADMIN')" )
-    public ModelAndView searchUsers(@RequestParam( name = "page", defaultValue = "1" ) int page ,
+    public ModelAndView searchUsers(@RequestParam( name = "page", defaultValue = "0" ) int page ,
                                     @RequestParam( name = "perPage", defaultValue = "10" ) int perPage ,
                                     @RequestParam( name = "search", defaultValue = "" ) String search) {
         var mav = new ModelAndView();
