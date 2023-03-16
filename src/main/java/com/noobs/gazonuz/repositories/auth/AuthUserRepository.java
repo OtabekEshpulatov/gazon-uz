@@ -12,4 +12,6 @@ public interface AuthUserRepository extends JpaRepository<User, String> {
     boolean existsByUsernameIgnoreCaseAllIgnoreCase(String username);
 
 
+    @Override
+    Optional<User> findById(String s);
 }

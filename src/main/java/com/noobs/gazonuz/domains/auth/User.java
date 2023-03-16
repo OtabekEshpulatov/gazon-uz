@@ -27,7 +27,7 @@ public class User implements BaseEntity {
     private String id;
     @Column( unique = true, nullable = false )
     private String username;
-    @Column( unique = true)
+    @Column( unique = true,nullable = true)
     private String phoneNumber;
     @Column( unique = true )
     private String email;
