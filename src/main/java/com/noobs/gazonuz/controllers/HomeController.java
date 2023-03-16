@@ -1,5 +1,6 @@
 package com.noobs.gazonuz.controllers;
 
+import com.noobs.gazonuz.domains.Location;
 import com.noobs.gazonuz.dtos.UserCreatedDto;
 import com.noobs.gazonuz.services.AuthUserService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping( value = {"/" ,"/home"})
@@ -27,6 +29,10 @@ public class HomeController {
         return "home/index";
     }
 
+    @PostMapping()
+    public String homeForm(@ModelAttribute Location location){
+        return "redirect:/pitch/searched";
+    }
 
 
 

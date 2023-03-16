@@ -23,9 +23,9 @@ public class Pitch {
     @Column( nullable = false )
     private String name;
     //    @Column( nullable = false )
-    private String latitude;
+    private Double latitude;
     //    @Column( nullable = false )
-    private String longitude;
+    private Double longitude;
     private String info;
 
 
