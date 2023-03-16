@@ -51,7 +51,7 @@ public class Pitch {
     private double price;
     private String phoneNumber;
 
-    @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @ManyToOne( cascade = CascadeType.MERGE )
     private User user;
 
 

@@ -24,7 +24,7 @@
 <body>
 <!------ Include the above in your HEAD tag ---------->
 
-<form class="form-horizontal" method="post" action="/app/create" enctype="multipart/form-data" th:object="${pitch}">
+<form class="form-horizontal" method="post" enctype="multipart/form-data">
     <fieldset>
 
         <!-- Form Name -->
@@ -35,7 +35,9 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="pitch_name">PITCH NAME</label>
             <div class="col-md-4">
-                <input id="pitch_name" name="pitch_name" placeholder="PITCH NAME" class="form-control input-md" required th:type="String" type="text" th:field="*{name}">
+                <input id="pitch_name" name="pitch_name" placeholder="PITCH NAME" class="form-control input-md" required
+                       type="text">
+
             </div>
         </div>
 
@@ -45,7 +47,7 @@
             <label class="col-md-4 control-label" for="description">Description</label>
             <div class="col-md-4">
             <textarea class="form-control" rows="3" id="description" name="description"
-                      placeholder="Write the description of the pitch here" th:field="*{info}"></textarea>
+                      placeholder="Write the description of the pitch here"></textarea>
             </div>
             <div class="invalid-feedback">
             </div>
@@ -55,14 +57,14 @@
             <label class="col-md-4 control-label" for="pitch-price">Hourly price</label>
             <div class="col-md-4">
                 <input id="pitch-price" name="pitch-price" placeholder="100 000 sum" class="form-control input-md"
-                       required type="number" th:field="*{price}">
+                       required type="number">
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-4 control-label" for="phone-number">Phone Number</label>
             <div class="col-md-4">
                 <input id="phone-number" name="phone-number" placeholder="+998 99 121 22 33"
-                       pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="form-control input-md" required type="number" th:field="*{phoneNumber}">
+                       pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="form-control input-md" required type="number">
             </div>
         </div>
 
@@ -73,19 +75,19 @@
                 <label class="col-md-4 control-label" >PITCH_ADRESS</label>
                 <div class="col-md-4">
                     <!-- ============= header start ============== -->
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarMenuDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Regions
                     </a>
                        <ul class="dropdown-menu" aria-labelledby="navbarMenuDropdown">
-                           <li th:each="region :${regions} ">
-                               <a class="dropdown-item "  href="#"  id="inner-my-menu" role="button" data-bs-toggle="dropdown">
+                           <li th:each="region :${regions}">
+                               <a class="dropdown-item" href="#">
                                    [[${region.getName()}]] &raquo;
                                </a>
-                               <ul class="dropdown-menu dropdown-submenu chet" style="margin-left: 100%" aria-labelledby="inner-my-menu">
+                               <ul class="dropdown-menu dropdown-submenu">
                                    <li th:each="district :${region.getDistricts()}">
-                                       <input type="hidden" th:value="${district.getId()}" th:field="*{district}">
-                                       <a class="dropdown-item"> [[${district.getName()}]] </a>
+                                       <a class="dropdown-item">
+                                           [[${district.getName()}]]
+                                       </a>
                                    </li>
                                </ul>
                            </li>
@@ -112,7 +114,7 @@
             <label class="col-md-4 control-label" for="full-address">Pitch full adress</label>
             <div class="col-md-4">
                 <input id="full-address" name="pitch-price" placeholder="Full adress" class="form-control input-md"
-                       required type="text" th:field="*{fullAddress}">
+                       required type="text">
             </div>
         </div>
 
@@ -128,7 +130,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="singlebutton">BUTTONS</label>
             <div class="col-md-4">
-                <button id="singlebutton"  type="submit" name="singlebutton" class="btn btn-success">SAVE PITCH</button>
+                <button id="singlebutton" name="singlebutton" class="btn btn-success">SAVE PITCH</button>
                 ||
                 <a href="/user/home" class="btn btn-danger">Back</a>
             </div>

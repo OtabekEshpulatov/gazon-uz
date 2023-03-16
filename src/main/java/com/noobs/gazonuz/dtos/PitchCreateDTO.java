@@ -1,12 +1,13 @@
 package com.noobs.gazonuz.dtos;
 
 
-import com.noobs.gazonuz.domains.Comment;
-import com.noobs.gazonuz.domains.Document;
 import com.noobs.gazonuz.domains.Order;
 import com.noobs.gazonuz.domains.auth.User;
-import com.noobs.gazonuz.domains.location.District;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 
@@ -15,19 +16,20 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PitchCreateDTO {
-    String name;
-    String latitude;
-    String longitude;
-    String info;
-    String fullAddress;
-    Collection<Document> documents;
-    Collection<Order> orders;
-    Collection<Comment> comments;
-    Double price;
-    String phoneNumber;
+  private String name;
+  private String latitude;
+  private String longitude;
+  private String info;
+  private String fullAddress;
+  private Collection<MultipartFile> documents;
 
-    User user;
-    District district;
+  private double price;
+  private String phoneNumber;
+  private String district;
+  private User user;
 
 
+    public Collection<Order> getOrders() {
+        return null;
+    }
 }
