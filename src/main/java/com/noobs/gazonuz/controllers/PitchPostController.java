@@ -26,7 +26,7 @@ public class PitchPostController {
 
         Optional<Pitch> pitch = pitchRepo.findById(id);
         if ( pitch.isPresent() ) {
-            model.addAttribute("pitch" , pitch);
+            model.addAttribute("pitch" , pitch.get());
             return "pitch/PitchMainForCopy";
         } else {
             throw new CustomRuntimeException("Page not found");
