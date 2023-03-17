@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,16 +18,17 @@ import java.util.Collection;
 @NoArgsConstructor
 public class PitchCreateDTO {
   private String name;
-  private String latitude;
-  private String longitude;
+//  private String latitude;
+//  private String longitude;
   private String info;
   private String fullAddress;
+
   private Collection<MultipartFile> documents;
 
   private double price;
   private String phoneNumber;
-  private String district;
-  private User user;
+  private String districtId;
+//  private User user;
 
 
     public Collection<Order> getOrders() {

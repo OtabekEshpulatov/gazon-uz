@@ -3,15 +3,16 @@ package com.noobs.gazonuz.controllers;
 
 import com.noobs.gazonuz.configs.security.UserSession;
 import com.noobs.gazonuz.domains.Pitch;
+import com.noobs.gazonuz.domains.location.District;
 import com.noobs.gazonuz.dtos.PitchCreateDTO;
 import com.noobs.gazonuz.services.AddressService;
 import com.noobs.gazonuz.services.PitchService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -29,41 +30,23 @@ public class PitchController {
 
 
     @GetMapping("/create")
-    public ModelAndView createPitch(ModelAndView modelAndView) {
-
-        modelAndView.addObject("pitch", new PitchCreateDTO());
-        modelAndView.addObject("regions", addressService.getRegion());
-        modelAndView.setViewName("/pitch/create");
-        return modelAndView;
+    public String createPitch(Model model) {
+        model.addAttribute("regions", addressService.getRegion());
+        return "/pitch/create";
     }
 
 
     @PostMapping("/create")
-    public String savePitch(@ModelAttribute("pitch") PitchCreateDTO dto, BindingResult bindingResult) {
-
-
+    public String create( @ModelAttribute PitchCreateDTO dto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.err.println(bindingResult.getAllErrors());
             return "/pitch/create";
         }
 
-        PitchCreateDTO build = PitchCreateDTO.builder()
-                .name(dto.getName())
-                .latitude("41.3111")
-                .longitude("69.2400")
-                .info(dto.getInfo())
-                .fullAddress(dto.getFullAddress())
-                .documents(Collections.emptySet())
-                .price(dto.getPrice())
-                .phoneNumber(dto.getPhoneNumber())
-                .district(dto.getDistrict()) // todo
-                .user(userSession.getUser())
-                .build();
-        System.out.println("dto = " + dto);
-        System.out.println("build = " + build);
+        dto.setDistrictId("1");
+        pitchService.savePitch(dto, userSession.getUser());
+        return "redirect:/home";
 
-//        pitchService.savePitch(build);
-        return "/pitch/create";
     }
 
 

@@ -20,7 +20,7 @@
 <body>
 <!------ Include the above in your HEAD tag ---------->
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" method="post">
     <h3 style="text-align: center">ADD PITCH</h3>
     <fieldset>
         <!-- Form Name -->
@@ -30,7 +30,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="pitch_name">PITCH NAME</label>
             <div class="col-md-4">
-                <input id="pitch_name" name="name" placeholder="PITCH NAME" class="form-control input-md" required >
+                <input id="pitch_name" type="text" name="name" placeholder="PITCH NAME" class="form-control input-md" required >
             </div>
         </div>
 
@@ -56,7 +56,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="phone-number">Phone Number</label>
             <div class="col-md-4">
-                <input id="phone-number" name="phoneNumber" placeholder="+998 99 121 22 33"
+                <input id="phone-number" name="phoneNumber" placeholder="99 121 22 33"
                        pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="form-control input-md" required type="number" >
             </div>
         </div>
@@ -64,7 +64,6 @@
         <!------------------------>
 
         <!--start choise region -->
-            <form method="post">
                 <div class="form-group">
                     <label class="col-md-4 control-label">PITCH_ADDRESS</label>
                     <div class="col-md-4">
@@ -76,13 +75,13 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li th:each="region :${regions}">
-                                    <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"  href="#" id="inner-dropdown">
+                                    <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" id="inner-dropdown">
                                         [[${region.getName()}]] &raquo;
                                     </a>
                                     <ul class="dropdown-menu" >
                                         <li th:each="district :${region.getDistricts()}">
-                                            <input type="hidden" th:name="${district.getId()}">
-                                            <a class="dropdown-item" href="">
+                                            <input type="text" value="${district.getId()}" name="district">
+                                            <a class="dropdown-item">
                                                 [[${district.getName()}]]
                                             </a>
                                         </li>
@@ -92,7 +91,6 @@
                         </div>
                     </div>
                 </div>
-            </form>
         <!------------------------>
 
 
@@ -101,18 +99,17 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="full-address">Pitch full adress</label>
             <div class="col-md-4">
-                <input id="full-address" placeholder="Full adress" class="form-control input-md"
-                       required type="text" name="fullAddress">
+                <input id="full-address" placeholder="Full adress" class="form-control input-md"  required type="text" name="fullAddress">
             </div>
         </div>
 
-        <!-- File Button -->
+  <!--      &lt;!&ndash; File Button &ndash;&gt;
         <div class="form-group">
             <label class="col-md-4 control-label" for="file_picture_button">PITCH_IMAGE</label>
             <div class="col-md-4">
-                <input id="file_picture_button" class="input-file" type="file" multiple="multiple" name="documents">
+                <input id="file_picture_button" class="input-file" type="file" name="documents">
             </div>
-        </div>
+        </div>-->
 
         <!-- Button -->
         <div class="form-group">
@@ -126,8 +123,6 @@
 
     </fieldset>
 </form>
-
-
 
 <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
