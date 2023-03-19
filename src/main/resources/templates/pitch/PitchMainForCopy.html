@@ -2919,7 +2919,6 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                             </svg>
                         </button>
                     </div>
-                    <section class="carousel">
                     <div _ngcontent-sc27="" class="mlp-calendar-column-width-weekdays">
                         <!---->
                         <div _ngcontent-sc27="" class="mlp-calendar-week ng-tns-c27-1 ng-star-inserted"
@@ -2932,12 +2931,10 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                     </div>
                     <div _ngcontent-sc27="" class="mlp-calendar-column-width-content">
                         <div _ngcontent-sc27="" class="scroll-container">
-                            <div _ngcontent-sc27="" class="ng-tns-c27-1 ng-trigger ng-trigger-moveCalendarContent" draggablecontainer="" style="transform:translateX(0px);width:10000px;">
-<!--                            eng katta div   -->
-                                <div _ngcontent-sc27="" class="ng-tns-c27-1">
+                                    <section class="carousel">
                                     <div class="custom-carousel-item" th:each="i : ${#numbers.sequence(1, 24)}">
-                                        <div th:each="k : ${#numbers.sequence(1, 7)}" >
-                                            <div>
+                                        <div _ngcontent-sc27="" th:each="k : ${#numbers.sequence(1, 7)}" class="custom-item-child mlp-slot rounded  mlp-slot-avail ">
+                                            <div _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted">
                                                 <div _ngcontent-sc27="" class="mlp-line-one">
                                                     10:00
                                                 </div>
@@ -2951,16 +2948,12 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div _ngcontent-sc27="" class="clearfix ng-tns-c27-1 ng-star-inserted" style=""></div>
                                     </div>
 
+                                    </section>
 <!--                                    ==================================================== shu yerga paste qilinishi kerak-->
-
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    </section>
                     <div _ngcontent-sc27="" class="mlp-calendar__nav mlp-calendar-column-width-arrow-right d-flex flex-column justify-content-center align-items-end cursor pointer">
                         <!---->
                         <button type="button" class="arrows right-arrow" aria-label="Arrow Right">
