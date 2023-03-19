@@ -38,7 +38,7 @@ public class User implements BaseEntity {
     @Column( columnDefinition = "varchar default 'INACTIVE'" )
     @Builder.Default
     private AuthUserStatus status = AuthUserStatus.INACTIVE;
-    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
+    @OneToOne( cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "user" )
 //    @ToString.Exclude
     private Document document;
     @CreationTimestamp

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<meta charset="UTF-8">
 
 <head>
+    <meta charset="UTF-8">
+
     <title>Add Pitch</title>
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -20,7 +21,7 @@
 <body>
 <!------ Include the above in your HEAD tag ---------->
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" method="post" th:object="${pitch}" enctype="multipart/form-data">
     <h3 style="text-align: center">ADD PITCH</h3>
     <fieldset>
         <!-- Form Name -->
@@ -30,7 +31,10 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="pitch_name">PITCH NAME</label>
             <div class="col-md-4">
-                <input id="pitch_name" name="name" placeholder="PITCH NAME" class="form-control input-md" required >
+                <input type="text" id="pitch_name" name="name" th:field="*{name}" placeholder="PITCH NAME" class="form-control input-md" required>  <br>
+                  <span th:if="${#fields.hasErrors('pitch.min.name.size')}">
+                    <li th:each="er:${#fields.errors('name')}" th:text="${#messages.msg(er,'8','100')}" class="red"></li>
+                  </span>
             </div>
         </div>
 
@@ -39,60 +43,61 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="description">Description</label>
             <div class="col-md-4">
-            <textarea class="form-control" rows="3" id="description" name="info"
-                      placeholder="Write the description of the pitch here" ></textarea>
+            <textarea class="form-control" rows="3" id="description" name="info" th:field="*{info}"
+                      placeholder="Write the description of the pitch here"></textarea>
             </div>
             <div class="invalid-feedback">
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-md-4 control-label" for="pitch-price">Hourly price</label>
+            <label class="col-md-4 control-label" for="pitch-price">Hourly price (sum)</label>
             <div class="col-md-4">
-                <input id="pitch-price" name="price" placeholder="100 000 sum" class="form-control input-md"
-                       required type="number">
+                <input id="pitch-price" name="price" th:field="*{price}" placeholder="115000" class="form-control input-md"  required type="number">
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-4 control-label" for="phone-number">Phone Number</label>
             <div class="col-md-4">
-                <input id="phone-number" name="phoneNumber" placeholder="+998 99 121 22 33"
-                       pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="form-control input-md" required type="number" >
+                <input id="phone-number" name="phoneNumber" th:field="*{phoneNumber}" placeholder="991212233"
+                       pattern="[0-9]{9}" class="form-control input-md" required type="number">
             </div>
         </div>
 
         <!------------------------>
 
         <!--start choise region -->
-            <form method="post">
-                <div class="form-group">
-                    <label class="col-md-4 control-label">PITCH_ADDRESS</label>
-                    <div class="col-md-4">
-                        <!-- ============= header start ============== -->
-                        <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-auto-close="outside" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false" >
-                                Regions
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li th:each="region :${regions}">
-                                    <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"  href="#" id="inner-dropdown">
-                                        [[${region.getName()}]] &raquo;
-                                    </a>
-                                    <ul class="dropdown-menu" >
-                                        <li th:each="district :${region.getDistricts()}">
-                                            <input type="hidden" th:name="${district.getId()}">
-                                            <a class="dropdown-item" href="">
-                                                [[${district.getName()}]]
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">PITCH_ADDRESS</label>
+                <div class="col-md-4">
+                    <!-- ============= header start ============== -->
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-auto-close="outside" href="#" id="navbarDropdown"
+                           role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Regions
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li th:each="region :${regions}">
+                                <a class="dropdown-item dropdown-toggle" data-bs-auto-close="outside"
+                                   data-bs-toggle="dropdown"
+                                   id="inner-dropdown">
+                                    [[${region.getName()}]] &raquo;
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li th:each="district :${region.getDistricts()}">
+                                        <option th:name="*{districtId}" name="districtId" th:value="${district.getId()}" th:text="${district.getName()}"></option>
+                                      <!--  <input type="hidden" name="1" th:field="*{districtId}">
+                                        <a class="dropdown-item" role="button" data-bs-auto-close="outside">
+                                            [[${district.getName()}]]
+                                        </a>-->
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </form>
+            </div>
         <!------------------------>
 
 
@@ -102,7 +107,7 @@
             <label class="col-md-4 control-label" for="full-address">Pitch full adress</label>
             <div class="col-md-4">
                 <input id="full-address" placeholder="Full adress" class="form-control input-md"
-                       required type="text" name="fullAddress">
+                       required type="text" name="fullAddress" th:field="*{fullAddress}">
             </div>
         </div>
 
@@ -110,15 +115,14 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="file_picture_button">PITCH_IMAGE</label>
             <div class="col-md-4">
-                <input id="file_picture_button" class="input-file" type="file" multiple="multiple" name="documents">
+                <input id="file_picture_button" required type="file" multiple="multiple" name="documents" th:field="*{documents}"/>
             </div>
         </div>
-
         <!-- Button -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="singlebutton">BUTTONS</label>
             <div class="col-md-4">
-                <button id="singlebutton"  type="submit" name="singlebutton" class="btn btn-success">SAVE PITCH</button>
+                <button id="singlebutton" type="submit" name="singlebutton" class="btn btn-success">SAVE PITCH</button>
                 ||
                 <a href="/user/home" class="btn btn-danger">Back</a>
             </div>
@@ -126,7 +130,6 @@
 
     </fieldset>
 </form>
-
 
 
 <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

@@ -7,11 +7,14 @@ import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
 import com.noobs.gazonuz.dtos.PitchCreateDTO;
 import com.noobs.gazonuz.dtos.upload.DocumentCreateDTO;
+import com.noobs.gazonuz.enums.PitchStatus;
 import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,22 +33,23 @@ public class PitchService {
 
         ArrayList<Document> docs = new ArrayList<>();
         for (MultipartFile document : dto.getDocuments()) {
-            Document doc = documentService.createAndGet(new DocumentCreateDTO(document));
+            Document doc = documentService.createAndGet(new DocumentCreateDTO(document),user);
             docs.add(doc);
         }
-        String id = dto.getDistrictId();
 
-        District district = addressService.getDistrictById(id);
+        District district = addressService.getDistrictById(dto.getDistrictId());
         Pitch pitch = Pitch.builder()
-                .name(dto.getName())
-                .price(dto.getPrice())
+                .createdAt(LocalDateTime.now(ZoneId.of("Asia/Tashkent")))
                 .fullAddress(dto.getFullAddress())
-                .documents(docs)
                 .info(dto.getInfo())
                 .latitude("111.22")
                 .longitude("111.22")
+                .name(dto.getName())
+                .price(dto.getPrice())
+                .documents(docs)
                 .district(district)
                 .phoneNumber(dto.getPhoneNumber())
+                .status(PitchStatus.INACTIVE)
                 .user(user)
                 .build();
         pitchRepository.save(pitch);
