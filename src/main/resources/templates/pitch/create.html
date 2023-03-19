@@ -32,9 +32,9 @@
             <label class="col-md-4 control-label" for="pitch_name">PITCH NAME</label>
             <div class="col-md-4">
                 <input type="text" id="pitch_name" name="name" th:field="*{name}" placeholder="PITCH NAME" class="form-control input-md" required>  <br>
-                  <span th:if="${#fields.hasErrors('pitch.min.name.size')}">
-                    <li th:each="er:${#fields.errors('name')}" th:text="${#messages.msg(er,'8','100')}" class="red"></li>
-                  </span>
+<!--                  <span th:if="${#fields.hasErrors('pitch.min.name.size')}">-->
+<!--                    <li th:each="er:${#fields.errors('name')}" th:text="${#messages.msg(er,'8','100')}" class="red"></li>-->
+<!--                  </span>-->
             </div>
         </div>
 
