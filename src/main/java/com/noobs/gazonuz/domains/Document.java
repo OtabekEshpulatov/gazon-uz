@@ -35,7 +35,7 @@ public class Document {
     @Column( name = "file_size" )
     private Long fileSize;
     private String extension;
-    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @OneToOne( cascade = CascadeType.MERGE, fetch = FetchType.LAZY )
 //    @ToString.Exclude
     private User user;
 

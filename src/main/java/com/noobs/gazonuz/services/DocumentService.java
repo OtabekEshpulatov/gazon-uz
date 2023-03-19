@@ -3,6 +3,7 @@ package com.noobs.gazonuz.services;
 
 import com.noobs.gazonuz.domains.Document;
 import com.noobs.gazonuz.domains.DocumentRepository;
+import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.dtos.upload.DocumentCreateDTO;
 import com.noobs.gazonuz.utils.BaseUtils;
 import jakarta.annotation.PostConstruct;
@@ -33,7 +34,7 @@ public class DocumentService {
             Files.createDirectories(rootPath);
     }
 
-    public Document createAndGet(DocumentCreateDTO dto) {
+    public Document createAndGet(DocumentCreateDTO dto, User user) {
 
         MultipartFile file = dto.getFile();
         Document doc = Document.builder()
@@ -41,6 +42,9 @@ public class DocumentService {
                 .fileSize(file.getSize())
                 .originalFileName(file.getOriginalFilename())
                 .generatedFileName(BaseUtils.generateUniqueName(Objects.requireNonNull(file.getOriginalFilename())))
+                .user(user)
+                .filePath(rootPath.toString())
+                .extension(BaseUtils.generateUniqueName(Objects.requireNonNull(file.getOriginalFilename())))
                 .build();
         documentRepository.save(doc);
         CompletableFuture.runAsync(() -> {
