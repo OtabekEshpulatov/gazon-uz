@@ -65,14 +65,14 @@
   transform: none;
 }
 
-.carousel-item {
-  width: 200px;
-  height: 300px;
-}
+/*.carousel-item {*/
+/*  width: 200px;*/
+/*  height: 300px;*/
+/*}*/
 
-.carousel-item img {
-  border-radius: 10pt;
-}
+/*.carousel-item img {*/
+/*  border-radius: 10pt;*/
+/*}*/
 
 input[type="checkbox"] {
   height: 0;
