@@ -1763,7 +1763,7 @@ a[_ngcontent-sc27]:hover, a[_ngcontent-sc27]:focus {
 [_nghost-sc27]   .mlp-calendar-content[_ngcontent-sc27]   .scroll-container[_ngcontent-sc27]   .mlp-slot[_ngcontent-sc27] {
     text-align: center;
     border: 1px solid #D6D5D5;
-    padding: 5px 6px;
+    padding: 5px 2px 5px 2px;
     margin-right: 6px;
     font-size: 65%;
     -webkit-user-select: none;
@@ -1782,8 +1782,8 @@ a[_ngcontent-sc27]:hover, a[_ngcontent-sc27]:focus {
 [_nghost-sc27]   .mlp-calendar-content[_ngcontent-sc27]   .scroll-container[_ngcontent-sc27]   .mlp-slot-avail[_ngcontent-sc27]:hover {
     background-color: #56E07B; }
 [_nghost-sc27]   .mlp-calendar-content[_ngcontent-sc27]   .scroll-container[_ngcontent-sc27]   .mlp-slot-avail[_ngcontent-sc27]   .mlp-line-one[_ngcontent-sc27] {
-    font-size: 120%;
-    letter-spacing: 1.5px;
+    font-size: 95%;
+    letter-spacing: 0.5px;
     font-weight: 600; }
 [_nghost-sc27]   .mlp-calendar-content[_ngcontent-sc27]   .scroll-container[_ngcontent-sc27]   .mlp-slot-booked[_ngcontent-sc27] {
     cursor: inherit;
@@ -2933,18 +2933,18 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                                                             <div _ngcontent-sc27="" class="scroll-container">
                                                                 <section class="carousel">
                                                                     <div class="custom-carousel-item" th:each="i : ${#numbers.sequence(1, 24)}">
-                                                                        <div _ngcontent-sc27="" th:each="k : ${#numbers.sequence(1, 7)}" class="custom-item-child mlp-slot rounded  mlp-slot-avail ">
+                                                                        <div _ngcontent-sc27="" th:each="k : ${#numbers.sequence(1, 7)}" class="custom-item-child mlp-slot rounded" th:object="${@pitchService.findDateInterval(i,k)}" th:classappend="${@pitchService.findDateInterval(i,k).getIsAvl() ? (@pitchService.checkBooked(i,k,pitch.getId())?'mlp-slot-avail':'mlp-slot-booked'):'mlp-slot-na'}">
                                                                             <div _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted">
                                                                                 <div _ngcontent-sc27="" class="mlp-line-one">
-                                                                                    10:00
+                                                                                    [[*{message}]]
                                                                                 </div>
                                                                                 <div _ngcontent-sc27="" class="mlp-line-two">
-                                                    <span _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted">
-                                                        £95.00
+                                                    <span _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted" th:if="*{isAvl} and ${@pitchService.checkBooked(i,k,pitch.getId())}">
+                                                        [[${pitch.getPrice()}]] sum
                                                     </span>
-                                                                                </div>
-                                                                                <div _ngcontent-sc27="" class="mlp-line-three">
-                                                                                    60 min
+                                                                                    <span _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted" th:unless="${@pitchService.checkBooked(i,k,pitch.getId())}">
+                                                        booked
+                                                    </span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3061,7 +3061,7 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                                     <!--            ============================== Description ========================= -->
                                     <div _ngcontent-sc28="" class="card pf-card mb-3" >
                                         <div _ngcontent-sc28="" class="card-header" role="tab">
-                                            <h2 _ngcontent-sc28="" class="sg-heading__h4 mb-0">Info</h2>
+                                            <h2 _ngcontent-sc28="" class="sg-heading__h4 mb-0">Description</h2>
                                         </div>
 
                                         <div _ngcontent-sc28="" class="card-body">
