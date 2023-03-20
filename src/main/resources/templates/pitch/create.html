@@ -66,40 +66,37 @@
 
         <!------------------------>
 
-        <!--start choise region -->
-            <div class="form-group">
-                <label class="col-md-4 control-label">PITCH_ADDRESS</label>
-                <div class="col-md-4">
-                    <!-- ============= header start ============== -->
-                    <div class="dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-auto-close="outside" href="#" id="navbarDropdown"
-                           role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Regions
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li th:each="region :${regions}">
-                                <a class="dropdown-item dropdown-toggle" data-bs-auto-close="outside"
-                                   data-bs-toggle="dropdown"
-                                   id="inner-dropdown">
-                                    [[${region.getName()}]] &raquo;
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li th:each="district :${region.getDistricts()}">
-                                        <option th:name="*{districtId}" name="districtId" th:value="${district.getId()}" th:text="${district.getName()}"></option>
-                                      <!--  <input type="hidden" name="1" th:field="*{districtId}">
-                                        <a class="dropdown-item" role="button" data-bs-auto-close="outside">
-                                            [[${district.getName()}]]
-                                        </a>-->
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">District</label>
+            <div class="col-md-4">
+                <!-- ============= header start ============== -->
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-auto-close="outside" href="#" id="navbarDropdown"
+                       role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Regions
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li th:each="region :${regions}">
+                            <a class="dropdown-item dropdown-toggle" data-bs-auto-close="outside"
+                               data-bs-toggle="dropdown"
+                               id="inner-dropdown">
+                                [[${region.getName()}]] &raquo;
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li th:each="district :${region.getDistricts()}">
+                                    <a class="dropdown-item" role="button"
+                                       onclick="document.getElementById('district-id').value='[[${district.getId()}]]'">
+                                        [[${district.getName()}]]
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
+                <input type="hidden" id="district-id" name="districtId" th:value="*{districtId}" />
             </div>
-        <!------------------------>
-
+        </div>
 
         <!--    end chpise region-->
 
@@ -142,6 +139,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"
         integrity="sha512-AsQHw4y4ey4d6uIzV1cdTQOaXrIkLstgDNfOzkE1jlTRw1m/mAzhdYswezfc+yhveNkxP8dwZzbCMTt1KM0tGw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+<script>
+    function setDistrictId(districtId) {
+        document.getElementById('districtId').value = districtId;
+    }
+</script>
 
 </body>
 </html>

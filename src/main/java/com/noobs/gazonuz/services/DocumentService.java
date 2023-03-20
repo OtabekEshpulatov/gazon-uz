@@ -42,7 +42,7 @@ public class DocumentService {
                 .fileSize(file.getSize())
                 .originalFileName(file.getOriginalFilename())
                 .generatedFileName(BaseUtils.generateUniqueName(Objects.requireNonNull(file.getOriginalFilename())))
-                .user(user)
+//                .user(user)
                 .filePath(rootPath.toString())
                 .extension(BaseUtils.generateUniqueName(Objects.requireNonNull(file.getOriginalFilename())))
                 .build();

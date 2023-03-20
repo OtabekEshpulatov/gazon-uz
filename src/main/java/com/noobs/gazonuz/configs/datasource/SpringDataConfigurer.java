@@ -34,6 +34,8 @@ public class SpringDataConfigurer {
         dataSource.setUsername(env.getRequiredProperty("spring.datasource.jdbc.user"));
         dataSource.setPassword(env.getRequiredProperty("spring.datasource.jdbc.password"));
         dataSource.setDriverClassName(env.getRequiredProperty("spring.datasource.jdbc.driver"));
+        dataSource.setConnectionProperties(properties());
+//        dataSource.setDriverClassName(env.getRequiredProperty("spring.datasource.hibernate.enable_lazy_load_no_trans"));
         return dataSource;
     }
 
@@ -63,6 +65,7 @@ public class SpringDataConfigurer {
         properties.put("hibernate.show_sql" , env.getRequiredProperty("spring.datasource.hibernate.show_sql"));
         properties.put("hibernate.format_sql" , env.getRequiredProperty("spring.datasource.hibernate.format_sql"));
         properties.put("hibernate.hbm2ddl.auto" , env.getRequiredProperty("spring.datasource.hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.enable_lazy_load_no_trans",env.getRequiredProperty("spring.jpa.properties.hibernate.enable_lazy_load_no_trans"));
         return properties;
     }
 

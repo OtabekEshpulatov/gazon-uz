@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Lazy;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Table(name = "district")@Lazy
 public class District {
 
@@ -22,7 +22,7 @@ public class District {
     private String id;
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "region_id")
     private Region region;
 
