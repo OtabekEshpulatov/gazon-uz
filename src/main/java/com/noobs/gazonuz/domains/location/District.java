@@ -24,6 +24,6 @@ public class District {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "region_id")
-    private Region region;
+    private  Region region;
 
 }

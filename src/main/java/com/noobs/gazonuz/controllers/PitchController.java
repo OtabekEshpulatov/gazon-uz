@@ -93,12 +93,20 @@ public class PitchController {
         List<DistrictDto> districtDtos = new ArrayList<>();
 
         for (District district : districts) {
-            districtDtos.add(districtMapper.toDto(district));
+            DistrictDto e = districtMapper.toDto(district);
+            districtDtos.add(e);
+            System.out.println("e = " + e);
         }
 
         Gson gson = new Gson();
 
-        String s = gson.toJson(districtDtos.get(0));
+
+        String s = null;
+        try {
+            gson.toJson(districtDtos.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println(s);
 
         return ResponseEntity.ok().body(s);
