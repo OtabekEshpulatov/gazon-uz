@@ -2,6 +2,7 @@ package com.noobs.gazonuz.repositories.pitch;
 
 
 import com.noobs.gazonuz.domains.Pitch;
+import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.enums.PitchStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,10 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PitchRepository extends JpaRepository<Pitch, String> {
-    @Query( "select count(p) from Pitch p where p.user.username ilike ?1" )
-    long countByUsernameAllIgnoreCase(String username);
+    @Query( "select count(p) from Pitch p where p.user.username ilike ?1 and p.status=?2" )
+    long countByUsernameAllIgnoreCase(String username , PitchStatus status);
 
     @Query( "select p from Pitch  p where p.user.username ilike ?1 and p.status=?2 order by p.createdAt" )
     List<Pitch> findPitchByUsernameAAndStatus(String username , PitchStatus status , Pageable pageable);
@@ -25,6 +27,9 @@ public interface PitchRepository extends JpaRepository<Pitch, String> {
 
     @Query( "select p from Pitch p where p.status = ?1 order by p.createdAt" )
     List<Pitch> findByStatus(PitchStatus status);
+
+    @Query( "select p.user from Pitch p where p.id=?1" )
+    User findUserByPitch(String id);
 
 
 }

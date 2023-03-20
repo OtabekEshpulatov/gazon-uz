@@ -72,6 +72,10 @@ public class User implements BaseEntity {
     private Languages language = Languages.UZBEK;
 
 
+    @Column( name = "is_email_notifications_allowed" )
+    private boolean isEmailNotificationsAllowed = false;
+
+
     public String getRolesAsString() {
         var stj = new StringJoiner(", " , "" , "");
         for ( Role role : roles ) {

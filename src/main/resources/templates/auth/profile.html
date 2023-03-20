@@ -417,6 +417,19 @@
                                    th:value="${#temporals.format(user.getCreatedAt(),'dd/MM/yyyy HH:mm:ss')}" disabled>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="username">Email Notifications</label>
+                        </div>
+                        <div class="col-75">
+                            <input class="btn-check mt-5" type="checkbox" id="phoneNumber" name="IsEmailNotificationsAllowed"
+                                   th:if="${user.isEmailNotificationsAllowed()}" checked>
+
+                            <input  class="btn-check mt-5" type="checkbox" id="phoneNumber" name="IsEmailNotificationsAllowed"
+                                   th:if="${not user.isEmailNotificationsAllowed()}">
+                        </div>
+                    </div>
                     <br>
 
                     <input type="hidden" name="id" th:value="${user.getId()}">

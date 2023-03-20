@@ -75,7 +75,7 @@
             <td th:text="${pitch.getDislikes()}"></td>
             <td th:text="${pitch.getPrice()}"></td>
             <td th:text="${pitch.getRating()}"></td>
-            <td><a class="link-info" th:href="@{/profile/{id}(id=${pitch.getUser().getId()})}"
+            <td><a class="link-info" th:href="@{/auth/profile/{id}(id=${pitch.getUser().getId()})}"
                    th:text="${pitch.getUser().getUsername()}"></a></td>
             <td><a class="link-info" th:href="@{/pitchInfo/{id}(id=${pitch.getId()})}">info</a></td>
             <td>

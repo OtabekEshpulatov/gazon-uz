@@ -12,6 +12,7 @@ import com.noobs.gazonuz.repositories.pagination.UserPaginationRepo;
 import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import com.noobs.gazonuz.services.AuthUserService;
 import com.noobs.gazonuz.services.PermissionService;
+import com.noobs.gazonuz.services.PitchService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,14 +38,16 @@ public class AdminController {
     private final AuthUserRepository authUserRepository;
     private final PitchRepository pitchRepository;
     private final PermissionService permissionService;
+    private final PitchService pitchService;
 
-    public AdminController(UserSession userSession , AuthUserService userService , UserPaginationRepo userPaginationRepo , AuthUserRepository authUserRepository , PitchRepository pitchRepository , PermissionService permissionService) {
+    public AdminController(UserSession userSession , AuthUserService userService , UserPaginationRepo userPaginationRepo , AuthUserRepository authUserRepository , PitchRepository pitchRepository , PermissionService permissionService , PitchService pitchService) {
         this.userSession = userSession;
         this.userService = userService;
         this.userPaginationRepo = userPaginationRepo;
         this.authUserRepository = authUserRepository;
         this.pitchRepository = pitchRepository;
         this.permissionService = permissionService;
+        this.pitchService = pitchService;
     }
 
     private void preparePageableMAVUsers(Integer page , ModelAndView mav , List<?> users , Long usersSize , String search) {
@@ -82,7 +85,7 @@ public class AdminController {
     @PreAuthorize( "hasRole('ADMIN')" )
     public String editPitchStatus(@RequestParam( "id" ) String id , @RequestParam( "page" ) Integer page , @RequestParam( "perPage" ) Integer perPage , @RequestParam( "status" ) PitchStatus status , @RequestParam( value = "search", required = false ) String search) {
 
-        pitchRepository.updateStatusById(status , id);
+        pitchService.updateStatus(id , status);
         return "redirect:/manage/pitches?page=%d&perPage=%d&search=%s&status=%s".formatted(page , perPage , search , status);
 
     }
@@ -112,7 +115,7 @@ public class AdminController {
         final Pageable pageable = PageRequest.of(page , perPage);
         final String searchBy = "%" + username + "%";
         pitches = pitchRepository.findPitchByUsernameAAndStatus(searchBy , status , pageable);
-        final Long userSize = pitchRepository.countByUsernameAllIgnoreCase(searchBy);
+        final Long userSize = pitchRepository.countByUsernameAllIgnoreCase(searchBy , status);
         preparePageableMAVPitches(page , mav , pitches , userSize , username , status);
         System.out.println(pitches);
 
@@ -141,9 +144,9 @@ public class AdminController {
     }
 
 
-    @PostMapping("/admins/permissions/add")
-    @PreAuthorize("hasAuthority('ADD_PERMISSION')")
-    public String getPermissionPage(@ModelAttribute CreatePermissionDto dto){
+    @PostMapping( "/admins/permissions/add" )
+    @PreAuthorize( "hasAuthority('ADD_PERMISSION')" )
+    public String getPermissionPage(@ModelAttribute CreatePermissionDto dto) {
 
         permissionService.addPermission(dto);
 //        var mav = new ModelAndView();

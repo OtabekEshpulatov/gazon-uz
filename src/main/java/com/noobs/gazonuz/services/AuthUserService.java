@@ -67,17 +67,21 @@ public class AuthUserService {
 
     public User updateUser(UserUpdateDto dto) {
 
+
+        System.out.println(dto.IsEmailNotificationsAllowed());
+
         final User user = authUserRepository.findById(dto.id()).orElse(null);
 
         if ( Objects.nonNull(user) ) {
             user.setLanguage(dto.language());
+            user.setEmailNotificationsAllowed(Objects.nonNull(dto.IsEmailNotificationsAllowed()) &&
+                                              dto.IsEmailNotificationsAllowed().equals("on"));
             authUserRepository.save(user);
         }
         return user;
     }
 
     public List<User> getUsersThatHasRoles() {
-
         return authUserRepository.findAllUsersWithRoles();
     }
 }
