@@ -11,11 +11,16 @@
 
 <div th:insert="fragments::header"></div>
 
+
+<div class="text-info m-4">
+    <h1> Users Information Management</h1>
+</div>
+
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
         <form class="d-flex" role="search" action="/manage/users">
             <input class="form-control me-2" type="search" placeholder="username" aria-label="Search" name="search"
-                   onclick="setItem('cookie',this.value)" th:value="${search}">
+                   th:value="${search}">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>
@@ -37,7 +42,7 @@
         </thead>
         <tbody>
         <tr th:each="user, index : ${objects}">
-            <td th:text="${index.count + 1}"></td>
+            <td th:text="${index.count}"></td>
             <td th:text="${user.getId()}"></td>
             <td th:text="${user.getUsername()}"></td>
             <td th:text="${user.getEmail()}"></td>
@@ -45,7 +50,6 @@
             <!--            <td th:text="#{phonenumbernumber.number.not.provided}"></td>--></a>
             <td th:text="${user.getLanguage()==null}?#{phone.number.not.provided}:${user.getPhoneNumber()}"></td>
             <td>
-
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle"
                             type="button" data-bs-toggle="dropdown"
@@ -89,7 +93,7 @@
                        th:href="@{/manage/users(page=${currentPage - 1},perPage=${perPage},search=${search})}">Previous
                     </a>
                 </li>
-                <li class="page-item" th:each="index: ${#numbers.sequence(0,totalPage,1)}">
+                <li class="page-item" th:each="index: ${#numbers.sequence(0,totalFound/perPage,perPage)}">
                     <a class="page-link" th:classappend="${currentPage==index  ?'active':''}"
                        th:href="@{/manage/users(page=${index },perPage=${perPage},search=${search})}">[[${index+1}]]
                     </a>
@@ -114,15 +118,25 @@
 </section>
 
 <script>
-    function setItem(key, value) {
-        sessionStorage.setItem(key, value)
-        console.log(getItem(key) + 'some value' )
+    // Session storage'da "myKey" nomli kalitni "myValue" qiymati bilan saqlash
+    function setItem(k, v) {
+        sessionStorage.setItem(k, v);
+
+        // Session storage dan "myKey" nomli kalitni o'qish
+        var myValue = sessionStorage.getItem(k);
+        console.log(myValue); // "myValue"
     }
 
-    function getItem(key) {
-        return sessionStorage.getItem(key);
+    function getItem(k) {
+
+        // Session storage dan "myKey" nomli kalitni o'qish
+        return sessionStorage.getItem(k);
     }
 
+    var myValue = getItem('cookie');
+
+    // Inputning value atributiga session storage dan olingan ma'lumotni joylash
+    document.getElementById("myInput").value = myValue;
 </script>
 
 <!--<section>-->

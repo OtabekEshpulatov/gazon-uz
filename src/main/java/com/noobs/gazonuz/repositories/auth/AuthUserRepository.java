@@ -20,7 +20,7 @@ public interface AuthUserRepository extends JpaRepository<User, String> {
     List<User> getAllOrderByCreatedAtDesc();
 
 
-    @Query("select count(*) from User")
+    @Query( "select count(*) from User" )
     Long countAllUsers();
 
     @Transactional
@@ -29,9 +29,10 @@ public interface AuthUserRepository extends JpaRepository<User, String> {
     int updateStatusById(AuthUserStatus status , String id);
 
 
-//    boolean setStatus(String id , AuthUserStatus status);
-
     @Override
     Optional<User> findById(String s);
+
+    @Query( value = "SELECT u FROM User u JOIN u.roles r GROUP BY u HAVING COUNT(r) > 0" )
+    List<User> findAllUsersWithRoles();
 }
 
