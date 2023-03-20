@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.StringJoiner;
 
 @Entity
 @Getter
@@ -69,6 +70,15 @@ public class User implements BaseEntity {
 
     @Builder.Default
     private Languages language = Languages.UZBEK;
+
+
+    public String getRolesAsString() {
+        var stj = new StringJoiner(", " , "" , "");
+        for ( Role role : roles ) {
+            stj.add(role.getName());
+        }
+        return stj.toString();
+    }
 
 
 }

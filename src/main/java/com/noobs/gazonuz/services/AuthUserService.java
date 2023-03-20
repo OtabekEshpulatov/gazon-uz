@@ -4,6 +4,7 @@ package com.noobs.gazonuz.services;
 import com.noobs.gazonuz.configs.security.Encoders;
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.dtos.UserCreatedDto;
+import com.noobs.gazonuz.dtos.UserUpdateDto;
 import com.noobs.gazonuz.enums.AuthUserStatus;
 import com.noobs.gazonuz.mappers.AuthUserMapper;
 import com.noobs.gazonuz.repositories.auth.AuthUserRepository;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -57,5 +59,25 @@ public class AuthUserService {
 
     public List<User> getAllOrderByCreatedAt() {
         return authUserRepository.getAllOrderByCreatedAtDesc();
+    }
+
+    public User findUser(String id) {
+        return authUserRepository.findById(id).orElse(null);
+    }
+
+    public User updateUser(UserUpdateDto dto) {
+
+        final User user = authUserRepository.findById(dto.id()).orElse(null);
+
+        if ( Objects.nonNull(user) ) {
+            user.setLanguage(dto.language());
+            authUserRepository.save(user);
+        }
+        return user;
+    }
+
+    public List<User> getUsersThatHasRoles() {
+
+        return authUserRepository.findAllUsersWithRoles();
     }
 }

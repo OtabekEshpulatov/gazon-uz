@@ -55,7 +55,7 @@ public class Pitch {
 
     @ManyToOne( cascade = CascadeType.MERGE )
     private User user;
-    private PitchStatus status = PitchStatus.ACTIVE;
+    private PitchStatus status = PitchStatus.REQUESTED;
     @ManyToOne
     private District district;
 

@@ -1,6 +1,9 @@
 package com.noobs.gazonuz.controllers;
 
+import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.dtos.UserCreatedDto;
+import com.noobs.gazonuz.dtos.UserUpdateDto;
+import com.noobs.gazonuz.enums.Languages;
 import com.noobs.gazonuz.services.AuthUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +30,6 @@ public class AuthController {
         mav.setViewName("auth/login");
         return mav;
     }
-
-
-
 
 
     @GetMapping( "/register" )
@@ -70,5 +70,28 @@ public class AuthController {
 
         return "auth/login";
     }
+
+
+    @GetMapping( "/profile/{id}" )
+    private ModelAndView getProfile(@PathVariable( name = "id" ) String id) {
+        var mav = new ModelAndView();
+        final User user = authUserService.findUser(id);
+        mav.setViewName("auth/profile");
+        mav.addObject("user" , user);
+        mav.addObject("languages" , Languages.values());
+        return mav;
+    }
+
+    @PostMapping( "/profile" )
+    private ModelAndView saveProfile(@ModelAttribute UserUpdateDto dto) {
+        var mav = new ModelAndView();
+
+        User user = authUserService.updateUser(dto);
+        mav.setViewName("auth/profile");
+        mav.addObject("user" , user);
+        mav.addObject("languages" , Languages.values());
+        return mav;
+    }
+
 
 }
