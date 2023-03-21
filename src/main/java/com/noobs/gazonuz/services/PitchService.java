@@ -33,7 +33,6 @@ public class PitchService {
         pitchRepository.save(pitch);
         return true;
     }
-
     public List<Pitch> getPitches(String latitude, String longitude) {
         return pitchRepository.findAll();
     }
