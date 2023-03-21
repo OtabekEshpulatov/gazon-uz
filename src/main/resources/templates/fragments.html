@@ -5,6 +5,7 @@
 <head th:fragment="head(title,links)">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <meta charset="UTF-8">
     <th:block th:replace="${title}"></th:block>
     <th:block th:replace="${links}"></th:block>
@@ -29,24 +30,10 @@
                     <a class="nav-link" href="#">Pitches</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Requests</a>
+                    <a class="nav-link" href="/pitch/create">Create Pitch</a>
                 </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false" th:text="${#authentication}">
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auth/login}" sec:authorize="isAnonymous()">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auth/register}" sec:authorize="isAnonymous()">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auth/logout}" sec:authorize="isAuthenticated()">Logout</a>
-                        </li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Requests</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -60,9 +47,34 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/manage/pitches}">Pitches</a>
                         </li>
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link" th:href="@{/auth/logout}" sec:authorize="isAuthenticated()">Logout</a>-->
-<!--                        </li>-->
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/manage/admins}">Admins</a>
+                        </li>
+                        <!--                        <li class="nav-item">-->
+                        <!--                            <a class="nav-link" th:href="@{/auth/logout}" sec:authorize="isAuthenticated()">Logout</a>-->
+                        <!--                        </li>-->
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ms-auto">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false"> <i class="fi fi-sr-user"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/auth/login}" sec:authorize="isAnonymous()">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               th:href="@{/auth/profile/{id}(id=${#authentication.getPrincipal().getAuthUser().getId()})}"
+                               sec:authorize="isAuthenticated()">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/auth/register}" sec:authorize="isAnonymous()">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/auth/logout}" sec:authorize="isAuthenticated()">Logout</a>
+                        </li>
                     </ul>
                 </li>
 

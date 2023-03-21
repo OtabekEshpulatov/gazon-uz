@@ -26,7 +26,7 @@ public class Region {
     private String id;
     private String name;
 
-    @OneToMany(mappedBy = "region",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "region",fetch = FetchType.LAZY)
     private Collection<District> districts;
 
 
