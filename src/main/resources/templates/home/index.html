@@ -7,12 +7,43 @@
 </head>
 <body>
 
+<!-- <div>
+    <input id="address" type="textbox" value="Sydney, NSW">
+    <input type="button" value="Encode" onclick="codeAddress()">
+  </div> -->
+<form method="get" action="/pitch/searched">
+    <div><button type="button" id="btn btn-success buttonlocation" onclick="mine()">Button</button></div>
+    <input type="text" id="address" name="address">
+    <input type="hidden" id="latitude" name="latitude">
+    <input type="hidden" id="longitude" name="longitude">
+    <button type="submit">Find Pitch</button>
+</form>
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWdoFIoCvmaZM2ZUyZYHlCp0C6Tx7O_40&callback=initMap">
+</script>
+
+<script>    function mine(){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+            var elem1=document.getElementById("latitude");
+            var elem2=document.getElementById("longitude");
+            elem1.value=position.coords.latitude;
+            elem2.value=position.coords.longitude;
+            console.log(elem1.value);
+            console.log(elem2.value);
+            $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&key=AIzaSyAWdoFIoCvmaZM2ZUyZYHlCp0C6Tx7O_40',function (data){
+                var elem=document.getElementById("address");
+                elem.value=data.results[0].formatted_address;
+            });
+
+        });
+    }else 'No position found';}
+</script>
 <div th:insert="fragments ::header">
 </div>
-
-
-<section th:replace="fragments::js_links"></section>
 
 </body>
 </html>
