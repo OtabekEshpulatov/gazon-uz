@@ -40,7 +40,7 @@ public class Pitch {
 
     @Column( columnDefinition = "smallint default 0" )
     private Byte rating;
-    @OneToMany( cascade = CascadeType.ALL )
+    @OneToMany( cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Collection<Document> documents;
     @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch" )
 //    @ToString.Exclude

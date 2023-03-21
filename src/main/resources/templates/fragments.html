@@ -12,8 +12,6 @@
 </head>
 
 <body>
-
-
 <nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment="header">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -31,7 +29,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Requests</a>
                 </li>
-
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false" th:text="${#authentication.name}">
@@ -48,9 +45,9 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+<!--                    shuni quyib ketish kerak sec:authentication="hasRole('ADMIN')"-->
+                    <a  class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">Manage
                     </a>
                     <ul class="dropdown-menu">
@@ -65,8 +62,6 @@
 <!--                        </li>-->
                     </ul>
                 </li>
-
-
                 <!--                <ul class="navbar-nav mb-2 mb-lg-0">-->
                 <!--                    <li class="nav-item">-->
                 <!--                        <a class="nav-link" th:href="@{/auth/login}" sec:authorize="isAnonymous()">Login</a>-->
@@ -78,16 +73,12 @@
                 <!--                        <a class="nav-link" th:href="@{/auth/logout}" sec:authorize="isAuthenticated()">Logout</a>-->
                 <!--                    </li>-->
                 <!--                </ul>-->
-
             </ul>
         </div>
     </div>
 </nav>
-
-
 <section th:fragment="js_links">
     <script src="/js/bootstrap.min.js"></script>
 </section>
-
 </body>
 </html>

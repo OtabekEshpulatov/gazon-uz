@@ -2,15 +2,20 @@ package com.noobs.gazonuz.controllers;
 
 
 import com.noobs.gazonuz.configs.security.UserSession;
+import com.noobs.gazonuz.domains.Location;
 import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.dtos.PitchCreateDTO;
+import com.noobs.gazonuz.repositories.PitchPaginationRepository;
 import com.noobs.gazonuz.services.AddressService;
 import com.noobs.gazonuz.services.PitchService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,13 +26,14 @@ public class PitchController {
     private final PitchService pitchService;
     private final UserSession userSession;
     private final AddressService addressService;
+    private final PitchPaginationRepository pitchPaginationRepository;
 
-    public PitchController(PitchService pitchService, UserSession userSession, AddressService addressService) {
+    public PitchController(PitchService pitchService, UserSession userSession, AddressService addressService, PitchPaginationRepository pitchPaginationRepository) {
         this.pitchService = pitchService;
         this.userSession = userSession;
         this.addressService = addressService;
+        this.pitchPaginationRepository = pitchPaginationRepository;
     }
-
 
 
     @GetMapping("/create")
@@ -76,6 +82,30 @@ public class PitchController {
         throw new RuntimeException("my ex");
 //        return pitchService.getPitches(latitude , longitude);
     }
+
+
+    @GetMapping("/searched")
+    public ModelAndView searchUsers(@RequestParam(name = "page", defaultValue = "0") int page,
+                                    @RequestParam(name = "perPage", defaultValue = "10") int perPage,
+                                    @RequestParam(name = "search", defaultValue = "") String search,
+                                    @ModelAttribute Location location) {
+        System.out.println(location);
+        var mav = new ModelAndView();
+        List<Pitch> pitches;
+        final Pageable pageable = PageRequest.of(page, perPage);
+
+        pitches = pitchPaginationRepository.pitches(location.getLatitude() - 0.0015, location.getLatitude() + 0.0015, location.getLongitude() - 0.0015, location.getLongitude() + 0.0015, pageable);
+        Long numPitches = pitchPaginationRepository.pitches(location.getLatitude() - 0.0015, location.getLatitude() + 0.0015, location.getLongitude() - 0.0015, location.getLongitude() + 0.0015);
+        mav.addObject("pitches", pitches);
+        mav.addObject("currentPage", page);
+        mav.addObject("totalPage", numPitches / PitchPaginationRepository.PER_PAGE);
+        mav.addObject("perPage", PitchPaginationRepository.PER_PAGE);
+        mav.addObject("search", search);
+        mav.setViewName("/pitch/searched");
+        System.out.println(pitches.toString());
+        return mav;
+    }
+
 
 
 }
