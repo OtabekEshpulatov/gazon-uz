@@ -9,13 +9,8 @@
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="/css/pitch/create.css">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
-          integrity="sha512-EKqky6Uvk/6o8mvy5K5F5m5mzuv1x5knKjJQD9Z83PvOtV+kf/LA14G7V/CyQLbPv7F+d0M8n4e4dJPt4JvKjg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" id="bootstrap-css">
 
 </head>
 <body>
@@ -25,16 +20,14 @@
     <h3 style="text-align: center">ADD PITCH</h3>
     <fieldset>
         <!-- Form Name -->
-        <div class="main_header">
-        </div>
-        <!-- Text input-->
         <div class="form-group">
             <label class="col-md-4 control-label" for="pitch_name">PITCH NAME</label>
             <div class="col-md-4">
-                <input type="text" id="pitch_name" name="name" th:field="*{name}" placeholder="PITCH NAME" class="form-control input-md" required>  <br>
-<!--                  <span th:if="${#fields.hasErrors('pitch.min.name.size')}">-->
-<!--                    <li th:each="er:${#fields.errors('name')}" th:text="${#messages.msg(er,'8','100')}" class="red"></li>-->
-<!--                  </span>-->
+                <input type="text" id="pitch_name" name="name" th:field="*{name}" placeholder="PITCH NAME"
+                       class="form-control input-md" required> <br>
+                <!--                  <span th:if="${#fields.hasErrors('pitch.min.name.size')}">-->
+                <!--                    <li th:each="er:${#fields.errors('name')}" th:text="${#messages.msg(er,'8','100')}" class="red"></li>-->
+                <!--                  </span>-->
             </div>
         </div>
 
@@ -51,12 +44,15 @@
         </div>
 
         <div class="form-group">
-            <label class="col-md-4 control-label" for="pitch-price">Hourly price (sum)</label>
+            <label class="col-md-4 control-label" for="pitch-price">Phone Number</label>
             <div class="col-md-4">
-                <input id="pitch-price" name="price" th:field="*{price}" placeholder="115000" class="form-control input-md"  required type="number">
+                <input id="pitch-price" name="price" th:field="*{price}" placeholder="115000"
+                        class="form-control input-md" required type="number">
             </div>
         </div>
-        <div class="form-group">
+
+
+       <div class="form-group">
             <label class="col-md-4 control-label" for="phone-number">Phone Number</label>
             <div class="col-md-4">
                 <input id="phone-number" name="phoneNumber" th:field="*{phoneNumber}" placeholder="991212233"
@@ -67,38 +63,31 @@
         <!------------------------>
 
         <div class="form-group">
-            <label class="col-md-4 control-label">District</label>
+            <label class="col-md-4 control-label" for="region">Region:</label>
             <div class="col-md-4">
-                <!-- ============= header start ============== -->
-                <div class="dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-auto-close="outside" href="#" id="navbarDropdown"
-                       role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Regions
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li th:each="region :${regions}">
-                            <a class="dropdown-item dropdown-toggle" data-bs-auto-close="outside"
-                               data-bs-toggle="dropdown"
-                               id="inner-dropdown">
-                                [[${region.getName()}]] &raquo;
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li th:each="district :${region.getDistricts()}">
-                                    <a class="dropdown-item" role="button"
-                                       onclick="document.getElementById('district-id').value='[[${district.getId()}]]'">
-                                        [[${district.getName()}]]
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <input type="hidden" id="district-id" name="districtId" th:value="*{districtId}" />
+                <select id="region" name="region" onchange="loadDistricts()" required>
+                    <option value="">Select Region</option>
+                    <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
+                </select>
             </div>
         </div>
+        <!--    end choose region-->
+        <!--    start choose district-->
 
-        <!--    end chpise region-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="district">District:</label>
+            <div class="col-md-4">
+                <select id="district" name="district" disabled required>
+                    <option value="">Select District</option>
+                    <option th:each="district : ${districts}" th:value="${district.id}"
+                            th:text="${district.name}"></option>
+                </select>
+            </div>
+        </div>
+        <input id="inputDistrict" name="districtId" type="hidden">
+
+        <!--    end choose district-->
+
 
         <div class="form-group">
             <label class="col-md-4 control-label" for="full-address">Pitch full adress</label>
@@ -112,42 +101,63 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="file_picture_button">PITCH_IMAGE</label>
             <div class="col-md-4">
-                <input id="file_picture_button" required type="file" multiple="multiple" name="documents" th:field="*{documents}"/>
+                <input id="file_picture_button" required type="file" multiple="multiple" name="documents"
+                       th:field="*{documents}"/>
             </div>
         </div>
         <!-- Button -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="singlebutton">BUTTONS</label>
+            <label class="col-md-4 control-label" for="singleButton">BUTTONS</label>
             <div class="col-md-4">
-                <button id="singlebutton" type="submit" name="singlebutton" class="btn btn-success">SAVE PITCH</button>
+                <button id="singleButton" type="submit" name="singleButton" class="btn btn-success">SAVE PITCH</button>
                 ||
                 <a href="/user/home" class="btn btn-danger">Back</a>
             </div>
         </div>
-
     </fieldset>
 </form>
-
 
 <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/js/pitch/dropdown.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script th:inline="javascript">
+    function loadDistricts() {
+        var regionId = document.getElementById("region").value;
+        var districtSelect = document.getElementById("district");
+        districtSelect.disabled = true;
+        districtSelect.innerHTML = "<option value=''>Loading...</option>";
+        if (regionId === "") {
+            districtSelect.innerHTML = "<option value=''>Select District</option>";
+            return;
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let districts = JSON.parse(xhr.responseText);
+                districtSelect.innerHTML = "<option value=''>Select District</option>";
+                for (let i = 0; i < districts.length; i++) {
+                    let district = districts[i];
+                    let option = document.createElement("option");
+                    option.value = district.id;
+                    option.text = district.name;
+                    districtSelect.appendChild(option);
+                }
 
-
-<!-- Bootstrap JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"
-        integrity="sha512-AsQHw4y4ey4d6uIzV1cdTQOaXrIkLstgDNfOzkE1jlTRw1m/mAzhdYswezfc+yhveNkxP8dwZzbCMTt1KM0tGw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-
-
-<script>
-    function setDistrictId(districtId) {
-        document.getElementById('districtId').value = districtId;
+                districtSelect.disabled = false;
+            }
+        };
+        xhr.open("GET", "/pitch/districts/" + encodeURIComponent(regionId), true);
+        xhr.send();
     }
 </script>
+<script>
+    document.getElementById("district")
+        .addEventListener("change", ev => {
+            document.getElementById("inputDistrict").value = ev.target.value;
+        })
+</script>
+
 
 </body>
 </html>

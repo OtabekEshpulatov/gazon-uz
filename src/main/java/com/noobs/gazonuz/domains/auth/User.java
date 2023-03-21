@@ -1,10 +1,12 @@
 package com.noobs.gazonuz.domains.auth;
 
-import com.noobs.gazonuz.domains.*;
+import com.noobs.gazonuz.domains.BaseEntity;
+import com.noobs.gazonuz.domains.Comment;
+import com.noobs.gazonuz.domains.Order;
+import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.enums.AuthUserStatus;
 import com.noobs.gazonuz.enums.Languages;
 import jakarta.persistence.*;
-import jakarta.persistence.GeneratedValue;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -73,7 +75,7 @@ public class User implements BaseEntity {
 
 
     @Column( name = "is_email_notifications_allowed" )
-    private boolean isEmailNotificationsAllowed = false;
+    private Boolean isEmailNotificationsAllowed = false;
 
 
     public String getRolesAsString() {

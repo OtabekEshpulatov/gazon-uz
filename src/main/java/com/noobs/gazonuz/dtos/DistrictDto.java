@@ -1,14 +1,15 @@
 package com.noobs.gazonuz.dtos;
 
-import com.noobs.gazonuz.domains.location.Region;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DistrictDto {
     String id;
     String name;

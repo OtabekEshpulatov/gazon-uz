@@ -12,16 +12,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity( prePostEnabled = true, securedEnabled = true
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true
         /*jsr250Enabled = true*/
 )
 public class SecurityConfigurer {
 
-    public static final String[] WHITE_LIST = {"/css/**" , "/js/**" , "/pitch/districts/**","auth/login" , "/auth/register" , "/home" ,};
+    public static final String[] WHITE_LIST = {"/css/**", "/js/**", "/pitch/districts/**", "/auth/login", "/auth/register", "/home",};
     private final AuthUserDetailsService authUserDetailsService;
     private final AuthenticationFailureHandler authenticationFailureHandler;
-
-
 
 
     @Bean
@@ -42,15 +40,15 @@ public class SecurityConfigurer {
                                 .loginProcessingUrl("/auth/login")
                                 .usernameParameter("uname")
                                 .passwordParameter("pswd")
-                                .defaultSuccessUrl("/home" , false)
+                                .defaultSuccessUrl("/home", false)
                                 .failureHandler(authenticationFailureHandler)
                 )
                 .logout(httpSecurityLogoutConfigurer ->
                         httpSecurityLogoutConfigurer
                                 .logoutUrl("/auth/logout")
                                 .clearAuthentication(true)
-                                .deleteCookies("JSESSIONID" , "rememberME")
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout" , "POST"))
+                                .deleteCookies("JSESSIONID", "rememberME")
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
                 )
                 .userDetailsService(authUserDetailsService)
                 .rememberMe(httpSecurityRememberMeConfigurer ->

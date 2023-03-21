@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PitchRepository extends JpaRepository<Pitch, String> {
     @Query( "select count(p) from Pitch p where p.user.username ilike ?1 and p.status=?2" )

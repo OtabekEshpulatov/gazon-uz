@@ -1,7 +1,6 @@
 package com.noobs.gazonuz.controllers;
 
 import com.noobs.gazonuz.domains.Pitch;
-import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.handler.CustomRuntimeException;
 import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping( "/pitchInfo" )

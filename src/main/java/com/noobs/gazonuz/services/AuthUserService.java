@@ -34,8 +34,8 @@ public class AuthUserService {
         final boolean exist = authUserRepository.existsByUsernameIgnoreCaseAllIgnoreCase(dto.getUsername());
         final Set<ConstraintViolation<UserCreatedDto>> validate = authValidator.validate(dto);
 
-        if ( exist ) {
-            return new Response<>(validate , "username already exists" , "" , false);
+        if (exist) {
+            return new Response<>(validate, "username already exists", "", false);
         }
 
 //        if(validate)
@@ -72,10 +72,10 @@ public class AuthUserService {
 
         final User user = authUserRepository.findById(dto.id()).orElse(null);
 
-        if ( Objects.nonNull(user) ) {
+        if (Objects.nonNull(user)) {
             user.setLanguage(dto.language());
-            user.setEmailNotificationsAllowed(Objects.nonNull(dto.IsEmailNotificationsAllowed()) &&
-                                              dto.IsEmailNotificationsAllowed().equals("on"));
+            user.setIsEmailNotificationsAllowed(Objects.nonNull(dto.IsEmailNotificationsAllowed()) &&
+                    dto.IsEmailNotificationsAllowed().equals("on"));
             authUserRepository.save(user);
         }
         return user;
