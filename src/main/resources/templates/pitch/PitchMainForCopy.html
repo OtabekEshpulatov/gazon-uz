@@ -2942,7 +2942,7 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                                                     <span _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted" th:if="*{isAvl} and ${@pitchService.checkBooked(i,k,pitch.getId())}">
                                                         [[${pitch.getPrice()}]] sum
                                                     </span>
-                                                    <span _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted" th:unless="${@pitchService.checkBooked(i,k,pitch.getId())}">
+                                                    <span _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted" th:if="*{isAvl} and not ${@pitchService.checkBooked(i,k,pitch.getId())}">
                                                         booked
                                                     </span>
                                                 </div>
