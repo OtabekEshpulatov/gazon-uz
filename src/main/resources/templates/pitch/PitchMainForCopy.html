@@ -2933,14 +2933,17 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                         <div _ngcontent-sc27="" class="scroll-container">
                                     <section class="carousel">
                                     <div class="custom-carousel-item" th:each="i : ${#numbers.sequence(1, 24)}">
-                                        <div _ngcontent-sc27="" th:each="k : ${#numbers.sequence(1, 7)}" class="custom-item-child mlp-slot rounded" th:object="${@pitchService.findDateInterval(i,k)}" th:classappend="${@pitchService.findDateInterval(i,k).getIsAvl() ? 'mlp-slot-avail':'mlp-slot-na'}">
+                                        <div _ngcontent-sc27="" th:each="k : ${#numbers.sequence(1, 7)}" class="custom-item-child mlp-slot rounded" th:object="${@pitchService.findDateInterval(i,k)}" th:classappend="${@pitchService.findDateInterval(i,k).getIsAvl() ? (@pitchService.checkBooked(i,k,pitch.getId())?'mlp-slot-avail':'mlp-slot-booked'):'mlp-slot-na'}">
                                             <div _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted">
                                                 <div _ngcontent-sc27="" class="mlp-line-one">
                                                     [[*{message}]]
                                                 </div>
                                                 <div _ngcontent-sc27="" class="mlp-line-two">
-                                                    <span _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted" th:if="*{isAvl}">
+                                                    <span _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted" th:if="*{isAvl} and ${@pitchService.checkBooked(i,k,pitch.getId())}">
                                                         [[${pitch.getPrice()}]] sum
+                                                    </span>
+                                                    <span _ngcontent-sc27="" class="ng-tns-c27-1 ng-star-inserted" th:if="*{isAvl} and not ${@pitchService.checkBooked(i,k,pitch.getId())}">
+                                                        booked
                                                     </span>
                                                 </div>
                                             </div>
