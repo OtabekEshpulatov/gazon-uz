@@ -8,6 +8,7 @@ import com.noobs.gazonuz.dtos.PitchCreateDTO;
 import com.noobs.gazonuz.mappers.DistrictMapper;
 import com.noobs.gazonuz.services.AddressService;
 import com.noobs.gazonuz.services.PitchService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -40,12 +41,12 @@ public class PitchController {
 
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("pitch") PitchCreateDTO dto, BindingResult bindingResult) {
+    public String create(@Valid @ModelAttribute("pitch") PitchCreateDTO dto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.err.println(bindingResult.getAllErrors());
             return "/pitch/create";
         }
-        pitchService.savePitch(dto, userSession.getUser());
+//        pitchService.savePitch(dto, userSession.getUser());
         return "redirect:/home";
     }
 

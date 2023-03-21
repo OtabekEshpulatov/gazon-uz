@@ -25,9 +25,12 @@
             <div class="col-md-4">
                 <input type="text" id="pitch_name" name="name" th:field="*{name}" placeholder="PITCH NAME"
                        class="form-control input-md" required> <br>
-                <!--                  <span th:if="${#fields.hasErrors('pitch.min.name.size')}">-->
-                <!--                    <li th:each="er:${#fields.errors('name')}" th:text="${#messages.msg(er,'8','100')}" class="red"></li>-->
-                <!--                  </span>-->
+                    <span class="invalid-input" th:if="${#fields.hasErrors('pitch.min.name.size')}"
+                          th:text="${#messages.msg(#fields.errors('name'),8,100)}" >
+                    </span>
+
+                <!--<span class="invalid-input" th:if="${#fields.hasErrors('email')}"
+                      th:text="${#messages.msg(#fields.errors('email'))}"></span>-->
             </div>
         </div>
 
@@ -47,12 +50,12 @@
             <label class="col-md-4 control-label" for="pitch-price">Phone Number</label>
             <div class="col-md-4">
                 <input id="pitch-price" name="price" th:field="*{price}" placeholder="115000"
-                        class="form-control input-md" required type="number">
+                       class="form-control input-md" required type="number">
             </div>
         </div>
 
 
-       <div class="form-group">
+        <div class="form-group">
             <label class="col-md-4 control-label" for="phone-number">Phone Number</label>
             <div class="col-md-4">
                 <input id="phone-number" name="phoneNumber" th:field="*{phoneNumber}" placeholder="991212233"
