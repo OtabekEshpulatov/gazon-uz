@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.StringJoiner;
 
 @Entity
 @Getter
@@ -38,9 +39,9 @@ public class User implements BaseEntity {
     @Column( columnDefinition = "varchar default 'INACTIVE'" )
     @Builder.Default
     private AuthUserStatus status = AuthUserStatus.INACTIVE;
-    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
+/*    @OneToOne( cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "user" )
 //    @ToString.Exclude
-    private Document document;
+    private Document document;*/
     @CreationTimestamp
     @Column( columnDefinition = "timestamp default now()" )
     private LocalDateTime createdAt;
@@ -69,6 +70,19 @@ public class User implements BaseEntity {
 
     @Builder.Default
     private Languages language = Languages.UZBEK;
+
+
+    @Column( name = "is_email_notifications_allowed" )
+    private boolean isEmailNotificationsAllowed = false;
+
+
+    public String getRolesAsString() {
+        var stj = new StringJoiner(", " , "" , "");
+        for ( Role role : roles ) {
+            stj.add(role.getName());
+        }
+        return stj.toString();
+    }
 
 
 }

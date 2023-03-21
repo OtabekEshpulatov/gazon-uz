@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Region and District Example</title>
+</head>
+<body>
+<form th:object="${pitch}" method="post" >
+    <label for="region">Region:</label>
+    <select id="region" name="region" onchange="loadDistricts()">
+        <option value="">Select Region</option>
+        <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
+    </select>
+    <br/><br/>
+
+    <label for="district">District:</label>
+    <select id="district" name="district" disabled>
+        <option value="">Select District</option>
+        <option th:each="district : ${districts}" th:value="${district.id}" th:text="${district.name}"></option>
+    </select>
+    <br/><br/>
+
+    <input type="submit" value="Submit"/>
+</form>
+
+<script th:inline="javascript">
+    function loadDistricts() {
+        var regionId = document.getElementById("region").value;
+        var districtSelect = document.getElementById("district");
+        districtSelect.disabled = true;
+        districtSelect.innerHTML = "<option value=''>Loading...</option>";
+        if (regionId === "") {
+            districtSelect.innerHTML = "<option value=''>Select District</option>";
+            return;
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let districts = JSON.parse(xhr.responseText);
+                districtSelect.innerHTML = "<option value=''>Select District</option>";
+                for (let i = 0; i < districts.length; i++) {
+                    let district = districts[i];
+                    let option = document.createElement("option");
+                    option.value = district.id;
+                    option.text = district.name;
+                    districtSelect.appendChild(option);
+                }
+
+                districtSelect.disabled = false;
+            }
+        };
+        xhr.open("GET", "/pitch/districts/" + encodeURIComponent(regionId), true);
+        xhr.send();
+    }
+</script>
+</body>
+</html>

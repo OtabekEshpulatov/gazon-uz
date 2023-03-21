@@ -46,7 +46,7 @@ function clickRight(carousel, rectList) {
 }
 
 function listRectCarousel(carouselNumber, carousels) {
-  let divs = carousels[carouselNumber].getElementsByClassName("carousel-item");
+  let divs = carousels[carouselNumber].getElementsByClassName("custom-carousel-item");
   let rectList = [];
   let rectGauche = carousels[carouselNumber].getBoundingClientRect().left;
 
@@ -74,6 +74,7 @@ function autoSlidePosRight(carouselNumber, carousels, rightArrows) {
     clickRight(carousels[carouselNumber], rectList);
   });
 }
+
 
 window.onload = () => {
   let leftArrows = document.getElementsByClassName("left-arrow");
