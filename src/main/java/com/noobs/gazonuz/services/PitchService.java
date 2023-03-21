@@ -3,6 +3,7 @@ package com.noobs.gazonuz.services;
 
 import com.noobs.gazonuz.configs.properties.ApplicationProperties;
 import com.noobs.gazonuz.domains.Document;
+import com.noobs.gazonuz.domains.Order;
 import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
@@ -10,6 +11,7 @@ import com.noobs.gazonuz.dtos.PitchCreateDTO;
 import com.noobs.gazonuz.dtos.PitchOrderTimeDTO;
 import com.noobs.gazonuz.dtos.upload.DocumentCreateDTO;
 import com.noobs.gazonuz.enums.PitchStatus;
+import com.noobs.gazonuz.repositories.OrderDAO;
 import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class PitchService {
     private final PitchRepository pitchRepository;
     private final AddressService addressService;
     private final DocumentService documentService;
+    private final OrderDAO orderDAO;
     private final EmailService emailService;
 
     private final ApplicationProperties properties;
@@ -155,5 +157,19 @@ public class PitchService {
 
         });
 
+    }
+
+    public Boolean checkBooked(long i, long k, String pitchId){
+        List<Order> orderList = orderDAO.findAllAcceptedOrdersByPitchId(pitchId);
+        LocalDate localDate = LocalDate.now(ZoneId.of("Asia/Tashkent"));
+        LocalTime localTime = LocalTime.MIDNIGHT;
+        LocalDateTime currentDate = LocalDateTime.of(localDate,localTime).plusDays(k-1).plusHours(i-1);
+        for (Order order : orderList) {
+            if (order.getStartTime().isBefore(currentDate.plusMinutes(5)) &&
+                    order.getStartTime().plusMinutes(order.getMinutes()).isAfter(currentDate)){
+                return false;
+            }
+        }
+        return true;
     }
 }
