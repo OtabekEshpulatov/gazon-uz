@@ -34,7 +34,7 @@ public class PitchDTO {
 
     @ValidPrice(message = "pitch.price.is.not.valid")
     private double price;
-    @Pattern(regexp = "[0-9]{3}-[0-9]{3}-[0-9]{4}", message = "phone.number.is.invalid")
+    @Pattern(regexp = "[0-9]{9}", message = "phone.number.is.invalid")
     private String phoneNumber;
     @Positive(message = "pitch.district.select")
     private String districtId;

@@ -39,13 +39,17 @@ public class PitchController {
 
 
     @PostMapping("/create")
-    public String create(@Valid @ModelAttribute("pitch") PitchDTO dto, BindingResult bindingResult) {
+    public ModelAndView create(@Valid @ModelAttribute("pitch") PitchDTO dto, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             System.err.println(bindingResult.getAllErrors());
-            return "/pitch/create";
+            modelAndView.addObject("regions", addressService.getRegion());
+            modelAndView.setViewName("/pitch/create");
+            return modelAndView;
         }
         pitchService.savePitch(dto, userSession.getUser());
-        return "redirect:/home";
+        modelAndView.setViewName("redirect:/home");
+        return modelAndView;
     }
 
     @GetMapping("/update")

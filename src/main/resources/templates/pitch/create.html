@@ -83,11 +83,10 @@
 
         <!--    end choose region-->
         <!--    start choose district-->
-
         <div class="form-group">
             <label class="col-md-4 control-label" for="district">District:</label>
             <div class="col-md-4">
-                <select id="district" name="district" disabled required>
+                <select id="district" name="district" disabled required  th:value="districts">
                     <option value="">Select District</option>
                     <option th:each="district : ${districts}" th:value="${district.id}"> th:text="${district.name}"> </option>
                 </select>
@@ -111,7 +110,7 @@
             <label class="col-md-4 control-label" for="file_picture_button">PITCH_IMAGE</label>
             <div class="col-md-4">
                 <input id="file_picture_button" required type="file" multiple="multiple" name="documents"
-                       th:field="*{documents}"/>
+                       th:value="*{documents}" th:field="*{documents}"/>
             </div>
         </div>
         <!-- Button -->
