@@ -1,8 +1,5 @@
 package com.noobs.gazonuz.mappers;
 
-import com.noobs.gazonuz.configs.security.UserSession;
-import com.noobs.gazonuz.domains.Pitch;
-import com.noobs.gazonuz.dtos.PitchCreateDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -1,7 +1,5 @@
 package com.noobs.gazonuz.utils;
 
-import io.micrometer.observation.Observation;
-
 import java.time.format.DateTimeFormatter;
 
 public class Utils {

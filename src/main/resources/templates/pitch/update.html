@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Add Pitch</title>
+    <title>Update Pitch</title>
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
@@ -17,7 +17,7 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <form class="form-horizontal" method="post" th:object="${pitch}" enctype="multipart/form-data">
-    <h3 style="text-align: center">ADD PITCH</h3>
+    <h3 style="text-align: center">Update PITCH</h3>
     <fieldset>
         <!-- Form Name -->
         <div class="form-group">
@@ -83,10 +83,11 @@
 
         <!--    end choose region-->
         <!--    start choose district-->
+
         <div class="form-group">
             <label class="col-md-4 control-label" for="district">District:</label>
             <div class="col-md-4">
-                <select id="district" name="district" disabled required  th:value="districts">
+                <select id="district" name="district" disabled required>
                     <option value="">Select District</option>
                     <option th:each="district : ${districts}" th:value="${district.id}"> th:text="${district.name}"> </option>
                 </select>
@@ -110,14 +111,14 @@
             <label class="col-md-4 control-label" for="file_picture_button">PITCH_IMAGE</label>
             <div class="col-md-4">
                 <input id="file_picture_button" required type="file" multiple="multiple" name="documents"
-                       th:value="*{documents}" th:field="*{documents}"/>
+                       th:field="*{documents}"/>
             </div>
         </div>
         <!-- Button -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="singleButton">BUTTONS</label>
             <div class="col-md-4">
-                <button id="singleButton" type="submit" name="singleButton" class="btn btn-success">SAVE PITCH</button>
+                <button id="singleButton" type="submit" name="singleButton" class="btn btn-success">UPDATE PITCH</button>
                 ||
                 <a href="/user/home" class="btn btn-danger">Back</a>
             </div>

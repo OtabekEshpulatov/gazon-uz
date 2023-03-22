@@ -21,6 +21,6 @@ public @interface ValidPrice {
 
     Class<? extends Payload>[] payload() default {};
 
-    String message() default "{pitch.price.is.not.valid}";
+    String message();
 
 }
