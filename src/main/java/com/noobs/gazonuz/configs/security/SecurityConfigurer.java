@@ -12,12 +12,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true
+@EnableMethodSecurity( prePostEnabled = true, securedEnabled = true
         /*jsr250Enabled = true*/
 )
 public class SecurityConfigurer {
 
-    public static final String[] WHITE_LIST = {"/css/**", "/js/**","/img/**", "/pitch/districts/**", "/auth/login", "/auth/register", "/home",};
+    public static final String[] WHITE_LIST = {"/css/**" , "/js/**" , "/pitch/districts/**","/auth/login" , "/auth/register","/pitch/searched" , "/home"};
     private final AuthUserDetailsService authUserDetailsService;
     private final AuthenticationFailureHandler authenticationFailureHandler;
 

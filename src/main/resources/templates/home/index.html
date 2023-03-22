@@ -123,7 +123,6 @@
             elem2.value = position.coords.longitude;
             console.log(elem1.value);
             console.log(elem2.value);
-
             $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + ',' + position.coords.longitude + '&key=AIzaSyAandusjfdlwecXwtMD9RdIlNmC1mrQJaQ', function (data) {
                 var elem = document.getElementById("address");
                 console.log(data);

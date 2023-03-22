@@ -1,10 +1,17 @@
 package com.noobs.gazonuz.controllers;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.noobs.gazonuz.configs.security.UserSession;
 import com.noobs.gazonuz.domains.Pitch;
+import com.noobs.gazonuz.domains.location.District;
+import com.noobs.gazonuz.domains.location.Location;
 import com.noobs.gazonuz.dtos.DistrictDto;
 import com.noobs.gazonuz.dtos.PitchDTO;
+import com.noobs.gazonuz.mappers.DistrictMapper;
+import com.noobs.gazonuz.repositories.PitchPaginationRepository;
+import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import com.noobs.gazonuz.services.AddressService;
 import com.noobs.gazonuz.services.PitchService;
 import jakarta.validation.Valid;
@@ -15,16 +22,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-@AllArgsConstructor
 @Controller
 @RequestMapping("/pitch")
+@AllArgsConstructor
 public class PitchController {
     private final PitchService pitchService;
     private final UserSession userSession;
     private final AddressService addressService;
+
+    private final DistrictMapper districtMapper;
+    private final PitchRepository pitchRepository;
+    private final PitchPaginationRepository pitchPaginationRepository;
 
 
     @GetMapping("/create")
@@ -81,6 +93,30 @@ public class PitchController {
 
         throw new RuntimeException("my ex");
 //        return pitchService.getPitches(latitude , longitude);
+    }
+
+    @GetMapping("/searched")
+    public ModelAndView searchUsers(@RequestParam(name = "page", defaultValue = "0") int page,
+                                    @RequestParam(name = "perPage", defaultValue = "10") int perPage,
+                                    @RequestParam(name = "search", defaultValue = "") String search,
+                                    @ModelAttribute Location location) {
+
+        //to PitchService connection
+        List<Pitch> searchedPitches = pitchService.getSearchedPitches(location, page, perPage, search);
+        long numPitches = pitchService.getSize(location, search);
+        // end PitchService connection
+
+        //mav preparation
+        var mav = new ModelAndView();
+        mav.addObject("pitches", searchedPitches);
+        mav.addObject("currentPage", page);
+        mav.addObject("totalPage", numPitches / PitchPaginationRepository.PER_PAGE);
+        mav.addObject("perPage", PitchPaginationRepository.PER_PAGE);
+        mav.addObject("search", search);
+        mav.setViewName("/pitch/searched");
+        //end mav preparation
+
+        return mav;
     }
 
 

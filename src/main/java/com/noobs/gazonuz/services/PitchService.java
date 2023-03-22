@@ -7,14 +7,21 @@ import com.noobs.gazonuz.domains.Order;
 import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
+import com.noobs.gazonuz.domains.location.Location;
 import com.noobs.gazonuz.dtos.PitchDTO;
 import com.noobs.gazonuz.dtos.PitchOrderTimeDTO;
 import com.noobs.gazonuz.dtos.upload.DocumentCreateDTO;
 import com.noobs.gazonuz.enums.PitchStatus;
 import com.noobs.gazonuz.repositories.OrderDAO;
+import com.noobs.gazonuz.repositories.PitchPaginationRepository;
 import com.noobs.gazonuz.repositories.pitch.PitchRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -26,7 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PitchService {
 
     private final PitchRepository pitchRepository;
@@ -34,9 +41,8 @@ public class PitchService {
     private final DocumentService documentService;
     private final OrderDAO orderDAO;
     private final EmailService emailService;
-
     private final ApplicationProperties properties;
-
+    private final PitchPaginationRepository pitchPaginationRepository;
 
     public boolean savePitch(PitchDTO dto, User user) {
 
@@ -165,6 +171,20 @@ public class PitchService {
         });
 
     }
+
+
+    public List<Pitch> getSearchedPitches(Location location, int page, int perPage, String search) {
+        String searchBy = "%" + search + "%";
+        final Pageable pageable = PageRequest.of(page, perPage);
+        return pitchPaginationRepository.pitches(searchBy, location.getLatitude() - 0.0015, location.getLatitude() + 0.0015, location.getLongitude() - 0.0015, location.getLongitude() + 0.0015, pageable);
+    }
+
+
+    public long getSize(Location location, String search) {
+        String searchBy = "%" + search + "%";
+        return pitchPaginationRepository.pitchesCount(searchBy, location.getLatitude() - 0.0015, location.getLatitude() + 0.0015, location.getLongitude() - 0.0015, location.getLongitude() + 0.0015);
+    }
+
 
     public Boolean checkBooked(long i, long k, String pitchId) {
         List<Order> orderList = orderDAO.findAllAcceptedOrdersByPitchId(pitchId);
