@@ -1,15 +1,8 @@
 package com.noobs.gazonuz;
 
 import com.google.gson.Gson;
-import com.noobs.gazonuz.UserTest;
-import com.noobs.gazonuz.domains.Pitch;
 import lombok.RequiredArgsConstructor;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Date;
-import java.util.Properties;
 
 @RequiredArgsConstructor
 public class Main {
