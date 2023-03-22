@@ -2,14 +2,16 @@ package com.noobs.gazonuz.controllers;
 
 import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.domains.auth.User;
+import com.noobs.gazonuz.dtos.OrderCreateDTO;
 import com.noobs.gazonuz.handler.CustomRuntimeException;
 import com.noobs.gazonuz.repositories.pitch.PitchRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -49,5 +51,18 @@ public class PitchPostController {
         } else {
             throw new CustomRuntimeException("Page not found");
         }
+    }
+    @PostMapping("/orderSend")
+    public String create(@Valid @ModelAttribute() OrderCreateDTO dto, BindingResult bindingResult) {
+
+//        ModelAndView modelAndView = new ModelAndView();
+//        if (bindingResult.hasErrors()) {
+//            System.err.println(bindingResult.getAllErrors());
+//            modelAndView.setViewName("/pitch/create");
+//            return modelAndView;
+//        }
+//        pitchService.savePitch(dto, userSession.getUser());
+//        modelAndView.setViewName("redirect:pitch/PitchMainForCopy");
+        return "pitch/PitchMainForCopy";
     }
 }
