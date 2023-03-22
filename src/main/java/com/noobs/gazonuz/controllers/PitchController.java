@@ -4,8 +4,7 @@ package com.noobs.gazonuz.controllers;
 import com.noobs.gazonuz.configs.security.UserSession;
 import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.dtos.DistrictDto;
-import com.noobs.gazonuz.dtos.PitchCreateDTO;
-import com.noobs.gazonuz.mappers.DistrictMapper;
+import com.noobs.gazonuz.dtos.PitchDTO;
 import com.noobs.gazonuz.services.AddressService;
 import com.noobs.gazonuz.services.PitchService;
 import jakarta.validation.Valid;
@@ -28,11 +27,10 @@ public class PitchController {
     private final AddressService addressService;
 
 
-
     @GetMapping("/create")
     public ModelAndView createPitch(@RequestParam(name = "eror", required = false) String error, ModelAndView modelAndView) {
         modelAndView.addObject("error", error);
-        modelAndView.addObject("pitch", new PitchCreateDTO());
+        modelAndView.addObject("pitch", new PitchDTO());
         modelAndView.addObject("regions", addressService.getRegion());
         modelAndView.addObject("districts", new DistrictDto());
         modelAndView.setViewName("/pitch/create");
@@ -41,13 +39,27 @@ public class PitchController {
 
 
     @PostMapping("/create")
-    public String create(@Valid @ModelAttribute("pitch") PitchCreateDTO dto, BindingResult bindingResult) {
+    public String create(@Valid @ModelAttribute("pitch") PitchDTO dto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.err.println(bindingResult.getAllErrors());
             return "/pitch/create";
         }
-//        pitchService.savePitch(dto, userSession.getUser());
+        pitchService.savePitch(dto, userSession.getUser());
         return "redirect:/home";
+    }
+
+    @GetMapping("/update")
+    public ModelAndView updatePitch(@RequestParam String pitchId) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject(pitchService.getPitch(pitchId));
+        modelAndView.setViewName("/pitch/update");
+        return modelAndView;
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute PitchDTO dto) {
+        pitchService.updatePitch(dto);
+        return "redirect:/user/home";
     }
 
 

@@ -7,7 +7,7 @@ import com.noobs.gazonuz.domains.Order;
 import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
-import com.noobs.gazonuz.dtos.PitchCreateDTO;
+import com.noobs.gazonuz.dtos.PitchDTO;
 import com.noobs.gazonuz.dtos.PitchOrderTimeDTO;
 import com.noobs.gazonuz.dtos.upload.DocumentCreateDTO;
 import com.noobs.gazonuz.enums.PitchStatus;
@@ -38,7 +38,7 @@ public class PitchService {
     private final ApplicationProperties properties;
 
 
-    public boolean savePitch(PitchCreateDTO dto, User user) {
+    public boolean savePitch(PitchDTO dto, User user) {
 
 
         ArrayList<Document> docs = new ArrayList<>();
@@ -65,9 +65,15 @@ public class PitchService {
         pitchRepository.save(pitch);
         return true;
     }
+
     public List<Pitch> getPitches(String latitude, String longitude) {
         return pitchRepository.findAll();
     }
+
+    public Pitch getPitch(String pitchId) {
+        return pitchRepository.getPitch(pitchId);
+    }
+
 
     public static String daySuffix(String day) {
         int dayInt = Integer.parseInt(day);
@@ -160,17 +166,25 @@ public class PitchService {
 
     }
 
-    public Boolean checkBooked(long i, long k, String pitchId){
+    public Boolean checkBooked(long i, long k, String pitchId) {
         List<Order> orderList = orderDAO.findAllAcceptedOrdersByPitchId(pitchId);
         LocalDate localDate = LocalDate.now(ZoneId.of("Asia/Tashkent"));
         LocalTime localTime = LocalTime.MIDNIGHT;
-        LocalDateTime currentDate = LocalDateTime.of(localDate,localTime).plusDays(k-1).plusHours(i-1);
+        LocalDateTime currentDate = LocalDateTime.of(localDate, localTime).plusDays(k - 1).plusHours(i - 1);
         for (Order order : orderList) {
             if (order.getStartTime().isBefore(currentDate.plusMinutes(5)) &&
-                    order.getStartTime().plusMinutes(order.getMinutes()).isAfter(currentDate)){
+                    order.getStartTime().plusMinutes(order.getMinutes()).isAfter(currentDate)) {
                 return false;
             }
         }
         return true;
+    }
+
+    public List<Pitch> getPitchesByDistrict(String districtId) {
+        return pitchRepository.findByDistrict(addressService.getDistrictById(districtId));
+    }
+
+    public void updatePitch(PitchDTO dto) {
+
     }
 }

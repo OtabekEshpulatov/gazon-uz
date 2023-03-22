@@ -1,4 +1,4 @@
-package com.noobs.gazonuz.domains;
+package com.noobs.gazonuz.domains.location;
 
 import jakarta.persistence.Entity;
 import lombok.*;
