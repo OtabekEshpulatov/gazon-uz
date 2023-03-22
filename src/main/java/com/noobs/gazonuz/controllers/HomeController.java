@@ -1,15 +1,16 @@
 package com.noobs.gazonuz.controllers;
 
-import com.noobs.gazonuz.domains.location.District;
 import com.noobs.gazonuz.domains.location.Location;
 import com.noobs.gazonuz.dtos.DistrictDto;
 import com.noobs.gazonuz.services.AddressService;
 import com.noobs.gazonuz.services.AuthUserService;
 import com.noobs.gazonuz.services.PitchService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller

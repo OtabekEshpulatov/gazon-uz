@@ -75,7 +75,7 @@ public class User implements BaseEntity {
 
 
     @Column( name = "is_email_notifications_allowed" )
-    private Boolean isEmailNotificationsAllowed = false;
+    private boolean isEmailNotificationsAllowed ;
 
 
     public String getRolesAsString() {

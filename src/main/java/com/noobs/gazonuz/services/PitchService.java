@@ -16,12 +16,9 @@ import com.noobs.gazonuz.repositories.OrderDAO;
 import com.noobs.gazonuz.repositories.PitchPaginationRepository;
 import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import lombok.AllArgsConstructor;
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -146,7 +143,7 @@ public class PitchService {
             final User user = pitch.getUser();
             final String email = user.getEmail();
 
-            if (user.getIsEmailNotificationsAllowed()) {
+            if (user.isEmailNotificationsAllowed()) {
                 switch (status) {
                     case BLOCKED -> {
                         final String messageBody = properties.getProperties().getProperty("pitch.status.blocked.message.body").formatted(pitch.getCreatedAt());

@@ -74,7 +74,7 @@ public class AuthUserService {
 
         if (Objects.nonNull(user)) {
             user.setLanguage(dto.language());
-            user.setIsEmailNotificationsAllowed(Objects.nonNull(dto.IsEmailNotificationsAllowed()) &&
+            user.setEmailNotificationsAllowed(Objects.nonNull(dto.IsEmailNotificationsAllowed()) &&
                     dto.IsEmailNotificationsAllowed().equals("on"));
             authUserRepository.save(user);
         }

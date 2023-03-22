@@ -1,11 +1,8 @@
 package com.noobs.gazonuz.controllers;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.noobs.gazonuz.configs.security.UserSession;
 import com.noobs.gazonuz.domains.Pitch;
-import com.noobs.gazonuz.domains.location.District;
 import com.noobs.gazonuz.domains.location.Location;
 import com.noobs.gazonuz.dtos.DistrictDto;
 import com.noobs.gazonuz.dtos.PitchDTO;
@@ -22,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
