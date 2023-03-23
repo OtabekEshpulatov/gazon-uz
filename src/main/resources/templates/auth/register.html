@@ -22,7 +22,7 @@
         }
 
         /* Full-width input fields */
-        input[type=text], input[type=password] {
+        input[type=text], input[type=password], input[type=tel] {
             width: 100%;
             padding: 15px;
             margin: 5px 0 22px 0;
@@ -104,6 +104,14 @@
         <span class="invalid-input" th:if="${#fields.hasErrors('confirmPassword')}"
               th:text="${#messages.msg(#fields.errors('confirmPassword'))}"></span>
         <input type="password" placeholder="Repeat Password" name="confirmPassword" id="psw-repeat" required>
+
+
+        <label for="phone">Enter your phone number:</label>
+        <input type="tel" id="phone" name="phone"
+               pattern="^\+998((33)|9[14579])\d{7}$"
+               required>
+
+
 
         <hr>
         <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>

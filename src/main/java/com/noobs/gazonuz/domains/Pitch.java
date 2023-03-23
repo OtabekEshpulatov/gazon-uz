@@ -61,7 +61,7 @@ public class Pitch {
     private District district;
 
     @CreationTimestamp
-    @Column( name = "created_at" )
+    @Column( name = "created_at",columnDefinition = "timestamp default now()")
     private LocalDateTime createdAt;
 
     public String getCreatedAt() {

@@ -13,8 +13,9 @@ public class UserSession {
         Authentication authentication = context.getAuthentication();
         var authUserDetails = authentication.getPrincipal();
 
-        if ( authUserDetails instanceof AuthUserDetails a )
+        if ( authUserDetails instanceof AuthUserDetails a ) {
             return a.getAuthUser();
+        }
         return null;
     }
 

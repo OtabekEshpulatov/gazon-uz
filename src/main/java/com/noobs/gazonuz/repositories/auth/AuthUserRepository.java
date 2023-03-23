@@ -34,5 +34,12 @@ public interface AuthUserRepository extends JpaRepository<User, String> {
 
     @Query( value = "SELECT u FROM User u JOIN u.roles r GROUP BY u HAVING COUNT(r) > 0" )
     List<User> findAllUsersWithRoles();
+
+    boolean addRole(String pitchOwner , String id);
+
+//    @Query("insert into  ")
+//    boolean addRole(String pitchOwner , String id);
+
+
 }
 

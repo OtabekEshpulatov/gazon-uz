@@ -2,10 +2,12 @@ package com.noobs.gazonuz.services;
 
 
 import com.noobs.gazonuz.configs.security.Encoders;
+import com.noobs.gazonuz.domains.auth.Role;
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.dtos.UserCreatedDto;
 import com.noobs.gazonuz.dtos.UserUpdateDto;
 import com.noobs.gazonuz.enums.AuthUserStatus;
+import com.noobs.gazonuz.exceptions.AuthRoleNotFoundException;
 import com.noobs.gazonuz.mappers.AuthUserMapper;
 import com.noobs.gazonuz.repositories.auth.AuthUserRepository;
 import com.noobs.gazonuz.validators.AuthValidator;
@@ -14,6 +16,7 @@ import jakarta.validation.ConstraintViolation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -28,6 +31,7 @@ public class AuthUserService {
     private final AuthUserRepository authUserRepository;
 
     private final Encoders encoders;
+    private final AuthService authService;
 
 
     public Response<Set<ConstraintViolation<UserCreatedDto>>> validate(UserCreatedDto dto) {
@@ -74,8 +78,7 @@ public class AuthUserService {
 
         if ( Objects.nonNull(user) ) {
             user.setLanguage(dto.language());
-            user.setEmailNotificationsAllowed(Objects.nonNull(dto.IsEmailNotificationsAllowed()) &&
-                                              dto.IsEmailNotificationsAllowed().equals("on"));
+            user.setEmailNotificationsAllowed(Objects.nonNull(dto.IsEmailNotificationsAllowed()) && dto.IsEmailNotificationsAllowed().equals("on"));
             authUserRepository.save(user);
         }
         return user;
@@ -83,5 +86,16 @@ public class AuthUserService {
 
     public List<User> getUsersThatHasRoles() {
         return authUserRepository.findAllUsersWithRoles();
+    }
+
+    public boolean hasRole(User user , String role) {
+        return user.getRoles().stream().anyMatch(r -> r.getCode().equals(role));
+    }
+
+    public void addRole(String role , User user) {
+
+        authService.getRoleByCode(role).ifPresentOrElse(authRole -> user.getRoles().add(authRole) , () -> {
+            throw new AuthRoleNotFoundException("%s cannot be found.".formatted(role));
+        });
     }
 }

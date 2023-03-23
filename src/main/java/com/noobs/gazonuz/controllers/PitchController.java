@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/pitch")
+@RequestMapping( "/pitch" )
 public class PitchController {
     private final PitchService pitchService;
     private final UserSession userSession;
@@ -29,7 +29,7 @@ public class PitchController {
 
     private final DistrictMapper districtMapper;
 
-    public PitchController(PitchService pitchService, UserSession userSession, AddressService addressService, DistrictMapper districtMapper) {
+    public PitchController(PitchService pitchService , UserSession userSession , AddressService addressService , DistrictMapper districtMapper) {
         this.pitchService = pitchService;
         this.userSession = userSession;
         this.addressService = addressService;
@@ -37,44 +37,44 @@ public class PitchController {
     }
 
 
-    @GetMapping("/create")
-    public ModelAndView createPitch(@RequestParam(name = "eror", required = false) String error, ModelAndView modelAndView) {
-        modelAndView.addObject("error", error);
-        modelAndView.addObject("pitch", new PitchCreateDTO());
-        modelAndView.addObject("regions", addressService.getRegion());
+    @GetMapping( "/create" )
+    public ModelAndView createPitch(@RequestParam( name = "eror", required = false ) String error , ModelAndView modelAndView) {
+        modelAndView.addObject("error" , error);
+        modelAndView.addObject("pitch" , new PitchCreateDTO());
+        modelAndView.addObject("regions" , addressService.getRegion());
         modelAndView.setViewName("/pitch/create");
         return modelAndView;
     }
 
 
-    @PostMapping("/create")
-    public String create(@ModelAttribute("pitch") PitchCreateDTO dto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    @PostMapping( "/create" )
+    public String create(@ModelAttribute( "pitch" ) PitchCreateDTO dto , BindingResult bindingResult) {
+        if ( bindingResult.hasErrors() ) {
             System.err.println(bindingResult.getAllErrors());
             return "/pitch/create";
         }
         System.out.println("dto.getDistrictId() = " + dto.getDistrictId());
 //        dto.setDistrictId("1");
-//        pitchService.savePitch(dto, userSession.getUser());
+        pitchService.savePitch(dto , userSession.getUser());
         return "redirect:/home";
     }
 
 
     //  2 version
-    @GetMapping("/create2")
-    public ModelAndView createPitch2(@RequestParam(name = "eror", required = false) String error, ModelAndView modelAndView) {
-        modelAndView.addObject("error", error);
-        modelAndView.addObject("pitch", new PitchCreateDTO());
-        modelAndView.addObject("regions", addressService.getRegion());
-        modelAndView.addObject("districts", new District());
+    @GetMapping( "/create2" )
+    public ModelAndView createPitch2(@RequestParam( name = "eror", required = false ) String error , ModelAndView modelAndView) {
+        modelAndView.addObject("error" , error);
+        modelAndView.addObject("pitch" , new PitchCreateDTO());
+        modelAndView.addObject("regions" , addressService.getRegion());
+        modelAndView.addObject("districts" , new District());
         modelAndView.setViewName("/pitch/create2");
         return modelAndView;
     }
 
 
-    @PostMapping("/create2")
-    public String create2(@ModelAttribute("pitch") PitchCreateDTO dto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    @PostMapping( "/create2" )
+    public String create2(@ModelAttribute( "pitch" ) PitchCreateDTO dto , BindingResult bindingResult) {
+        if ( bindingResult.hasErrors() ) {
             System.err.println(bindingResult.getAllErrors());
             return "/pitch/create2";
         }
@@ -85,14 +85,14 @@ public class PitchController {
     }
 
 
-    @GetMapping(value = "/districts/{regionId}", produces = "application/json")
+    @GetMapping( value = "/districts/{regionId}", produces = "application/json" )
     public ResponseEntity<?> getDistricts(@PathVariable String regionId) {
         List<District> districts = addressService.getDistricts(regionId);
 
 
         List<DistrictDto> districtDtos = new ArrayList<>();
 
-        for (District district : districts) {
+        for ( District district : districts ) {
             DistrictDto e = districtMapper.toDto(district);
             districtDtos.add(e);
             System.out.println("e = " + e);
@@ -104,7 +104,7 @@ public class PitchController {
         String s = null;
         try {
             gson.toJson(districtDtos.get(0));
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
         System.out.println(s);
@@ -115,9 +115,9 @@ public class PitchController {
     }
 
 
-    @GetMapping("/pitches")
-    public List<Pitch> getPitches(@RequestParam(name = "longitude") String longitude,
-                                  @RequestParam(name = "latitude") String latitude) {
+    @GetMapping( "/pitches" )
+    public List<Pitch> getPitches(@RequestParam( name = "longitude" ) String longitude ,
+                                  @RequestParam( name = "latitude" ) String latitude) {
 
 
         throw new RuntimeException("my ex");
