@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Update Pitch</title>
+    <title>UPDATE Pitch</title>
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
@@ -17,13 +17,13 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <form class="form-horizontal" method="post" th:object="${pitch}" enctype="multipart/form-data">
-    <h3 style="text-align: center">Update PITCH</h3>
+    <h3 style="text-align: center">UPDATE PITCH</h3>
     <fieldset>
         <!-- Form Name -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="pitch_name">PITCH NAME</label>
             <div class="col-md-4">
-                <input type="text" id="pitch_name" name="name" th:field="*{name}" placeholder="PITCH NAME"
+                <input type="text" id="pitch_name" name="name" th:field="*{name}" placeholder="UPDATE PITCH NAME"
                        class="form-control input-md" required> <br>
                 <span th:if="${#fields.hasErrors('name')}">
                       <li th:each="er : ${#fields.errors('name')}" th:text="${#messages.msg(er,'8', '100')}"
@@ -74,22 +74,22 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="region">Region:</label>
             <div class="col-md-4">
-                <select id="region" name="region" onchange="loadDistricts()" th:value="regions"  required>
+                <select id="region" name="region" onchange="loadDistricts()" th:value="regions" required>
                     <option value="">Select Region</option>
-                    <option  th:each="region : ${regions}" th:value="${region.id}"  th:text="${region.name}"></option>
+                    <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
                 </select>
             </div>
         </div>
 
         <!--    end choose region-->
         <!--    start choose district-->
-
         <div class="form-group">
             <label class="col-md-4 control-label" for="district">District:</label>
             <div class="col-md-4">
-                <select id="district" name="district" disabled required>
+                <select id="district" name="district" disabled required th:value="districts">
                     <option value="">Select District</option>
-                    <option th:each="district : ${districts}" th:value="${district.id}"> th:text="${district.name}"> </option>
+                    <option th:each="district : ${districts}" th:value="${district.id}"> th:text="${district.name}">
+                    </option>
                 </select>
             </div>
         </div>
@@ -99,19 +99,28 @@
 
 
         <div class="form-group">
-            <label class="col-md-4 control-label" for="full-address">Pitch full adress</label>
-            <div class="col-md-4">
-                <input id="full-address" placeholder="Full adress" class="form-control input-md"
-                       required type="text" name="fullAddress" th:field="*{fullAddress}">
+            <label class="col-md-4 control-label" for="address">Pitch full adress</label>
+            <div class="col-md-6">
+                <div class="col-md-1">
+                    <button type="button" id="btn btn-success buttonlocation" class="col-md-14" onclick="mine()">
+                        <img src="https://as2.ftcdn.net/v2/jpg/03/62/27/87/1000_F_362278723_HJ5W410Byae0ruwfdIuThUNQ4GyvlTWs.jpg"
+                             width="50px 60px">
+                    </button>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" id="address" class="col-md-8" name="fullAddress" th:field="*{fullAddress}">
+                    <input type="hidden" id="latitude" name="latitude" style="margin-top: 10px">
+                    <input type="hidden" id="longitude" name="longitude" style="margin-top: 10px">
+                </div>
             </div>
         </div>
-
+        <br>
         <!-- File Button -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="file_picture_button">PITCH_IMAGE</label>
             <div class="col-md-4">
-                <input id="file_picture_button" required type="file" multiple="multiple" name="documents"
-                       th:field="*{documents}"/>
+                <input id="file_picture_button" required type="file" multiple="multiple" name="documents"/>
+                <!--                       th:value="*{documents.size()}" th:field="*{documents.size()}" />-->
             </div>
         </div>
         <!-- Button -->
@@ -119,8 +128,7 @@
             <label class="col-md-4 control-label" for="singleButton">BUTTONS</label>
             <div class="col-md-4">
                 <button id="singleButton" type="submit" name="singleButton" class="btn btn-success">UPDATE PITCH</button>
-                ||
-                <a href="/user/home" class="btn btn-danger">Back</a>
+                || <a href="/user/home" class="btn btn-danger">Back</a>
             </div>
         </div>
     </fieldset>
@@ -130,6 +138,7 @@
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/js/pitch/dropdown.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/location_choose.js"></script>
 <script th:inline="javascript">
     function loadDistricts() {
         var regionId = document.getElementById("region").value;

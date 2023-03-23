@@ -8,8 +8,12 @@
 </head>
 <body>
 <div th:replace="fragments::header"></div>
-
-<div th:each="pitch:${pitches}">
+<div style="position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column">
+<div th:each="pitch:${pitches}" style="margin: 20px">
 <div class="card" style="width: 18rem;" >
 <!--th:src="@{${pitch.getDocuments().iterator().next()}}"-->
     <img class="card-img-top" alt="...">
@@ -19,6 +23,7 @@
         <p class="card-text" th:text="${pitch.getFullAddress()}"></p>
         <a th:action="@{/pitchInfo/{id}(id=${pitch.getId()})}" class="btn btn-primary">See Pitch</a>
     </div>
+</div>
 </div>
 </div>
 

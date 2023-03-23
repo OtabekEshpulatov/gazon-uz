@@ -1,4 +1,4 @@
-package com.noobs.gazonuz.controllers;
+package com.noobs.gazonuz.controllers.pitch;
 
 import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.handler.CustomRuntimeException;

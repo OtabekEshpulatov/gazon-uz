@@ -74,9 +74,9 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="region">Region:</label>
             <div class="col-md-4">
-                <select id="region" name="region" onchange="loadDistricts()" th:value="regions"  required>
+                <select id="region" name="region" onchange="loadDistricts()" th:value="regions" required>
                     <option value="">Select Region</option>
-                    <option  th:each="region : ${regions}" th:value="${region.id}"  th:text="${region.name}"></option>
+                    <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
                 </select>
             </div>
         </div>
@@ -86,9 +86,10 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="district">District:</label>
             <div class="col-md-4">
-                <select id="district" name="district" disabled required  th:value="districts">
+                <select id="district" name="district" disabled required th:value="districts">
                     <option value="">Select District</option>
-                    <option th:each="district : ${districts}" th:value="${district.id}"> th:text="${district.name}"> </option>
+                    <option th:each="district : ${districts}" th:value="${district.id}"> th:text="${district.name}">
+                    </option>
                 </select>
             </div>
         </div>
@@ -98,13 +99,21 @@
 
 
         <div class="form-group">
-            <label class="col-md-4 control-label" for="full-address">Pitch full adress</label>
-            <div class="col-md-4">
-                <input id="full-address" placeholder="Full adress" class="form-control input-md"
-                       required type="text" name="fullAddress" th:field="*{fullAddress}">
+            <label class="col-md-4 control-label" for="address">Pitch full adress</label>
+            <div class="col-md-6">
+                <div class="col-md-1">
+                    <button type="button" id="btn btn-success buttonlocation" class="col-md-14" onclick="mine()">
+                        <img src="https://as2.ftcdn.net/v2/jpg/03/62/27/87/1000_F_362278723_HJ5W410Byae0ruwfdIuThUNQ4GyvlTWs.jpg" width="50px 60px">
+                    </button>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" id="address" class="col-md-8" name="fullAddress" th:field="*{fullAddress}">
+                    <input type="hidden" id="latitude" name="latitude" style="margin-top: 10px">
+                    <input type="hidden" id="longitude" name="longitude" style="margin-top: 10px">
+                </div>
             </div>
         </div>
-
+        <br>
         <!-- File Button -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="file_picture_button">PITCH_IMAGE</label>
@@ -118,8 +127,7 @@
             <label class="col-md-4 control-label" for="singleButton">BUTTONS</label>
             <div class="col-md-4">
                 <button id="singleButton" type="submit" name="singleButton" class="btn btn-success">SAVE PITCH</button>
-                ||
-                <a href="/user/home" class="btn btn-danger">Back</a>
+                || <a href="/user/home" class="btn btn-danger">Back</a>
             </div>
         </div>
     </fieldset>
@@ -129,6 +137,7 @@
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/js/pitch/dropdown.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/location_choose.js"></script>
 <script th:inline="javascript">
     function loadDistricts() {
         var regionId = document.getElementById("region").value;
