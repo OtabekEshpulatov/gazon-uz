@@ -5,7 +5,6 @@ import com.noobs.gazonuz.repositories.BaseDAO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.util.Date;
 import java.util.List;
 
 public class UniqueFieldValidator implements ConstraintValidator<Unique, String> {

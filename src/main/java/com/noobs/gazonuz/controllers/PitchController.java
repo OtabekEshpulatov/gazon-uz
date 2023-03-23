@@ -20,8 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Controller
-@RequestMapping( "/pitch" )
+@RequestMapping("/pitch")
 public class PitchController {
     private final PitchService pitchService;
     private final UserSession userSession;
@@ -29,7 +30,7 @@ public class PitchController {
 
     private final DistrictMapper districtMapper;
 
-    public PitchController(PitchService pitchService , UserSession userSession , AddressService addressService , DistrictMapper districtMapper) {
+    public PitchController(PitchService pitchService, UserSession userSession, AddressService addressService, DistrictMapper districtMapper) {
         this.pitchService = pitchService;
         this.userSession = userSession;
         this.addressService = addressService;
@@ -37,91 +38,97 @@ public class PitchController {
     }
 
 
-    @GetMapping( "/create" )
-    public ModelAndView createPitch(@RequestParam( name = "eror", required = false ) String error , ModelAndView modelAndView) {
-        modelAndView.addObject("error" , error);
-        modelAndView.addObject("pitch" , new PitchCreateDTO());
-        modelAndView.addObject("regions" , addressService.getRegion());
+    @GetMapping("/create")
+    public ModelAndView createPitch(@RequestParam(name = "eror", required = false) String error, ModelAndView modelAndView) {
+        modelAndView.addObject("error", error);
+        modelAndView.addObject("pitch", new PitchDTO());
+        modelAndView.addObject("regions", addressService.getRegion());
+        modelAndView.addObject("districts", new DistrictDto());
         modelAndView.setViewName("/pitch/create");
         return modelAndView;
     }
 
 
-    @PostMapping( "/create" )
-    public String create(@ModelAttribute( "pitch" ) PitchCreateDTO dto , BindingResult bindingResult) {
-        if ( bindingResult.hasErrors() ) {
-            System.err.println(bindingResult.getAllErrors());
-            return "/pitch/create";
+
+    @PostMapping("/create")
+    public ModelAndView create(@Valid @ModelAttribute("pitch") PitchDTO dto, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("regions", addressService.getRegion());
+            modelAndView.setViewName("/pitch/create");
+            return modelAndView;
         }
-        System.out.println("dto.getDistrictId() = " + dto.getDistrictId());
-//        dto.setDistrictId("1");
-        pitchService.savePitch(dto , userSession.getUser());
-        return "redirect:/home";
+        pitchService.savePitch(dto, userSession.getUser());
+        modelAndView.setViewName("redirect:/home");
+        return modelAndView;
     }
 
-
-    //  2 version
-    @GetMapping( "/create2" )
-    public ModelAndView createPitch2(@RequestParam( name = "eror", required = false ) String error , ModelAndView modelAndView) {
-        modelAndView.addObject("error" , error);
-        modelAndView.addObject("pitch" , new PitchCreateDTO());
-        modelAndView.addObject("regions" , addressService.getRegion());
-        modelAndView.addObject("districts" , new District());
-        modelAndView.setViewName("/pitch/create2");
+    @GetMapping("/update")
+    public ModelAndView updatePitch(@RequestParam String pitchId) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject(pitchService.getPitch(pitchId));
+        modelAndView.setViewName("/pitch/update");
         return modelAndView;
     }
 
 
-    @PostMapping( "/create2" )
-    public String create2(@ModelAttribute( "pitch" ) PitchCreateDTO dto , BindingResult bindingResult) {
-        if ( bindingResult.hasErrors() ) {
-            System.err.println(bindingResult.getAllErrors());
-            return "/pitch/create2";
-        }
-        System.out.println("dto.getDistrictId() = " + dto.getDistrictId());
-//        dto.setDistrictId("1");
-//        pitchService.savePitch(dto, userSession.getUser());
-        return "redirect:/home";
-    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute PitchDTO dto) {
+        pitchService.updatePitch(dto);
+        return "redirect:/user/home";
+//    }
 
 
-    @GetMapping( value = "/districts/{regionId}", produces = "application/json" )
-    public ResponseEntity<?> getDistricts(@PathVariable String regionId) {
-        List<District> districts = addressService.getDistricts(regionId);
 
 
-        List<DistrictDto> districtDtos = new ArrayList<>();
-
-        for ( District district : districts ) {
-            DistrictDto e = districtMapper.toDto(district);
-            districtDtos.add(e);
-            System.out.println("e = " + e);
-        }
-
-        Gson gson = new Gson();
 
 
-        String s = null;
-        try {
-            gson.toJson(districtDtos.get(0));
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-        System.out.println(s);
-
-        return ResponseEntity.ok().body(s);
 
 
-    }
 
 
-    @GetMapping( "/pitches" )
-    public List<Pitch> getPitches(@RequestParam( name = "longitude" ) String longitude ,
-                                  @RequestParam( name = "latitude" ) String latitude) {
+
+
+
+//    @GetMapping(value = "/districts/{regionId}", produces = "application/json")
+//    public ResponseEntity<?> getDistricts(@PathVariable String regionId) {
+        String districts = addressService.getDistricts(regionId);
+        return ResponseEntity.ok().body(districts);
+//    }
+
+
+    @GetMapping("/pitches")
+    public List<Pitch> getPitches(@RequestParam(name = "longitude") String longitude,
+                                  @RequestParam(name = "latitude") String latitude) {
 
 
         throw new RuntimeException("my ex");
 //        return pitchService.getPitches(latitude , longitude);
+    }
+
+    @GetMapping("/searched")
+    public ModelAndView searchUsers(@RequestParam(name = "page", defaultValue = "0") int page,
+                                    @RequestParam(name = "perPage", defaultValue = "10") int perPage,
+                                    @RequestParam(name = "search", defaultValue = "") String search,
+                                    @ModelAttribute Location location) {
+
+        //to PitchService connection
+        List<Pitch> searchedPitches = pitchService.getSearchedPitches(location, page, perPage, search);
+        long numPitches = pitchService.getSize(location, search);
+        // end PitchService connection
+
+        //mav preparation
+        var mav = new ModelAndView();
+        mav.addObject("pitches", searchedPitches);
+        mav.addObject("currentPage", page);
+        mav.addObject("totalPage", numPitches / PitchPaginationRepository.PER_PAGE);
+        mav.addObject("perPage", PitchPaginationRepository.PER_PAGE);
+        mav.addObject("search", search);
+        mav.setViewName("/pitch/searched");
+        //end mav preparation
+
+        return mav;
     }
 
 
