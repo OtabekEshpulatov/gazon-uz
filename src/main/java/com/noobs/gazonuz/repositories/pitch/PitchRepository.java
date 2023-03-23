@@ -12,29 +12,37 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PitchRepository extends JpaRepository<Pitch, String> {
     List<Pitch> findByDistrict(District district);
 
-    @Query("select count(p) from Pitch p where p.user.username ilike ?1 and p.status=?2")
-    long countByUsernameAllIgnoreCase(String username, PitchStatus status);
+    @Query( "select count(p) from Pitch p where p.user.username ilike ?1 and p.status=?2" )
+    long countByUsernameAllIgnoreCase(String username , PitchStatus status);
 
-    @Query("select p from Pitch  p where p.user.username ilike ?1 and p.status=?2 order by p.createdAt")
-    List<Pitch> findPitchByUsernameAAndStatus(String username, PitchStatus status, Pageable pageable);
+    @Query( "select p from Pitch  p where p.user.username ilike ?1 and p.status=?2 order by p.createdAt" )
+    List<Pitch> findPitchByUsernameAAndStatus(String username , PitchStatus status , Pageable pageable);
 
     @Transactional
     @Modifying
-    @Query("update Pitch p set p.status = ?1 where p.id = ?2")
-    int updateStatusById(PitchStatus status, String id);
+    @Query( "update Pitch p set p.status = ?1 where p.id = ?2" )
+    int updateStatusById(PitchStatus status , String id);
 
-    @Query("select p from Pitch p where p.status = ?1 order by p.createdAt")
+    @Query( "select p from Pitch p where p.status = ?1 order by p.createdAt" )
     List<Pitch> findByStatus(PitchStatus status);
 
-    @Query("select p.user from Pitch p where p.id=?1")
+    @Query( "select p.user from Pitch p where p.id=?1" )
     User findUserByPitch(String id);
 
 
-
-    @Query("select p from Pitch p where p.id=?1")
+    @Query( "select p from Pitch p where p.id=?1" )
     Pitch getPitch(String pitchId);
+
+    @Query( "select p from Pitch p where p.user.id = ?1" )
+    List<Pitch> findByUserId(String id);
+
+//    @Query( "select p from Pitch p where p.user.id = ?1" )
+//    Optional<Pitch> findByUserId(String id);
+
+
 }

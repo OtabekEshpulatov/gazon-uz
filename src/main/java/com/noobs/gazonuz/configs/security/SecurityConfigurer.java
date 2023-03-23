@@ -18,8 +18,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfigurer {
 
     public static final String[] WHITE_LIST = {
+            "/static/css/**" ,
             "/css/**" ,
             "/js/**" ,
+            "/static/js/**" ,
             "/pitch/districts/**" ,
             "/auth/login" ,
             "/auth/register" ,

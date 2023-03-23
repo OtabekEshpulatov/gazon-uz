@@ -6,17 +6,15 @@ import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.dtos.UserCreatedDto;
 import com.noobs.gazonuz.dtos.UserUpdateDto;
 import com.noobs.gazonuz.enums.AuthUserStatus;
+import com.noobs.gazonuz.exceptions.AuthRoleNotFoundException;
 import com.noobs.gazonuz.mappers.AuthUserMapper;
 import com.noobs.gazonuz.repositories.auth.AuthUserRepository;
 import com.noobs.gazonuz.validators.AuthValidator;
-import com.noobs.payload.Response;
-import jakarta.validation.ConstraintViolation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -28,25 +26,26 @@ public class AuthUserService {
     private final AuthUserRepository authUserRepository;
 
     private final Encoders encoders;
+    private final AuthService authService;
 
 
-    public Response<Set<ConstraintViolation<UserCreatedDto>>> validate(UserCreatedDto dto) {
-        final boolean exist = authUserRepository.existsByUsernameIgnoreCaseAllIgnoreCase(dto.getUsername());
-        final Set<ConstraintViolation<UserCreatedDto>> validate = authValidator.validate(dto);
+//    public Response<Set<ConstraintViolation<UserCreatedDto>>> validate(UserCreatedDto dto) {
+//        final boolean exist = authUserRepository.existsByUsernameIgnoreCaseAllIgnoreCase(dto.getUsername());
+//        final Set<ConstraintViolation<UserCreatedDto>> validate = authValidator.validate(dto);
+//
+//        if ( exist ) {
+//            return new Response<>(validate , "username already exists" , "" , false);
+//        }
+//
+////        if(validate)
+////        return new Response<>(validate , "something went wrong" , "" , false);
+//
+//        return null;
+//    }
 
-        if ( exist ) {
-            return new Response<>(validate , "username already exists" , "" , false);
-        }
-
-//        if(validate)
-//        return new Response<>(validate , "something went wrong" , "" , false);
-
-        return null;
-    }
-
-    public boolean existsWithUsername(String username) {
-        return authUserRepository.existsByUsernameIgnoreCaseAllIgnoreCase(username);
-    }
+//    public boolean existsWithUsername(String username) {
+//        return authUserRepository.existsByUsernameIgnoreCaseAllIgnoreCase(username);
+//    }
 
     public boolean saveUser(UserCreatedDto dto) {
         final User user = mapper.fromCreateDto(dto);
@@ -57,9 +56,9 @@ public class AuthUserService {
     }
 
 
-    public List<User> getAllOrderByCreatedAt() {
-        return authUserRepository.getAllOrderByCreatedAtDesc();
-    }
+//    public List<User> getAllOrderByCreatedAt() {
+//        return authUserRepository.getAllOrderByCreatedAtDesc();
+//    }
 
     public User findUser(String id) {
         return authUserRepository.findById(id).orElse(null);
@@ -81,8 +80,8 @@ public class AuthUserService {
         return user;
     }
 
-    public List<User> getUsersThatHasRoles() {
-        return authUserRepository.findAllUsersWithRoles();
+    public List<User> getUsersThatHasRoles(String role) {
+        return authUserRepository.findAllUsersWithRole(role);
     }
 
     public boolean hasRole(User user , String role) {
@@ -90,8 +89,7 @@ public class AuthUserService {
     }
 
     public void addRole(String role , User user) {
-
-        authService.getRoleByCode(role).ifPresentOrElse(authRole -> user.getRoles().add(authRole) , () -> {
+        authService.getRoleByCode(role).ifPresentOrElse(authRole -> authUserRepository.addRole(authRole.getId() , user.getId()) , () -> {
             throw new AuthRoleNotFoundException("%s cannot be found.".formatted(role));
         });
     }

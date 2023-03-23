@@ -32,11 +32,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/pitch/create">Create Pitch</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Requests</a>
+                <li class="nav-item" sec:authorize="hasRole('PITCH_OWNER')">
+                    <a class="nav-link" href="/mypitches">Pitch Board</a>
                 </li>
 
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" th:if="${#authentication.isAuthenticated() }"
+                    sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">Manage
                     </a>

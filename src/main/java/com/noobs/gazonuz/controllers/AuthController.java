@@ -67,7 +67,7 @@ public class AuthController {
         }
         authUserService.saveUser(dto);
 
-        return "auth/login";
+        return "redirect:/auth/login";
     }
 
 

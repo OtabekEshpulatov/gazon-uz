@@ -43,14 +43,21 @@ public class PitchService {
     private final EmailService emailService;
     private final ApplicationProperties properties;
     private final PitchPaginationRepository pitchPaginationRepository;
+    private final AuthService authService;
+    private final AuthUserService authUserService;
 
-    public boolean savePitch(PitchDTO dto, User user) {
+    public boolean savePitch(PitchDTO dto , User user) {
 
 
         ArrayList<Document> docs = new ArrayList<>();
-        for (MultipartFile document : dto.getDocuments()) {
-            Document doc = documentService.createAndGet(new DocumentCreateDTO(document), user);
+        for ( MultipartFile document : dto.getDocuments() ) {
+            Document doc = documentService.createAndGet(new DocumentCreateDTO(document) , user);
             docs.add(doc);
+        }
+
+        final String pitchOwner = "PITCH_OWNER";
+        if ( !authUserService.hasRole(user , pitchOwner) ) {
+            authUserService.addRole(pitchOwner , user);
         }
 
         District district = addressService.getDistrictById(dto.getDistrictId());
@@ -72,7 +79,7 @@ public class PitchService {
         return true;
     }
 
-    public List<Pitch> getPitches(String latitude, String longitude) {
+    public List<Pitch> getPitches(String latitude , String longitude) {
         return pitchRepository.findAll();
     }
 
@@ -83,21 +90,21 @@ public class PitchService {
 
     public static String daySuffix(String day) {
         int dayInt = Integer.parseInt(day);
-        switch (dayInt % 10) {
+        switch ( dayInt % 10 ) {
             case 1:
-                if (dayInt == 11) {
+                if ( dayInt == 11 ) {
                     return "th";
                 } else {
                     return "st";
                 }
             case 2:
-                if (dayInt == 12) {
+                if ( dayInt == 12 ) {
                     return "th";
                 } else {
                     return "nd";
                 }
             case 3:
-                if (dayInt == 13) {
+                if ( dayInt == 13 ) {
                     return "th";
                 } else {
                     return "rd";
@@ -107,24 +114,24 @@ public class PitchService {
         }
     }
 
-    public static PitchOrderTimeDTO findDateInterval(long i, long k) {
+    public static PitchOrderTimeDTO findDateInterval(long i , long k) {
         String result = "";
         i = i - 1;
         PitchOrderTimeDTO pitchOrderTimeDTO = new PitchOrderTimeDTO();
         LocalDateTime currentDateTime = LocalDateTime.now(ZoneId.of("Asia/Tashkent"));
         LocalDate localDate = LocalDate.now(ZoneId.of("Asia/Tashkent"));
         LocalTime localTime = LocalTime.MIDNIGHT;
-        LocalDateTime currentDate = LocalDateTime.of(localDate, localTime);
-        if (currentDate.plusDays(k - 1).plusHours(i).isAfter(currentDateTime)) {
-            if (i < 10) {
+        LocalDateTime currentDate = LocalDateTime.of(localDate , localTime);
+        if ( currentDate.plusDays(k - 1).plusHours(i).isAfter(currentDateTime) ) {
+            if ( i < 10 ) {
                 result += "0" + i + ":00-";
             } else {
                 result += i + ":00-";
             }
-            if (i + 1 >= 10) {
+            if ( i + 1 >= 10 ) {
                 result += i + 1 + ":00";
             } else {
-                result += "0" + (i + 1) + ":00";
+                result += "0" + ( i + 1 ) + ":00";
             }
             pitchOrderTimeDTO.setIsAvl(true);
         } else {
@@ -134,7 +141,7 @@ public class PitchService {
         return pitchOrderTimeDTO;
     }
 
-    public void updateStatus(String id, PitchStatus status) {
+    public void updateStatus(String id , PitchStatus status) {
 
 
         final Optional<Pitch> pitchOptional = pitchRepository.findById(id);
@@ -145,55 +152,65 @@ public class PitchService {
 
             final User user = pitch.getUser();
             final String email = user.getEmail();
+            String messageBody = null;
+            String messageHeader = null;
 
-            if (user.isEmailNotificationsAllowed()) {
-                switch (status) {
+            if ( user.isEmailNotificationsAllowed() ) {
+                switch ( status ) {
                     case BLOCKED -> {
-                        final String messageBody = properties.getProperties().getProperty("pitch.status.blocked.message.body").formatted(pitch.getCreatedAt());
-                        final String messageHeader = properties.getProperties().getProperty("pitch.status.blocked.message.header");
-                        emailService.sendMessageToEmailThroughSMTP(email, messageBody, messageHeader);
+                        messageBody = properties.getProperties().getProperty("pitch.status.blocked.message.body").formatted(pitch.getCreatedAt());
+                        messageHeader = properties.getProperties().getProperty("pitch.status.blocked.message.header");
                     }
                     case REJECTED -> {
-                        final String messageBody = properties.getProperties().getProperty("pitch.status.rejected.message.body").formatted(pitch.getCreatedAt());
-                        final String messageHeader = properties.getProperties().getProperty("pitch.status.rejected.message.header");
-                        emailService.sendMessageToEmailThroughSMTP(email, messageBody, messageHeader);
+                        messageBody = properties.getProperties().getProperty("pitch.status.rejected.message.body").formatted(pitch.getCreatedAt());
+                        messageHeader = properties.getProperties().getProperty("pitch.status.rejected.message.header");
+
                     }
                     case ACTIVE -> {
-                        final String messageBody = properties.getProperties().getProperty("pitch.status.active.message.body").formatted(pitch.getCreatedAt());
-                        final String messageHeader = properties.getProperties().getProperty("pitch.status.active.message.header");
-                        emailService.sendMessageToEmailThroughSMTP(email, messageBody, messageHeader);
+                        messageBody = properties.getProperties().getProperty("pitch.status.active.message.body").formatted(pitch.getCreatedAt());
+                        messageHeader = properties.getProperties().getProperty("pitch.status.active.message.header");
+                    }
+                    case INACTIVE -> {
+                        messageBody = properties.getProperties().getProperty("pitch.status.inactive.message.body").formatted(pitch.getCreatedAt());
+                        messageHeader = properties.getProperties().getProperty("pitch.status.inactive.message.header");
+                    }
+                    case REQUESTED -> {
+                        messageBody = properties.getProperties().getProperty("pitch.status.requested.message.body").formatted(pitch.getCreatedAt());
+                        messageHeader = properties.getProperties().getProperty("pitch.status.requested.message.header");
                     }
                 }
+
+                emailService.sendMessageToEmailThroughSMTP(email , messageBody , messageHeader);
             }
 
-            pitchRepository.updateStatusById(status, id);
+            pitchRepository.updateStatusById(status , id);
 
         });
 
     }
 
 
-    public List<Pitch> getSearchedPitches(Location location, int page, int perPage, String search) {
+    public List<Pitch> getSearchedPitches(Location location , int page , int perPage , String search) {
         String searchBy = "%" + search + "%";
-        final Pageable pageable = PageRequest.of(page, perPage);
-        return pitchPaginationRepository.pitches(searchBy, location.getLatitude() - 0.0015, location.getLatitude() + 0.0015, location.getLongitude() - 0.0015, location.getLongitude() + 0.0015, pageable);
+        final Pageable pageable = PageRequest.of(page , perPage);
+        return pitchPaginationRepository.pitches(searchBy , location.getLatitude() - 0.0015 , location.getLatitude() + 0.0015 , location.getLongitude() - 0.0015 , location.getLongitude() + 0.0015 , pageable);
     }
 
 
-    public long getSize(Location location, String search) {
+    public long getSize(Location location , String search) {
         String searchBy = "%" + search + "%";
-        return pitchPaginationRepository.pitchesCount(searchBy, location.getLatitude() - 0.0015, location.getLatitude() + 0.0015, location.getLongitude() - 0.0015, location.getLongitude() + 0.0015);
+        return pitchPaginationRepository.pitchesCount(searchBy , location.getLatitude() - 0.0015 , location.getLatitude() + 0.0015 , location.getLongitude() - 0.0015 , location.getLongitude() + 0.0015);
     }
 
 
-    public Boolean checkBooked(long i, long k, String pitchId) {
+    public Boolean checkBooked(long i , long k , String pitchId) {
         List<Order> orderList = orderDAO.findAllAcceptedOrdersByPitchId(pitchId);
         LocalDate localDate = LocalDate.now(ZoneId.of("Asia/Tashkent"));
         LocalTime localTime = LocalTime.MIDNIGHT;
-        LocalDateTime currentDate = LocalDateTime.of(localDate, localTime).plusDays(k - 1).plusHours(i - 1);
-        for (Order order : orderList) {
-            if (order.getStartTime().isBefore(currentDate.plusMinutes(5)) &&
-                order.getStartTime().plusMinutes(order.getMinutes()).isAfter(currentDate)) {
+        LocalDateTime currentDate = LocalDateTime.of(localDate , localTime).plusDays(k - 1).plusHours(i - 1);
+        for ( Order order : orderList ) {
+            if ( order.getStartTime().isBefore(currentDate.plusMinutes(5)) &&
+                 order.getStartTime().plusMinutes(order.getMinutes()).isAfter(currentDate) ) {
                 return false;
             }
         }
@@ -207,51 +224,11 @@ public class PitchService {
     public void updatePitch(PitchDTO dto) {
 
     }
+
+    public List<Pitch> findByUserId(String id) {
+        return pitchRepository.findByUserId(id);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //package com.noobs.gazonuz.services;

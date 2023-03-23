@@ -14,14 +14,14 @@ import java.util.Optional;
 public interface AuthUserRepository extends JpaRepository<User, String> {
     Optional<User> findByUsernameIgnoreCase(String username);
 
-    boolean existsByUsernameIgnoreCaseAllIgnoreCase(String username);
+//    boolean existsByUsernameIgnoreCaseAllIgnoreCase(String username);
 
-    @Query( "select u from User  u order by u.createdAt desc" )
-    List<User> getAllOrderByCreatedAtDesc();
+//    @Query( "select u from User  u order by u.createdAt desc" )
+//    List<User> getAllOrderByCreatedAtDesc();
 
 
-    @Query( "select count(*) from User" )
-    Long countAllUsers();
+//    @Query( "select count(*) from User" )
+//    Long countAllUsers();
 
     @Transactional
     @Modifying
@@ -32,12 +32,12 @@ public interface AuthUserRepository extends JpaRepository<User, String> {
     @Override
     Optional<User> findById(String s);
 
-    @Query( value = "SELECT u FROM User u JOIN u.roles r GROUP BY u HAVING COUNT(r) > 0" )
-    List<User> findAllUsersWithRoles();
+    @Query( value = "SELECT u FROM User u JOIN u.roles r WHERE r.code = :role" )
+    List<User> findAllUsersWithRole(String role);
 
-    boolean addRole(String pitchOwner , String id);
+    @Query( value = "insert into user_roles values(:userId, :authRoleId)", nativeQuery = true )
+    void addRole(String authRoleId , String userId);
 
-//    @Query("insert into  ")
 //    boolean addRole(String pitchOwner , String id);
 
 
