@@ -1,7 +1,6 @@
-package com.noobs.gazonuz.controllers;
+package com.noobs.gazonuz.controllers.pitch;
 
 import com.noobs.gazonuz.domains.Order;
-import com.noobs.gazonuz.domains.OrderRepository;
 import com.noobs.gazonuz.services.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

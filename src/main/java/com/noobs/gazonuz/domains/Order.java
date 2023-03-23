@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @ToString
 @Table(name = "orders")
 
-public class Order {
+public class Order{
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )
@@ -43,11 +43,11 @@ public class Order {
 
     @Column( columnDefinition = "boolean default false" )
     private Boolean isDeleted;
-    @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @ManyToOne( cascade = CascadeType.MERGE, fetch = FetchType.LAZY )
     @ToString.Exclude
     private User user;
 
-    @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @ManyToOne( cascade = CascadeType.MERGE, fetch = FetchType.LAZY )
     @ToString.Exclude
     private Pitch pitch;
 }

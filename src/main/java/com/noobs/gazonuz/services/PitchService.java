@@ -3,12 +3,12 @@ package com.noobs.gazonuz.services;
 
 import com.noobs.gazonuz.configs.properties.ApplicationProperties;
 import com.noobs.gazonuz.domains.Document;
-import com.noobs.gazonuz.domains.Location;
 import com.noobs.gazonuz.domains.Order;
 import com.noobs.gazonuz.domains.Pitch;
 import com.noobs.gazonuz.domains.auth.User;
 import com.noobs.gazonuz.domains.location.District;
-import com.noobs.gazonuz.dtos.PitchCreateDTO;
+import com.noobs.gazonuz.domains.location.Location;
+import com.noobs.gazonuz.dtos.PitchDTO;
 import com.noobs.gazonuz.dtos.PitchOrderTimeDTO;
 import com.noobs.gazonuz.dtos.upload.DocumentCreateDTO;
 import com.noobs.gazonuz.enums.PitchStatus;
@@ -16,7 +16,6 @@ import com.noobs.gazonuz.repositories.OrderDAO;
 import com.noobs.gazonuz.repositories.PitchPaginationRepository;
 import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -39,13 +39,16 @@ public class PitchService {
     private final DocumentService documentService;
     private final OrderDAO orderDAO;
     private final EmailService emailService;
-
     private final ApplicationProperties properties;
     private final PitchPaginationRepository pitchPaginationRepository;
 
+    public boolean savePitch(PitchDTO dto, User user) {
+        Pitch pitch = pitchDomainFactory(dto, new Pitch(), user);
+        pitchRepository.save(pitch);
+        return true;
+    }
 
-    public boolean savePitch(PitchCreateDTO dto, User user) {
-
+    private Pitch pitchDomainFactory(PitchDTO dto, Pitch domain, User user) {
 
         ArrayList<Document> docs = new ArrayList<>();
         for (MultipartFile document : dto.getDocuments()) {
@@ -54,27 +57,31 @@ public class PitchService {
         }
 
         District district = addressService.getDistrictById(dto.getDistrictId());
-        Pitch pitch = Pitch.builder()
+        return Pitch.builder()
                 .createdAt(LocalDateTime.now(ZoneId.of("Asia/Tashkent")))
-                .fullAddress(dto.getFullAddress())
-                .info(dto.getInfo())
-                .latitude(dto.getLatitude())
-                .longitude(dto.getLongitude())
-                .name(dto.getName())
+                .fullAddress(Objects.requireNonNullElse(dto.getFullAddress(), domain.getFullAddress()))
+                .info(Objects.requireNonNullElse(dto.getInfo(), domain.getInfo()))
+                .latitude(Objects.requireNonNullElse(dto.getLatitude(), domain.getLatitude()))
+                .longitude(Objects.requireNonNullElse(dto.getLongitude(), domain.getLongitude()))
+                .name(Objects.requireNonNullElse(dto.getName(), domain.getName()))
                 .price(dto.getPrice())
+                .rating((byte) 0)
                 .documents(docs)
-                .district(district)
-                .phoneNumber(dto.getPhoneNumber())
+                .district(Objects.requireNonNullElse(district, domain.getDistrict()))
+                .phoneNumber(Objects.requireNonNullElse(dto.getPhoneNumber(), domain.getPhoneNumber()))
                 .status(PitchStatus.INACTIVE)
                 .user(user)
                 .build();
-        pitchRepository.save(pitch);
-        return true;
     }
 
     public List<Pitch> getPitches(String latitude, String longitude) {
         return pitchRepository.findAll();
     }
+
+    public Pitch getPitch(String pitchId) {
+        return pitchRepository.getPitch(pitchId);
+    }
+
 
     public static String daySuffix(String day) {
         int dayInt = Integer.parseInt(day);
@@ -192,6 +199,33 @@ public class PitchService {
                 return false;
             }
         }
+        return true;
+    }
+
+    public Boolean checkBookedForValidation(String choiceDate, String duration, String pitchId) {
+        List<Order> orderList = orderDAO.findAllAcceptedOrdersByPitchId(pitchId);
+        LocalDateTime currentDate = LocalDateTime.parse(choiceDate);
+        for (Order order : orderList) {
+            if (order.getStartTime().isBefore(currentDate.plusMinutes(5)) &&
+                    order.getStartTime().plusMinutes(order.getMinutes()).isAfter(currentDate)) {
+                return true;
+            }
+            if (order.getStartTime().isBefore(currentDate.plusMinutes(Long.parseLong(duration)+5)) &&
+                    order.getStartTime().plusMinutes(order.getMinutes()).isAfter(currentDate)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Pitch> getPitchesByDistrict(String districtId) {
+        return pitchRepository.findByDistrict(addressService.getDistrictById(districtId));
+    }
+
+    public boolean updatePitch(PitchDTO dto, User user) {
+        Pitch pitch = pitchRepository.getPitch(dto.getId());
+        Pitch newPitch = pitchDomainFactory(dto, pitch, user);
+        pitchRepository.update(newPitch);
         return true;
     }
 }

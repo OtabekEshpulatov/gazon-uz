@@ -3,7 +3,6 @@ package com.noobs.gazonuz;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 
-
 @RequiredArgsConstructor
 public class Main {
     public static void main(String[] args) {
