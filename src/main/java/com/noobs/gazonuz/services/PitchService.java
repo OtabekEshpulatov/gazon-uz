@@ -197,6 +197,22 @@ public class PitchService {
         return true;
     }
 
+    public Boolean checkBookedForValidation(String choiceDate, String duration, String pitchId) {
+        List<Order> orderList = orderDAO.findAllAcceptedOrdersByPitchId(pitchId);
+        LocalDateTime currentDate = LocalDateTime.parse(choiceDate);
+        for (Order order : orderList) {
+            if (order.getStartTime().isBefore(currentDate.plusMinutes(5)) &&
+                    order.getStartTime().plusMinutes(order.getMinutes()).isAfter(currentDate)) {
+                return true;
+            }
+            if (order.getStartTime().isBefore(currentDate.plusMinutes(Long.parseLong(duration)+5)) &&
+                    order.getStartTime().plusMinutes(order.getMinutes()).isAfter(currentDate)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Pitch> getPitchesByDistrict(String districtId) {
         return pitchRepository.findByDistrict(addressService.getDistrictById(districtId));
     }

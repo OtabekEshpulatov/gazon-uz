@@ -3141,15 +3141,20 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                             </div>
                             <div _ngcontent-sc23="" class="card-body rounded-bottom">
                                 <mlp-enquiry _ngcontent-sc23="" _nghost-sc31=""><!---->
+                                    <fieldset>
 <!--                                    =========================== form started here ======================= -->
-                                    <form _ngcontent-sc31="" novalidate="" method="post" action="http://localhost:8080/pitchInfo/orderSend" class="ng-untouched ng-pristine ng-invalid ng-star-inserted">
+                                    <form _ngcontent-sc31="" novalidate="" method="get" action="http://localhost:8080/pitchInfo/booking/orderSend" class="ng-untouched ng-pristine ng-invalid ng-star-inserted">
                                     <div _ngcontent-sc31="" class="form-group mb-2">
                                         <mlp-ng-input _ngcontent-sc31="" formcontrolname="full_name" inputid="full_name" placeholder="Your Full Name" _nghost-sc14="" class="ng-untouched ng-pristine ng-invalid"><div _ngcontent-sc14="" class="input-group sg-input-group">
                                             <!---->
-                                            <input _ngcontent-sc14="" class="form-control sg-input-group__input-molecule" type="text" id="full_name" placeholder="Your Username" value="" name="">
+                                            <input _ngcontent-sc14="" class="form-control sg-input-group__input-molecule" type="text" id="full_name" placeholder="Your Username" value="" name="username">
                                             <input name="pitchId" th:value="${pitch.getId()}" hidden>
                                             <!---->
                                         </div>
+                                            <span th:if="${username != null}">
+                                              <p th:text="${username}"
+                                                  style="color: firebrick"></p>
+                                            </span>
                                             <!---->
                                         </mlp-ng-input>
                                     </div>
@@ -3157,9 +3162,13 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                                     <div _ngcontent-sc31="" class="form-group mb-2">
                                         <mlp-ng-input _ngcontent-sc31="" formcontrolname="email" inputid="email" inputtype="email" placeholder="Email Address" _nghost-sc14="" class="ng-untouched ng-pristine ng-invalid"><div _ngcontent-sc14="" class="input-group sg-input-group">
                                             <!---->
-                                            <input _ngcontent-sc14="" class="form-control sg-input-group__input-molecule" type="email" id="email" placeholder="Email Address" value="" name="">
+                                            <input _ngcontent-sc14="" class="form-control sg-input-group__input-molecule" type="email" id="email" placeholder="Email Address" value="" name="email">
                                             <!---->
                                         </div>
+                                            <span th:if="${email != null}">
+                                              <p th:text="${email}"
+                                                 style="color: firebrick"></p>
+                                            </span>
                                             <!---->
                                         </mlp-ng-input>
                                     </div>
@@ -3167,19 +3176,27 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                                     <div _ngcontent-sc31="" class="form-group mb-2">
                                         <mlp-ng-input _ngcontent-sc31="" formcontrolname="phone" inputid="phone" placeholder="Phone Number" _nghost-sc14="" class="ng-untouched ng-pristine ng-invalid"><div _ngcontent-sc14="" class="input-group sg-input-group">
                                             <!---->
-                                            <input _ngcontent-sc14="" class="form-control sg-input-group__input-molecule" type="text" id="phone" placeholder="Phone Number" value="" name="">
+                                            <input _ngcontent-sc14="" class="form-control sg-input-group__input-molecule" type="text" id="phone" placeholder="Phone Number" value="" name="phoneNumber">
                                             <!---->
                                         </div>
+                                            <span th:if="${phoneNumber != null}">
+                                              <p th:text="${phoneNumber}"
+                                                 style="color: firebrick"></p>
+                                            </span>
                                             <!---->
                                         </mlp-ng-input>
                                     </div>
 
                                     <div _ngcontent-sc31="" class="form-group mb-2">
                                             <mlp-select-date _ngcontent-sc31="" class="col-6 col-sm-12 col-lg-6 mb-2 pr-lg-1 mb-lg-0 ng-untouched ng-pristine ng-invalid" formcontrolname="date" _nghost-sc17=""><div _ngcontent-sc17="" autoclose="outside" ngbdropdown="" class="dropdown">
-                                                <div _ngcontent-sc17="" aria-haspopup="true" class="dropdown-toggle" id="datetime" ngbdropdownanchor="" aria-expanded="false">
-                                                    <input class="form-control sg-input-group__input-molecule" type="datetime-local" step="3600"  id="datetime" name="datetime">
+                                                <div _ngcontent-sc17="" aria-haspopup="true" class="dropdown-toggle"  ngbdropdownanchor="" aria-expanded="false">
+                                                    <input class="form-control sg-input-group__input-molecule" type="datetime-local" step="3600"  name="orderDatetime">
                                                 </div>
                                             </div>
+                                                <span th:if="${bookedDate != null}">
+                                              <p th:text="${bookedDate}"
+                                                 style="color: firebrick"></p>
+                                            </span>
                                             </mlp-select-date>
                                     </div>
 
@@ -3194,6 +3211,10 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                                                     </select>
 
                                         </div>
+                                            <span th:if="${duration != null}">
+                                              <p th:text="${duration}"
+                                                 style="color: firebrick"></p>
+                                            </span>
                                         </mlp-durations>
                                     </div>
 
@@ -3207,6 +3228,7 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                                 </form>
                                     <!---->
                                     <!---->
+                                    </fieldset>
                                 </mlp-enquiry>
                             </div>
                         </div>
