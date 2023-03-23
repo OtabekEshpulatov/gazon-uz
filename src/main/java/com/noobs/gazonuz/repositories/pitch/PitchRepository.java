@@ -34,7 +34,13 @@ public interface PitchRepository extends JpaRepository<Pitch, String> {
     User findUserByPitch(String id);
 
 
-
     @Query("select p from Pitch p where p.id=?1")
     Pitch getPitch(String pitchId);
+
+    @Transactional
+    @Modifying
+    @Query("update Pitch p set p.name=?1, p.fullAddress=?2, p.district=?3, p.price=?4, p.info=?5, p.status=?6 where p.id=?7")
+    boolean update(Pitch pitch);
+
+
 }

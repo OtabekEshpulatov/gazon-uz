@@ -1,4 +1,4 @@
-package com.noobs.gazonuz.controllers;
+package com.noobs.gazonuz.controllers.pitch;
 
 import com.noobs.gazonuz.configs.security.UserSession;
 import com.noobs.gazonuz.domains.Pitch;

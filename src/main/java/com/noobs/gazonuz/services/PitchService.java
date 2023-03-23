@@ -27,6 +27,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -42,7 +43,12 @@ public class PitchService {
     private final PitchPaginationRepository pitchPaginationRepository;
 
     public boolean savePitch(PitchDTO dto, User user) {
+        Pitch pitch = pitchDomainFactory(dto, new Pitch(), user);
+        pitchRepository.save(pitch);
+        return true;
+    }
 
+    private Pitch pitchDomainFactory(PitchDTO dto, Pitch domain, User user) {
 
         ArrayList<Document> docs = new ArrayList<>();
         for (MultipartFile document : dto.getDocuments()) {
@@ -51,22 +57,21 @@ public class PitchService {
         }
 
         District district = addressService.getDistrictById(dto.getDistrictId());
-        Pitch pitch = Pitch.builder()
+        return Pitch.builder()
                 .createdAt(LocalDateTime.now(ZoneId.of("Asia/Tashkent")))
-                .fullAddress(dto.getFullAddress())
-                .info(dto.getInfo())
-                .latitude("111.22")
-                .longitude("111.22")
-                .name(dto.getName())
+                .fullAddress(Objects.requireNonNullElse(dto.getFullAddress(), domain.getFullAddress()))
+                .info(Objects.requireNonNullElse(dto.getInfo(), domain.getInfo()))
+                .latitude(Objects.requireNonNullElse(dto.getLatitude(), domain.getLatitude()))
+                .longitude(Objects.requireNonNullElse(dto.getLongitude(), domain.getLongitude()))
+                .name(Objects.requireNonNullElse(dto.getName(), domain.getName()))
                 .price(dto.getPrice())
+                .rating((byte) 0)
                 .documents(docs)
-                .district(district)
-                .phoneNumber(dto.getPhoneNumber())
+                .district(Objects.requireNonNullElse(district, domain.getDistrict()))
+                .phoneNumber(Objects.requireNonNullElse(dto.getPhoneNumber(), domain.getPhoneNumber()))
                 .status(PitchStatus.INACTIVE)
                 .user(user)
                 .build();
-        pitchRepository.save(pitch);
-        return true;
     }
 
     public List<Pitch> getPitches(String latitude, String longitude) {
@@ -217,7 +222,10 @@ public class PitchService {
         return pitchRepository.findByDistrict(addressService.getDistrictById(districtId));
     }
 
-    public void updatePitch(PitchDTO dto) {
-
+    public boolean updatePitch(PitchDTO dto, User user) {
+        Pitch pitch = pitchRepository.getPitch(dto.getId());
+        Pitch newPitch = pitchDomainFactory(dto, pitch, user);
+        pitchRepository.update(newPitch);
+        return true;
     }
 }

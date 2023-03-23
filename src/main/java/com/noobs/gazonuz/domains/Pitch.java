@@ -21,47 +21,43 @@ import java.util.Collection;
 @AllArgsConstructor
 public class Pitch {
     @Id
-    @GenericGenerator( name = "uuid2", strategy = "uuid2" )
-    @GeneratedValue( generator = "uuid2" )
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid2")
     private String id;
-    @Column( nullable = false )
+    @Column(nullable = false)
     private String name;
-    //    @Column( nullable = false )
     private String latitude;
-    //    @Column( nullable = false )
     private String longitude;
     private String info;
 
-    @Column( name = "full_address" )
+    @Column(name = "full_address")
     private String fullAddress;
-    @Column( columnDefinition = "int default 0" )
+    @Column(columnDefinition = "int default 0")
     private int likes;
-    @Column( columnDefinition = "int default 0" )
+    @Column(columnDefinition = "int default 0")
     private int dislikes;
 
-    @Column( columnDefinition = "smallint default 0" )
+    @Column(columnDefinition = "smallint default 0")
     private Byte rating;
-    @OneToMany( cascade = CascadeType.MERGE )
+    @OneToMany(cascade = CascadeType.MERGE)
     private Collection<Document> documents;
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch" )
-//    @ToString.Exclude
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch")
     private Collection<Order> orders;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch" )
-//    @ToString.Exclude
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch")
     private Collection<Comment> comments;
 
     private double price;
     private String phoneNumber;
 
-    @ManyToOne( cascade = CascadeType.MERGE )
+    @ManyToOne(cascade = CascadeType.MERGE)
     private User user;
     private PitchStatus status = PitchStatus.REQUESTED;
     @ManyToOne
     private District district;
 
     @CreationTimestamp
-    @Column( name = "created_at" )
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public String getCreatedAt() {
