@@ -51,8 +51,8 @@ public class PitchController {
             return "/pitch/create";
         }
         System.out.println("dto.getDistrictId() = " + dto.getDistrictId());
-//        dto.setDistrictId("1");
-//        pitchService.savePitch(dto, userSession.getUser());
+        dto.setDistrictId("1");
+        pitchService.savePitch(dto, userSession.getUser());
         return "redirect:/home";
     }
 
@@ -136,6 +136,7 @@ public class PitchController {
         var mav = new ModelAndView();
         mav.addObject("pitches", searchedPitches);
         mav.addObject("currentPage", page);
+        mav.addObject("totalFound",numPitches);
         mav.addObject("totalPage", numPitches / PitchPaginationRepository.PER_PAGE);
         mav.addObject("perPage", PitchPaginationRepository.PER_PAGE);
         mav.addObject("search", search);

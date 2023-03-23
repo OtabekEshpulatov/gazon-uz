@@ -108,6 +108,12 @@
             </div>
         </div>
 
+        <div><button type="button" id="btn btn-success buttonlocation" onclick="mine()">Location</button></div>
+        <input type="text" id="address" name="address">
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+
+
         <!-- File Button -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="file_picture_button">PITCH_IMAGE</label>
@@ -140,7 +146,32 @@
         integrity="sha512-AsQHw4y4ey4d6uIzV1cdTQOaXrIkLstgDNfOzkE1jlTRw1m/mAzhdYswezfc+yhveNkxP8dwZzbCMTt1KM0tGw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAandusjfdlwecXwtMD9RdIlNmC1mrQJaQ&callback=initMap">
+</script>
+
+<script>    function mine(){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+            var elem1=document.getElementById("latitude");
+            var elem2=document.getElementById("longitude");
+            elem1.value=position.coords.latitude;
+            elem2.value=position.coords.longitude;
+            console.log(elem1.value);
+            console.log(elem2.value);
+            $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&key=AIzaSyAandusjfdlwecXwtMD9RdIlNmC1mrQJaQ',function (data){
+                console.log(data);
+                const elem = document.getElementById("address");
+
+
+                elem.value=data.results[0].formatted_address;
+            });
+
+        });
+    }else 'No position found';}
+</script>
 
 
 <script>

@@ -3,6 +3,7 @@ package com.noobs.gazonuz.dtos;
 
 import com.noobs.gazonuz.domains.Order;
 import com.noobs.validators.ValidPrice;
+import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -39,7 +40,10 @@ private double price;
   @Positive(message = "pitch.district.select")
   private String districtId;
 //  private User user;
-
+  @Negative(message = "longitude.not.found")
+  private String longitude;
+  @Negative(message = "latitude.not.found")
+  private String latitude;
 
     public Collection<Order> getOrders() {
         return null;
