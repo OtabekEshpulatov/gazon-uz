@@ -57,17 +57,17 @@ public class User implements BaseEntity {
     @JoinTable( name = "user_roles", joinColumns = @JoinColumn( name = "user_id", referencedColumnName = "id" ), inverseJoinColumns = @JoinColumn( name = "role_id", referencedColumnName = "id" ) )
     private Collection<Role> roles;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
-//    @ToString.Exclude
-    private Collection<Order> checks;
+//    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
+////    @ToString.Exclude
+//    private Collection<Order> checks;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
-//    @ToString.Exclude
-    private Collection<Comment> comments;
+//    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
+////    @ToString.Exclude
+//    private Collection<Comment> comments;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
-//    @ToString.Exclude
-    private Collection<Pitch> pitches;
+//    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user" )
+////    @ToString.Exclude
+//    private Collection<Pitch> pitches;
 
 
     @Builder.Default

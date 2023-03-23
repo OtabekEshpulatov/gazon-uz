@@ -89,7 +89,8 @@ public class AuthUserService {
     }
 
     public void addRole(String role , User user) {
-        authService.getRoleByCode(role).ifPresentOrElse(authRole -> authUserRepository.addRole(authRole.getId() , user.getId()) , () -> {
+        authService.getRoleByCode(role).ifPresentOrElse(authRole ->
+                authUserRepository.addRole(authRole.getId() , user.getId()) , () -> {
             throw new AuthRoleNotFoundException("%s cannot be found.".formatted(role));
         });
     }

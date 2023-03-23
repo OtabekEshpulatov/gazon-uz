@@ -19,6 +19,7 @@ public class Permission {
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )
+    @Column( columnDefinition = "varchar default gen_random_uuid()" )
     private String id;
     @Column( nullable = false )
     private String name;

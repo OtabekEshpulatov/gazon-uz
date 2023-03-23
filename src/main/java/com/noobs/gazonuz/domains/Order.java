@@ -16,12 +16,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "orders")
+@Table( name = "orders" )
 
 public class Order {
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )
     @GeneratedValue( generator = "uuid2" )
+    @Column( columnDefinition = "varchar default gen_random_uuid()" )
     private String id;
 
     @CreationTimestamp
@@ -29,7 +30,7 @@ public class Order {
     private LocalDateTime createdAt;
 
 
-    @Column( columnDefinition = "timestamp default now()", name = "accepted_at" )
+    @Column( name = "accepted_at" )
     private LocalDateTime acceptedAt;
 
     @Column( columnDefinition = "timestamp default now()", name = "start_time" )
@@ -43,11 +44,17 @@ public class Order {
 
     @Column( columnDefinition = "boolean default false" )
     private Boolean isDeleted;
-    @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-    @ToString.Exclude
-    private User user;
+//    @ManyToOne( cascade = CascadeType.MERGE, fetch = FetchType.EAGER )
+////    @ToString.Exclude
+//    private User user;
 
-    @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-    @ToString.Exclude
-    private Pitch pitch;
+//    @ManyToOne( cascade = CascadeType.MERGE, fetch = FetchType.LAZY )
+////    @ToString.Exclude
+//    private Pitch pitch;
+
+
+    @Column( name = "user_id", nullable = false )
+    private String userId;
+    @Column( name = "pitch_id", nullable = false )
+    private String pitchId;
 }

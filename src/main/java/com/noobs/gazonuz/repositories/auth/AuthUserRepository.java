@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuthUserRepository extends JpaRepository<User, String> {
+    @Query( "select u.email from User u where u.id = ?1" )
+    String findEmailByID(String id);
     Optional<User> findByUsernameIgnoreCase(String username);
 
 //    boolean existsByUsernameIgnoreCaseAllIgnoreCase(String username);
@@ -37,6 +39,9 @@ public interface AuthUserRepository extends JpaRepository<User, String> {
 
     @Query( value = "insert into user_roles values(:userId, :authRoleId)", nativeQuery = true )
     void addRole(String authRoleId , String userId);
+
+    @Query( "select t.username from User t where t.id IN (:ids)  " )
+    List<String> findUsernamesByIds(List<String> ids);
 
 //    boolean addRole(String pitchOwner , String id);
 

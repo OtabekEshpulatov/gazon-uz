@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface OrderDAO extends JpaRepository<Order, String> {
-    @Query("select o from Order o where o.orderStatus=1 and o.pitch.id=?1")
+    @Query("select o from Order o where o.orderStatus=1 and o.pitchId=?1")
     List<Order> findAllAcceptedOrdersByPitchId(String pitchId);
 }

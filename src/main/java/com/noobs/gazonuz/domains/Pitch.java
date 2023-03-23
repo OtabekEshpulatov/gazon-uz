@@ -41,15 +41,16 @@ public class Pitch {
 
     @Column( columnDefinition = "smallint default 0" )
     private Byte rating;
-    @OneToMany( cascade = CascadeType.MERGE )
+    @OneToMany( cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private Collection<Document> documents;
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch" )
-//    @ToString.Exclude
-    private Collection<Order> orders;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch" )
-//    @ToString.Exclude
-    private Collection<Comment> comments;
+//    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch" )
+////    @ToString.Exclude
+//    private Collection<Order> orders;
+
+//    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pitch" )
+////    @ToString.Exclude
+//    private Collection<Comment> comments;
 
     private double price;
     private String phoneNumber;
