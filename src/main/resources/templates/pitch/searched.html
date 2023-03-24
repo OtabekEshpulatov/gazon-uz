@@ -18,20 +18,23 @@
     </div>
 </nav>
 <div class="row" th:each="pitch:${pitches}">
-    <div class="col-sm-6 mb-3 mb-sm-0">         >
-<div class="card" style="width: 18rem;" >
-<!--th:src="@{${pitch.getDocuments().iterator().next()}}"-->
-<!--    <img th:src="@{${pitch.getDocuments().iterator().next().getGeneratedFileName()}/${pitch.getDocuments().iterator().next().getGeneratedFileName()}}" class="card-img-top" alt="...">-->
-    <div class="card-body" >
-        <h5 class="card-title" th:text="${pitch.getName()}"></h5>
-        <p class="card-text" th:text="${pitch.getInfo()}"></p>
-        <p class="card-text" th:text="${pitch.getFullAddress()}"></p>
-        <a th:href="@{/pitchInfo/{id}(id=${pitch.getId()})}" class="btn btn-primary">See Pitch</a>
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card" style="width: 18rem;">
+            <!--th:src="@{${pitch.getDocuments().iterator().next()}}"-->
+
+            <!--            <img th:src="@{/img/horse.jpg}" alt="ot rasmi">-->
+            <img th:src="@{/img/{path}(path=${pitch.getDocuments().iterator().next().getGeneratedFileName()})}">
+            <!--            '${pitch.getDocuments().iterator().next().getFilePath()+'.'+${pitch.getDocuments().iterator().next().getGeneratedFileName()}}"-->
+            class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${pitch.getName()}"></h5>
+                <p class="card-text" th:text="${pitch.getInfo()}"></p>
+                <p class="card-text" th:text="${pitch.getFullAddress()}"></p>
+                <a th:href="@{/pitchInfo/{id}(id=${pitch.getId()})}" class="btn btn-primary">See Pitch</a>
+            </div>
+        </div>
     </div>
 </div>
-</div>
-</div>
-
 
 
 <nav aria-label="Page navigation example">
@@ -55,52 +58,6 @@
 
     </ul>
 </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <section th:insert="fragments::js_links">

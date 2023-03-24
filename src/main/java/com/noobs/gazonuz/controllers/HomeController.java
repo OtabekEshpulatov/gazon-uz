@@ -41,7 +41,7 @@ public class HomeController {
 
     @GetMapping("/getPitchWithDistrict")
     public ModelAndView getPitchWithDistrict(String districtId, @ModelAttribute ModelAndView modelAndView) {
-        modelAndView.addObject(pitchService.getPitchesByDistrict(districtId));
+        modelAndView.addObject("pitches",pitchService.getPitchesByDistrict(districtId));
         modelAndView.setViewName("/pitch/searched");
         return modelAndView;
     }
