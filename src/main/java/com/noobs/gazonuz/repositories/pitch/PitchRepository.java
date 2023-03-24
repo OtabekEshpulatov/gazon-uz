@@ -35,7 +35,7 @@ public interface PitchRepository extends JpaRepository<Pitch, String> {
 
 
     @Query( "select p from Pitch p where p.id=?1" )
-    @Query("select p from Pitch p where p.id=?1")
+
     Pitch getPitch(String pitchId);
 
     @Query( "select p from Pitch p where p.user.id = ?1" )

@@ -1,29 +1,52 @@
 package com.noobs.gazonuz.services;
 
+import com.noobs.gazonuz.configs.properties.ApplicationProperties;
 import com.noobs.gazonuz.domains.Order;
 import com.noobs.gazonuz.domains.OrderRepository;
+import com.noobs.gazonuz.domains.auth.User;
+import com.noobs.gazonuz.dtos.OrderCreateDTO;
+import com.noobs.gazonuz.dtos.OrderDto;
+import com.noobs.gazonuz.enums.OrderStatus;
+import com.noobs.gazonuz.exceptions.OrderNotFoundException;
+import com.noobs.gazonuz.mappers.OrderMapper;
+import com.noobs.gazonuz.repositories.OrderDAO;
+import com.noobs.gazonuz.repositories.auth.AuthUserRepository;
+import com.noobs.gazonuz.repositories.pitch.PitchRepository;
+import com.noobs.gazonuz.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final PitchRepository pitchRepository;
+    private final OrderDAO orderDAO;
 
-    public List<Order> findOrdersByUserId(String userId){
+    private final OrderMapper orderMapper;
+    private final AuthUserRepository authUserRepository;
+    private final ApplicationProperties applicationProperties;
+    private final EmailService emailService;
+    private final Utils utils;
+
+    public List<Order> findOrdersByUserId(String userId) {
         return orderRepository.findOrdersByUserId(userId);
     }
 
-    public void saveOrder(OrderCreateDTO dto, User user) {
+    public void saveOrder(OrderCreateDTO dto , User user) {
         System.out.println("dto.getPitchId() = " + dto.getPitchId());
         Order order = Order.builder()
                 .startTime(LocalDateTime.parse(dto.getOrderDatetime()))
                 .orderStatus(OrderStatus.REQUESTED)
                 .minutes(Integer.parseInt(dto.getDuration()))
-                .pitch(pitchRepository.getPitch(dto.getPitchId()))
-                .user(user).build();
+                .pitchId(dto.getPitchId())
+                .userId(user.getId()).build();
         System.out.println("ordersout = " + order);
         orderDAO.save(order);
     }

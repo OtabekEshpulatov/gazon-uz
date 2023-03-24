@@ -15,7 +15,8 @@ public class ApplicationProperties {
     static {
         try {
 //            properties.load(new FileReader("C:/Users/Muhammadjon/Desktop/gazonuz/gazon-uz/src/main/resources/application.properties"));
-            properties.load(new FileReader("/home/javohir/Desktop/2/gazon-uz/src/main/resources/application.properties"));
+//            properties.load(new FileReader("/home/javohir/Desktop/2/gazon-uz/src/main/resources/application.properties"));
+            properties.load(new FileReader("/home/otash/techcollection/IdeaProjects/Jakarta/gazon-uz/src/main/resources/application.properties"));
         } catch ( IOException e ) {
             throw new RuntimeException(e);
         }

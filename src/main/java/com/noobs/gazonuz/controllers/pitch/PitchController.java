@@ -13,6 +13,7 @@ import com.noobs.gazonuz.services.AddressService;
 import com.noobs.gazonuz.services.PitchService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -130,7 +131,7 @@ public class PitchController {
 
     @PostMapping( "/update" )
     public String update(@ModelAttribute PitchDTO dto) {
-        pitchService.updatePitch(dto);
+        pitchService.updatePitch(dto,userSession.getUser());
         return "redirect:/user/home";
     }
 }
