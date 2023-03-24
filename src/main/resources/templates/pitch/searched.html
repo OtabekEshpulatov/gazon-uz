@@ -17,9 +17,10 @@
         </form>
     </div>
 </nav>
+<div class="container" style="display:flex;flex-direction: column;align-items: center;">
 <div class="row" th:each="pitch:${pitches}">
     <div class="col-sm-6 mb-3 mb-sm-0">
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 18rem; margin-top: 20px;">
             <img th:src="@{/img/{path}(path=${pitch.getDocuments().iterator().next().getGeneratedFileName()})}">
             <div class="card-body">
                 <h5 class="card-title" th:text="${pitch.getName()}"></h5>
@@ -30,29 +31,9 @@
         </div>
     </div>
 </div>
+</div>
 
 
-<!--<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item" th:if="${currentPage>0}">
-            <a class="page-link"
-               th:href="@{/pitch/searched(page=${currentPage - 1},perPage=${perPage},search=${search})}">Previous
-            </a>
-        </li>
-        <li class="page-item" th:each="index: ${#numbers.sequence(0,totalFound/perPage,perPage)}">
-            <a class="page-link" th:classappend="${currentPage==index  ?'active':''}"
-               th:href="@{/pitch/searched(page=${index },perPage=${perPage},search=${search})}">[[${index+1}]]
-            </a>
-        </li>
-        <li class="page-item" th:if="${currentPage<totalPage}">
-            <a class="page-link"
-               th:href="@{/pitch/searched(page=${currentPage + 1},perPage=${perPage},search=${search}) }">Next
-            </a>
-        </li>-->
-
-
-<!--    </ul>-->
-<!--</nav>-->
 
 
 <section th:insert="fragments::js_links">
