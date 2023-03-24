@@ -17,7 +17,6 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final PitchService pitchService;
     private final OrderDAO orderDAO;
     private final PitchRepository pitchRepository;
 
@@ -31,6 +30,7 @@ public class OrderService {
                 .startTime(LocalDateTime.parse(dto.getOrderDatetime()))
                 .orderStatus(OrderStatus.REQUESTED)
                 .minutes(Integer.parseInt(dto.getDuration()))
+                .isDeleted(false)
                 .pitch(pitchRepository.getPitch(dto.getPitchId()))
                 .user(user).build();
         System.out.println("ordersout = " + order);

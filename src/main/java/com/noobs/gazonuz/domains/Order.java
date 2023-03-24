@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 @Table(name = "orders")
-
 public class Order{
     @Id
     @GenericGenerator( name = "uuid2", strategy = "uuid2" )

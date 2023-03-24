@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <base href="/">
-<title>Powerleague Shoreditch, Hackney | Football Pitches | Playfinder</title>
+<title>Booking pitch</title>
 <meta charset="UTF-8">
 <meta name="description" content="Powerleague Shoreditch is a sports facility located in Hackney, London and is available to book online. Find out the address, opening hours and prices. Use Playfinder to hire the football pitches.">
 <meta name="keywords" content="powerleague shoreditch, hackney, london, playfinder, hire, book, opening hours, prices, football pitches">
@@ -2829,29 +2829,21 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
 
                         <div _ngcontent-sc22="" class="row">
                             <div _ngcontent-sc22="" class="col-sm-12 mb-3">
-                                <mlp-carousel _ngcontent-sc22="" _nghost-sc26=""><div _ngcontent-sc26="" class="row">
-                                    <div _ngcontent-sc26="" class="col-12 d-flex flex-row">
-                                        <div _ngcontent-sc26="" class="mlp-carousel-side d-flex bg-position-right rounded-left cursor pointer" style="background-image:url(https://web-assets.playfinder.com/large/pitch_36030_615c845a243c6.jpg);">
-                                            <div _ngcontent-sc26="" class="align-self-stretch w-100 mlp-carousel-side-image rounded-left"></div>
-                                            <!----><div _ngcontent-sc26="" class="mlp-carousel__btn -left px-2 ng-star-inserted">
-                                            <mlp-ng-icon _ngcontent-sc26="" name="arrow-left-1" _nghost-sc6=""><i _ngcontent-sc6="" class="icon-arrow-left-1" classname="icon-arrow-left-1"></i>
-                                            </mlp-ng-icon>
-                                        </div>
-                                        </div>
-
-                                        <div _ngcontent-sc26="" class="mlp-carousel-main cursor pointer">
-                                            <img _ngcontent-sc26="" class="img-fluid lazyload" imgservice="w=578" loading="lazy" src="https://web-assets.playfinder.com/large/pitch_36030_615c845983fef.jpg?w=578&amp;auto=format,compress" srcset="https://web-assets.playfinder.com/large/pitch_36030_615c845983fef.jpg?w=578&amp;auto=format,compress&amp;dpr=1 1x, https://web-assets.playfinder.com/large/pitch_36030_615c845983fef.jpg?w=578&amp;auto=format,compress&amp;dpr=2 2x, https://web-assets.playfinder.com/large/pitch_36030_615c845983fef.jpg?w=578&amp;auto=format,compress&amp;dpr=3 3x" alt="Powerleague Shoreditch 7 a side | 3G Astroturf football pitch">
-                                        </div>
-
-                                        <div _ngcontent-sc26="" class="mlp-carousel-side d-flex bg-position-left rounded-right cursor pointer" style="background-image:url(https://web-assets.playfinder.com/large/pitch_36030_615c845a243c6.jpg);">
-                                            <div _ngcontent-sc26="" class="align-self-stretch w-100 mlp-carousel-side-image rounded-right"></div>
-                                            <!----><div _ngcontent-sc26="" class="mlp-carousel__btn -right px-2 ng-star-inserted">
-                                            <mlp-ng-icon _ngcontent-sc26="" name="arrow-right-1" _nghost-sc6=""><i _ngcontent-sc6="" class="icon-arrow-right-1" classname="icon-arrow-right-1"></i>
-                                            </mlp-ng-icon>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div></mlp-carousel>
+                                <mlp-carousel _ngcontent-sc22="" _nghost-sc26="">
+                                    <div _ngcontent-sc26="" class="row">
+                                        <section id="image-carousel" class="splide" aria-label="Beautiful Images">
+<!--                                            <div class="splide__track">-->
+<!--                                                <ul class="splide__list">-->
+<!--                                                    <li th:each="pitchImage : ${pitch.getDocuments()}" class="splide__slide">-->
+<!--&lt;!&ndash;                                                        <img th:src="" alt="">&ndash;&gt;-->
+<!--                                                        <div>image here</div>-->
+<!--                                                    </li>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                             TODO: 23/03/23-->
+                                        </section>
+                                </div>
+                                </mlp-carousel>
                             </div>
                             <!---->
                         </div>
