@@ -103,6 +103,7 @@ public class PitchPostController {
                 return modelAndView;
             }
             orderService.saveOrder(dto, userSession.getUser());
+            modelAndView.addObject("success","Wait for confirmation that the request has been sent");
             return modelAndView;
         } else {
             throw new CustomRuntimeException("Page not found");

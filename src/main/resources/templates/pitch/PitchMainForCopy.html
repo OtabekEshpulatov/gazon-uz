@@ -3208,6 +3208,10 @@ a[_ngcontent-sc32]:hover, a[_ngcontent-sc32]:focus {
                                               <p th:text="${duration}"
                                                  style="color: firebrick"></p>
                                             </span>
+                                            <span th:if="${success != null}">
+                                              <p th:text="${success}"
+                                                 style="color: darkolivegreen"></p>
+                                            </span>
                                         </mlp-durations>
                                     </div>
 
