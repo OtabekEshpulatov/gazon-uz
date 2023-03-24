@@ -54,13 +54,13 @@ public class PitchController {
     @PostMapping( "/create" )
     public ModelAndView create(@Valid @ModelAttribute( "pitch" ) PitchDTO dto , BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        if (bindingResult.hasErrors()) {
+        if ( bindingResult.hasErrors() ) {
             System.err.println(bindingResult.getAllErrors());
-            modelAndView.addObject("regions", addressService.getRegion());
+            modelAndView.addObject("regions" , addressService.getRegion());
             modelAndView.setViewName("/pitch/create");
             return modelAndView;
         }
-        pitchService.savePitch(dto, userSession.getUser());
+        pitchService.savePitch(dto , userSession.getUser());
         modelAndView.setViewName("redirect:/home");
         return modelAndView;
     }
@@ -69,19 +69,19 @@ public class PitchController {
     public ModelAndView updatePitch(@RequestParam String pitchId) {
         ModelAndView modelAndView = new ModelAndView();
         Pitch pitch = pitchService.getPitch(pitchId);
-        if (pitch == null) {
+        if ( pitch == null ) {
             modelAndView.setViewName("redirect:/home");
             modelAndView.setStatus(HttpStatusCode.valueOf(404));
             return modelAndView;
         }
-        if (pitch.getUser() != userSession.getUser()) {
+        if ( pitch.getUser() != userSession.getUser() ) {
             modelAndView.setViewName("redirect:/home");
             modelAndView.setStatus(HttpStatusCode.valueOf(403));
             return modelAndView;
         }
         modelAndView.addObject(pitch);
-        modelAndView.addObject("regions", addressService.getRegion());
-        modelAndView.addObject("districts", new DistrictDto());
+        modelAndView.addObject("regions" , addressService.getRegion());
+        modelAndView.addObject("districts" , new DistrictDto());
         modelAndView.setViewName("/pitch/update");
         return modelAndView;
     }
@@ -111,10 +111,10 @@ public class PitchController {
         //mav preparation
         var mav = new ModelAndView();
         mav.addObject("pitches" , searchedPitches);
-        mav.addObject("currentPage" , page);
-        mav.addObject("totalPage" , numPitches / PitchPaginationRepository.PER_PAGE);
-        mav.addObject("perPage" , PitchPaginationRepository.PER_PAGE);
-        mav.addObject("search" , search);
+//        mav.addObject("currentPage" , page);
+//        mav.addObject("totalPage" , numPitches / PitchPaginationRepository.PER_PAGE);
+//        mav.addObject("perPage" , PitchPaginationRepository.PER_PAGE);
+//        mav.addObject("search" , search);
         mav.setViewName("/pitch/searched");
         //end mav preparation
 
@@ -131,7 +131,7 @@ public class PitchController {
 
     @PostMapping( "/update" )
     public String update(@ModelAttribute PitchDTO dto) {
-        pitchService.updatePitch(dto,userSession.getUser());
+        pitchService.updatePitch(dto , userSession.getUser());
         return "redirect:/user/home";
     }
 }
