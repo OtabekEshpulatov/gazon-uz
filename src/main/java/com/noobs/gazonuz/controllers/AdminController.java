@@ -159,4 +159,12 @@ public class AdminController {
     }
 
 
+    @GetMapping( "/image" )
+    public String displayImage() {
+        return "pitch/mypitch/img";
+    }
+
+
+
+
 }
