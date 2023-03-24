@@ -17,11 +17,18 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 )
 public class SecurityConfigurer {
 
-    public static final String[] WHITE_LIST = {"/css/**" , "/js/**" , "/pitch/districts/**","/auth/login" , "/auth/register","/pitch/searched" , "/home","/pitchInfo/show/*"};
+    public static final String[] WHITE_LIST = {
+            "/static/css/**" ,
+            "/css/**" ,
+            "/js/**" ,
+            "/static/js/**" ,
+            "/pitch/districts/**" ,
+            "/auth/login" ,
+            "/auth/register" ,
+            "/home" ,
+            "/"};
     private final AuthUserDetailsService authUserDetailsService;
     private final AuthenticationFailureHandler authenticationFailureHandler;
-
-
 
 
     @Bean
@@ -51,6 +58,7 @@ public class SecurityConfigurer {
                                 .clearAuthentication(true)
                                 .deleteCookies("JSESSIONID" , "rememberME")
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout" , "POST"))
+                                .logoutSuccessUrl("/auth/login")
                 )
                 .userDetailsService(authUserDetailsService)
                 .rememberMe(httpSecurityRememberMeConfigurer ->

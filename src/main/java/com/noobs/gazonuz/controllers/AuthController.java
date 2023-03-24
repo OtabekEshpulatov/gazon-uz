@@ -60,7 +60,6 @@ public class AuthController {
             System.err.println("\n %s" + allError);
         }
 
-
         if ( !dto.getPassword().equals(dto.getConfirmPassword()) ) {
             bindingResult.rejectValue("password" , "" , "passwords.dont.match");
             bindingResult.rejectValue("confirmPassword" , "" , "passwords.dont.match");
@@ -68,7 +67,7 @@ public class AuthController {
         }
         authUserService.saveUser(dto);
 
-        return "auth/login";
+        return "redirect:/auth/login";
     }
 
 

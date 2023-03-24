@@ -127,7 +127,7 @@ public class AdminController {
     @PreAuthorize( "hasAuthority('MANAGE_ADMINS')" )
     public ModelAndView getAdmins() {
         var mav = new ModelAndView();
-        final List<User> admins = userService.getUsersThatHasRoles();
+        final List<User> admins = userService.getUsersThatHasRoles("ADMIN");
         mav.addObject("admins" , admins);
         mav.setViewName("manage/admins");
         return mav;
@@ -157,6 +157,14 @@ public class AdminController {
 
         return "redirect:/manage/admins/permissions";
     }
+
+
+    @GetMapping( "/image" )
+    public String displayImage() {
+        return "pitch/mypitch/img";
+    }
+
+
 
 
 }

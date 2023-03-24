@@ -29,12 +29,13 @@ public class DocumentService {
 
     @PostConstruct
     public void init() throws IOException {
-        rootPath = Path.of("C:/Users/Muhammadjon/", "/uploads");
-        if (!Files.exists(rootPath))
+        rootPath = Path.of("/home/otash/techcollection/IdeaProjects/Jakarta/gazon-uz/src/main/resources/downloads");
+//        rootPath = Path.of("C:/Users/Muhammadjon/", "/uploads");
+        if ( !Files.exists(rootPath) )
             Files.createDirectories(rootPath);
     }
 
-    public Document createAndGet(DocumentCreateDTO dto, User user) {
+    public Document createAndGet(DocumentCreateDTO dto , User user) {
 
         MultipartFile file = dto.getFile();
         Document doc = Document.builder()
@@ -50,11 +51,11 @@ public class DocumentService {
         CompletableFuture.runAsync(() -> {
             Path path = rootPath.resolve(doc.getGeneratedFileName());
             try {
-                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
+                Files.copy(file.getInputStream() , path , StandardCopyOption.REPLACE_EXISTING);
+            } catch ( IOException e ) {
                 throw new RuntimeException(e);
             }
         });
         return doc;
-}
+    }
 }

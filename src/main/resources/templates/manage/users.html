@@ -20,7 +20,7 @@
     <div class="container-fluid">
         <form class="d-flex" role="search" action="/manage/users">
             <input class="form-control me-2" type="search" placeholder="username" aria-label="Search" name="search"
-                   th:value="${search}">
+                   id="searchInput" onchange="saveSearchInputElement(this.value)" onload="setValueToSearchInput()">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>
@@ -121,22 +121,38 @@
     // Session storage'da "myKey" nomli kalitni "myValue" qiymati bilan saqlash
     function setItem(k, v) {
         sessionStorage.setItem(k, v);
-
         // Session storage dan "myKey" nomli kalitni o'qish
         var myValue = sessionStorage.getItem(k);
         console.log(myValue); // "myValue"
     }
 
     function getItem(k) {
-
         // Session storage dan "myKey" nomli kalitni o'qish
         return sessionStorage.getItem(k);
     }
 
-    var myValue = getItem('cookie');
+    const myValue = getItem('cookie');
 
     // Inputning value atributiga session storage dan olingan ma'lumotni joylash
     document.getElementById("myInput").value = myValue;
+
+
+    const searchInputElement = document.getElementById("searchInput");
+    searchInputElement.value = sessionStorage.getItem("searchInput") + 'jack'
+    console.log(searchInputElement.value)
+
+    function saveSearchInputElement(value) {
+        sessionStorage.setItem('searchInput', value)
+        alert(sessionStorage.getItem('searchInput'))
+    }
+
+    function setValueToSearchInput() {
+        const elementById = document.getElementById('searchInput');
+        elementById.value=sessionStorage.getItem('searchInput')
+        alert(sessionStorage.getItem('searchInput'))
+    }
+
+
 </script>
 
 <!--<section>-->

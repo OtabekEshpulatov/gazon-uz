@@ -1,4 +1,4 @@
-package com.noobs.gazonuz.controllers.pitch;
+package com.noobs.gazonuz.controllers;
 
 
 import com.noobs.gazonuz.configs.security.UserSession;
@@ -24,112 +24,97 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/pitch")
-@AllArgsConstructor
+@RequestMapping( "/pitch" )
 public class PitchController {
     private final PitchService pitchService;
     private final UserSession userSession;
     private final AddressService addressService;
 
     private final DistrictMapper districtMapper;
-    private final PitchRepository pitchRepository;
-    private final PitchPaginationRepository pitchPaginationRepository;
+
+    public PitchController(PitchService pitchService , UserSession userSession , AddressService addressService , DistrictMapper districtMapper) {
+        this.pitchService = pitchService;
+        this.userSession = userSession;
+        this.addressService = addressService;
+        this.districtMapper = districtMapper;
+    }
 
 
-    @GetMapping("/create")
-    public ModelAndView createPitch(@RequestParam(name = "eror", required = false) String error, ModelAndView modelAndView) {
-        modelAndView.addObject("error", error);
-        modelAndView.addObject("pitch", new PitchDTO());
-        modelAndView.addObject("regions", addressService.getRegion());
-        modelAndView.addObject("districts", new DistrictDto());
+    @GetMapping( "/create" )
+    public ModelAndView createPitch(@RequestParam( name = "eror", required = false ) String error , ModelAndView modelAndView) {
+        modelAndView.addObject("error" , error);
+        modelAndView.addObject("pitch" , new PitchDTO());
+        modelAndView.addObject("regions" , addressService.getRegion());
+        modelAndView.addObject("districts" , new DistrictDto());
         modelAndView.setViewName("/pitch/create");
         return modelAndView;
     }
 
 
-    @PostMapping("/create")
-    public ModelAndView create(@Valid @ModelAttribute("pitch") PitchDTO dto, BindingResult bindingResult) {
+    @PostMapping( "/create" )
+    public ModelAndView create(@Valid @ModelAttribute( "pitch" ) PitchDTO dto , BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        if (bindingResult.hasErrors()) {
-            modelAndView.addObject("regions", addressService.getRegion());
+        if ( bindingResult.hasErrors() ) {
+            System.err.println(bindingResult.getAllErrors());
+            modelAndView.addObject("regions" , addressService.getRegion());
             modelAndView.setViewName("/pitch/create");
             return modelAndView;
         }
-
-        pitchService.savePitch(dto, userSession.getUser());
+        pitchService.savePitch(dto , userSession.getUser());
         modelAndView.setViewName("redirect:/home");
         return modelAndView;
     }
 
-    @GetMapping("/update")
+    @GetMapping( "/update" )
     public ModelAndView updatePitch(@RequestParam String pitchId) {
         ModelAndView modelAndView = new ModelAndView();
         Pitch pitch = pitchService.getPitch(pitchId);
-        if (pitch == null) {
+        if ( pitch == null ) {
             modelAndView.setViewName("redirect:/home");
             modelAndView.setStatus(HttpStatusCode.valueOf(404));
             return modelAndView;
         }
-        if (pitch.getUser() != userSession.getUser()) {
+        if ( pitch.getUser() != userSession.getUser() ) {
             modelAndView.setViewName("redirect:/home");
             modelAndView.setStatus(HttpStatusCode.valueOf(403));
             return modelAndView;
         }
         modelAndView.addObject(pitch);
-        modelAndView.addObject("regions", addressService.getRegion());
-        modelAndView.addObject("districts", new DistrictDto());
+        modelAndView.addObject("regions" , addressService.getRegion());
+        modelAndView.addObject("districts" , new DistrictDto());
         modelAndView.setViewName("/pitch/update");
         return modelAndView;
     }
 
-    @PostMapping("/update")
-    public ModelAndView update(@Valid @ModelAttribute PitchDTO dto, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
-        if (bindingResult.hasErrors()) {
-            modelAndView.addObject("regions", addressService.getRegion());
-            modelAndView.setViewName("/pitch/create");
-            return modelAndView;
-        }
-        pitchService.updatePitch(dto,userSession.getUser());
-        modelAndView.setViewName("redirect:/user/home");
-        return modelAndView;
-    }
 
-
-    @GetMapping(value = "/districts/{regionId}", produces = "application/json")
-    public ResponseEntity<?> getDistricts(@PathVariable String regionId) {
-        String districts = addressService.getDistricts(regionId);
-        return ResponseEntity.ok().body(districts);
-    }
-
-
-    @GetMapping("/pitches")
-    public List<Pitch> getPitches(@RequestParam(name = "longitude") String longitude,
-                                  @RequestParam(name = "latitude") String latitude) {
+    @GetMapping( "/pitches" )
+    public List<Pitch> getPitches(@RequestParam( name = "longitude" ) String longitude ,
+                                  @RequestParam( name = "latitude" ) String latitude) {
 
 
         throw new RuntimeException("my ex");
 //        return pitchService.getPitches(latitude , longitude);
     }
 
-    @GetMapping("/searched")
-    public ModelAndView searchUsers(@RequestParam(name = "page", defaultValue = "0") int page,
-                                    @RequestParam(name = "perPage", defaultValue = "10") int perPage,
-                                    @RequestParam(name = "search", defaultValue = "") String search,
+
+    @GetMapping( "/searched" )
+    public ModelAndView searchUsers(@RequestParam( name = "page", defaultValue = "0" ) int page ,
+                                    @RequestParam( name = "perPage", defaultValue = "10" ) int perPage ,
+                                    @RequestParam( name = "search", defaultValue = "" ) String search ,
                                     @ModelAttribute Location location) {
 
         //to PitchService connection
-        List<Pitch> searchedPitches = pitchService.getSearchedPitches(location, page, perPage, search);
-        long numPitches = pitchService.getSize(location, search);
+        List<Pitch> searchedPitches = pitchService.getSearchedPitches(location , page , perPage , search);
+        long numPitches = pitchService.getSize(location , search);
         // end PitchService connection
 
         //mav preparation
         var mav = new ModelAndView();
-        mav.addObject("pitches", searchedPitches);
-        mav.addObject("currentPage", page);
-        mav.addObject("totalPage", numPitches / PitchPaginationRepository.PER_PAGE);
-        mav.addObject("perPage", PitchPaginationRepository.PER_PAGE);
-        mav.addObject("search", search);
+        mav.addObject("pitches" , searchedPitches);
+//        mav.addObject("currentPage" , page);
+//        mav.addObject("totalPage" , numPitches / PitchPaginationRepository.PER_PAGE);
+//        mav.addObject("perPage" , PitchPaginationRepository.PER_PAGE);
+//        mav.addObject("search" , search);
         mav.setViewName("/pitch/searched");
         //end mav preparation
 
@@ -137,4 +122,16 @@ public class PitchController {
     }
 
 
+    @GetMapping( value = "/districts/{regionId}", produces = "application/json" )
+    public ResponseEntity<?> getDistricts(@PathVariable String regionId) {
+        String districts = addressService.getDistricts(regionId);
+        return ResponseEntity.ok().body(districts);
+    }
+
+
+    @PostMapping( "/update" )
+    public String update(@ModelAttribute PitchDTO dto) {
+        pitchService.updatePitch(dto , userSession.getUser());
+        return "redirect:/user/home";
+    }
 }
