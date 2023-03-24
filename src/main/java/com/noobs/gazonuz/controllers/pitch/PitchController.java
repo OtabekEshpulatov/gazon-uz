@@ -8,9 +8,11 @@ import com.noobs.gazonuz.dtos.DistrictDto;
 import com.noobs.gazonuz.dtos.PitchDTO;
 import com.noobs.gazonuz.mappers.DistrictMapper;
 import com.noobs.gazonuz.repositories.PitchPaginationRepository;
+import com.noobs.gazonuz.repositories.pitch.PitchRepository;
 import com.noobs.gazonuz.services.AddressService;
 import com.noobs.gazonuz.services.PitchService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -51,12 +53,13 @@ public class PitchController {
     @PostMapping( "/create" )
     public ModelAndView create(@Valid @ModelAttribute( "pitch" ) PitchDTO dto , BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        if ( bindingResult.hasErrors() ) {
-            modelAndView.addObject("regions" , addressService.getRegion());
+        if (bindingResult.hasErrors()) {
+            System.err.println(bindingResult.getAllErrors());
+            modelAndView.addObject("regions", addressService.getRegion());
             modelAndView.setViewName("/pitch/create");
             return modelAndView;
         }
-        pitchService.savePitch(dto , userSession.getUser());
+        pitchService.savePitch(dto, userSession.getUser());
         modelAndView.setViewName("redirect:/home");
         return modelAndView;
     }
@@ -64,7 +67,20 @@ public class PitchController {
     @GetMapping( "/update" )
     public ModelAndView updatePitch(@RequestParam String pitchId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(pitchService.getPitch(pitchId));
+        Pitch pitch = pitchService.getPitch(pitchId);
+        if (pitch == null) {
+            modelAndView.setViewName("redirect:/home");
+            modelAndView.setStatus(HttpStatusCode.valueOf(404));
+            return modelAndView;
+        }
+        if (pitch.getUser() != userSession.getUser()) {
+            modelAndView.setViewName("redirect:/home");
+            modelAndView.setStatus(HttpStatusCode.valueOf(403));
+            return modelAndView;
+        }
+        modelAndView.addObject(pitch);
+        modelAndView.addObject("regions", addressService.getRegion());
+        modelAndView.addObject("districts", new DistrictDto());
         modelAndView.setViewName("/pitch/update");
         return modelAndView;
     }

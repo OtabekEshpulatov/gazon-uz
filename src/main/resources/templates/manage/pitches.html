@@ -77,7 +77,7 @@
             <td th:text="${pitch.getRating()}"></td>
             <td><a class="link-info" th:href="@{/auth/profile/{id}(id=${pitch.getUser().getId()})}"
                    th:text="${pitch.getUser().getUsername()}"></a></td>
-            <td><a class="link-info" th:href="@{/pitchInfo/{id}(id=${pitch.getId()})}">info</a></td>
+            <td><a class="link-info" th:href="@{/pitchInfo/show/{id}(id=${pitch.getId()})}">info</a></td>
             <td>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle"

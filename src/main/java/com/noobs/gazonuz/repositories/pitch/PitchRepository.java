@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PitchRepository extends JpaRepository<Pitch, String> {
     List<Pitch> findByDistrict(District district);
@@ -36,6 +35,7 @@ public interface PitchRepository extends JpaRepository<Pitch, String> {
 
 
     @Query( "select p from Pitch p where p.id=?1" )
+    @Query("select p from Pitch p where p.id=?1")
     Pitch getPitch(String pitchId);
 
     @Query( "select p from Pitch p where p.user.id = ?1" )
@@ -43,6 +43,13 @@ public interface PitchRepository extends JpaRepository<Pitch, String> {
 
 //    @Query( "select p from Pitch p where p.user.id = ?1" )
 //    Optional<Pitch> findByUserId(String id);
+
+
+
+    @Transactional
+    @Modifying
+    @Query("update Pitch p set p.name=?1, p.fullAddress=?2, p.district=?3, p.price=?4, p.info=?5, p.status=?6 where p.id=?7")
+    boolean update(Pitch pitch);
 
 
 }

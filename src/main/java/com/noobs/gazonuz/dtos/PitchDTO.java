@@ -21,14 +21,14 @@ import java.util.List;
 @NoArgsConstructor
 public class PitchDTO {
 
+    private String id;
     @Size(min = 8, max = 100, message = "pitch.min.name.size")
     private String name;
-    //  private String latitude;
-//  private String longitude;
-    @Size(max = 500, message = "pitch.max.info.size")
-    private String info;
-
     private String fullAddress;
+    private String latitude;
+    private String longitude;
+    @Size(min = 5, max = 500, message = "pitch.max.info.size")
+    private String info;
 
     private List<MultipartFile> documents;
 
@@ -38,9 +38,4 @@ public class PitchDTO {
     private String phoneNumber;
     @Positive(message = "pitch.district.select")
     private String districtId;
-//  private User user;
-
-    public Collection<Order> getOrders() {
-        return null;
-    }
 }

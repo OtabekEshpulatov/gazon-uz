@@ -29,7 +29,7 @@ public class DocumentService {
 
     @PostConstruct
     public void init() throws IOException {
-        rootPath = Path.of(System.getProperty("user.home"), "/uploads");
+        rootPath = Path.of("C:/Users/Muhammadjon/", "/uploads");
         if (!Files.exists(rootPath))
             Files.createDirectories(rootPath);
     }
